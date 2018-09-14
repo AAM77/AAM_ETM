@@ -1,0 +1,17 @@
+<h1>Login</h1>
+<br>
+<br>
+
+<h4>Please enter your Username and Password to log in</h4>
+
+<%= form_for @user, url: url_for(controller: 'sessions', action: 'create') do |f| %>
+  <%= f.label :username, "Username: " %>
+  <%= f.text_field :username %>
+  <br>
+  <br>
+  <%= f.label :password, "Password: " %>
+  <%= f.password_field :password %>
+  <br>
+  <br>
+  <%= f.submit "Log In" %>
+<% end %>
