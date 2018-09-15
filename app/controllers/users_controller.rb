@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :check_login_status, only: [:index, :new, :create]
+  before_action :check_login_status, except: [:new, :create]
+
   def index
     @users = User.all
   end
@@ -17,7 +18,6 @@ class UsersController < ApplicationController
     else
       redirect_to new_user_path
     end
-
   end
 
   def show

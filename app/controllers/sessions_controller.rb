@@ -1,11 +1,12 @@
 class SessionsController < ApplicationController
-  before_action :check_login_status, only: [:new, :create]
+  before_action :check_login_status, except: [:new, :create]
 
   def new
     @user = User.new
   end
 
   def create
+
     @user = User.find_by(username: params[:user][:username])
 
     if @user && @user.authenticate(params[:user][:password])
@@ -17,7 +18,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:user_id] = nil
-    redirect_to root_url
+    session.destroy
+    redirect_to root_path
   end
 end
