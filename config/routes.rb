@@ -9,7 +9,12 @@ Rails.application.routes.draw do
   delete '/signout', to: 'sessions#destroy'
 
   # usersroutes
-  resources :users
+  resources :users do
+    member do
+      get 'profile'
+      post 'update_profile'
+    end
+  end
 
   # event routes
   resources :events

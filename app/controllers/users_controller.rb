@@ -20,15 +20,28 @@ class UsersController < ApplicationController
     end
   end
 
+  def profile
+    @user = current_user
+  end
+
+  def update_profile
+    @user = current_user
+  end
+
+
+
   def show
     @user = User.find_by(id: params[:id])
   end
 
   def edit
+    @user = current_user
   end
 
   def update
   end
+
+  def
 
   def destroy
   end
