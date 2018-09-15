@@ -1,6 +1,65 @@
-<h1>Welcome to Your Homepage <%= @user.username %></h1>
+<h1><%= "#{@user.username}'s Events & Tasks" %></h1>
 
+<br>
+<br>
+<br>
+<br>
 
-<p>Your Username: <%= @user.username %></p>
-<p>Your Email: <%= @user.email %></p>
-<p>Your Password (encrypted): <%= @user.password_digest %></p> 
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          Events You Created
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Your Event 1</li>
+          <li class="list-group-item">Your Event 2</li>
+          <li class="list-group-item">Your Event 3</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          Solo-Tasks
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Solo-task 1</li>
+          <li class="list-group-item">Solo-task 2</li>
+          <li class="list-group-item">Solo-task 3</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="w-100"></div>
+
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          Other's Events Your are Participating In
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Other Event 1</li>
+          <li class="list-group-item">Other Event 2</li>
+          <li class="list-group-item">Other Event 3</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          Group Tasks
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Group-task 1</li>
+          <li class="list-group-item">Group-task 2</li>
+          <li class="list-group-item">Group-task 3</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
