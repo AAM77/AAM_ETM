@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :check_login_status, except: [:new, :create]
+  before_action :check_login_status, except: [:index, :new, :create]
 
   def index
     @users = User.all
