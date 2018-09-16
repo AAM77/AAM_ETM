@@ -36,29 +36,23 @@ DATA = {
     ["Quvenzhané Wallis", "quven_w", "quven_w@info.com", "9760 Meadowbrook Lane Freeport, NY 11520", "(416) 983-6369", "password"]
   ],
   :event_keys =>
-   ["name", "", "happiness_rating", "tickets", "min_height"],
+   ["name"],
   :events => [
-    ["Scrambler Ride", 2, 2, 2, 36],
-    ["Miniature Railroad", 0, 1, 2, 32],
-    ["Merry-Go-Round", 1, 1, 1, 30],
-    ["Roller Coaster", 1, 3, 4, 54],
-    ["Swinging Ship", 2, 2, 2, 36],
-    ["Go Karts", 1, 2, 3, 36],
-    ["Haunted Mansion", 1, 1, 1, 30],
-    ["Ferris Wheel", 1, 1, 2, 36],
-    ["Teacups Ride", 3, 1, 1, 28]
+    ["Scrambler Ride"],
+    ["Miniature Railroad"],
+    ["Merry-Go-Round"],
+    ["Roller Coaster"],
+    ["Swinging Ship"],
+    ["Go Karts"],
+    ["Haunted Mansion"],
+    ["Ferris Wheel"],
+    ["Teacups Ride"]
   ],
   :admins => [
     "Mary Elitch Long",
     "John Elitch"
   ]
 }
-
-def main
-  make_users
-  make_admin
-  make_attractions_and_rides
-end
 
 def make_users
   DATA[:users].each do |user|
@@ -70,26 +64,5 @@ def make_users
   end
 end
 
-def make_admin
-  DATA[:admins].each do |name|
-    User.create(name: name, admin: true, password: 'password')
-  end
-end
-
-def make_attractions_and_rides
-  DATA[:attractions].each do |attraction|
-    new_attraction = Attraction.new
-    attraction.each_with_index do |attribute, i|
-      new_attraction.send(DATA[:attraction_keys][i] + "=", attribute)
-    end
-    rand(1..8).times do
-      customers = []
-      User.all.each {|u| customers << u if u.admin != true}
-      new_attraction.users << customers[rand(0...customers.length)]
-    end
-    new_attraction.users.each {|c| c.save}
-    new_attraction.save
-  end
-end
 
 make_users

@@ -12,6 +12,7 @@ class EventsController < ApplicationController
     @event = Event.new(params[:event][:name])
 
     if @event.save
+      change_admin_status
       redirect_to event_path(@event)
     else
       redirect_to events_path
@@ -19,9 +20,11 @@ class EventsController < ApplicationController
   end
 
   def show
+    @event = Event.find_by(id: params[:event][:id])
   end
 
   def edit
+    @event = Event.find_by(name: params[:event][:name])
   end
 
   def update
@@ -29,5 +32,11 @@ class EventsController < ApplicationController
 
   def destroy
   end
+
+  private
+    def change_admin_status
+      current_user.admin = true
+      @user.save
+    end
 
 end

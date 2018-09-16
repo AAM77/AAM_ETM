@@ -1,1 +1,7 @@
 <h1>INDEX of Events</h1>
+
+<ol>
+  <% @events.each do |events| %>
+    <li><%= event.name.titleize %></li>
+  <% end %>
+</ol>
