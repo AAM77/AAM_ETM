@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :check_login_status, except: [:index, :new, :create]
+  before_action :set_user, except: [:index, :new, :create, :destroy]
 
   def index
     @users = User.all
@@ -10,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(username: params[:user][:username], password: params[:user][:password], email: params[:user][:email])
+    @user = User.new(user_params)
 
     if @user.save
       session[:user_id] = @user.id
@@ -21,29 +22,35 @@ class UsersController < ApplicationController
   end
 
   def profile
-    @user = current_user
   end
 
   def update_profile
-    @user = current_user
   end
 
-
-
   def show
-    @user = User.find_by(id: params[:id])
   end
 
   def edit
-    @user = current_user
   end
 
   def update
+    @user.update(user_params)
+    redirect_to user_path(@user)
   end
-
-  def
 
   def destroy
+    User.destroy(current_user.id)
+    redirect_to root_path
   end
+
+  private
+
+    def set_user
+      @user = current_user
+    end
+
+    def user_params
+      params.require(:user).permit(:first_name, :last_name, :telephone_num, :address, :email, :username, :password)
+    end
 
 end

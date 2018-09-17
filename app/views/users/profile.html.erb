@@ -2,10 +2,16 @@
 
 <br>
 <br>
-<p>Name: <%= @user.name %></p><br>
+<p>Name: <%= @user.full_name %></p><br>
 <p>Address: <%= @user.address %></p><br>
 <p>Telephone: <%= @user.telephone_num %></p>
 <p>Email: <%= @user.email %></p><br>
 <br>
 <br>
 <%= link_to "Edit Details", edit_user_path %>
+<br>
+<br>
+
+<div>
+  <%= link_to "Delete Account", user_path, method: :delete %>
+</div>

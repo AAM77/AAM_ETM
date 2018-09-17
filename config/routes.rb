@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       post 'update_profile'
     end
   end
-
+  
   # event routes
   resources :events
 

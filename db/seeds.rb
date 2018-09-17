@@ -23,17 +23,17 @@
 
 DATA = {
   :user_keys =>
-    ["name", "username", "email", "address", "telephone_num", "password"],
+    ["first_name", "last_name", "username", "email", "address", "telephone_num", "password"],
   :users => [
-    ["Max Charles", "max_c", "max_c@info.com", "281 Old Willow St. New Castle, PA 16101", "(593) 412-0356", "password"],
-    ["Skai Jackson", "skai_j", "skai_j@info.com", "536 N. Union St. Reisterstown, MD 21136", "(657) 750-9467", "password"],
-    ["Kaleo Elam", "kaleo_e", "kaleo_e@info.com", "80 Old Peg Shop Drive Fair Lawn, NJ 07410", "(834) 492-7512", "password"],
-    ["Megan Charpentier", "megan_c", "megan_c@info.com", "9360 Greystone St. Palm Coast, FL 32137", "(940) 578-5526", "password"],
-    ["Hayden Byerly", "hayden_b", "hayden_b@info.com", "8793 Beach St. Rockville, MD 20850", "(558) 579-2138", "password"],
-    ["Tenzing Norgay Trainor", "tenzing_n", "tenzing_n@info.com", "26 High Noon Lane Charlottesville, VA 22901", "(743) 737-4430", "password"],
-    ["Davis Cleveland", "davis_c", "davis_c@info.com", "753 St Margarets St. Port Orange, FL 32127", "(481) 557-7701", "password"],
-    ["Cole Sand", "cole_s", "cole_s@info.com", "187 E. Thomas St. Elizabeth City, NC 27909", "(516) 654-9062", "password"],
-    ["Quvenzhané Wallis", "quven_w", "quven_w@info.com", "9760 Meadowbrook Lane Freeport, NY 11520", "(416) 983-6369", "password"]
+    ["Max", "Charles", "max_c", "max_c@info.com", "281 Old Willow St. New Castle, PA 16101", "(593) 412-0356", "password"],
+    ["Skai", "Jackson", "skai_j", "skai_j@info.com", "536 N. Union St. Reisterstown, MD 21136", "(657) 750-9467", "password"],
+    ["Kaleo", "Elam", "kaleo_e", "kaleo_e@info.com", "80 Old Peg Shop Drive Fair Lawn, NJ 07410", "(834) 492-7512", "password"],
+    ["Megan", "Charpentier", "megan_c", "megan_c@info.com", "9360 Greystone St. Palm Coast, FL 32137", "(940) 578-5526", "password"],
+    ["Hayden", "Byerly", "hayden_b", "hayden_b@info.com", "8793 Beach St. Rockville, MD 20850", "(558) 579-2138", "password"],
+    ["Tenzing", "Norgay Trainor", "tenzing_n", "tenzing_n@info.com", "26 High Noon Lane Charlottesville, VA 22901", "(743) 737-4430", "password"],
+    ["Davis", "Cleveland", "davis_c", "davis_c@info.com", "753 St Margarets St. Port Orange, FL 32127", "(481) 557-7701", "password"],
+    ["Cole", "Sand", "cole_s", "cole_s@info.com", "187 E. Thomas St. Elizabeth City, NC 27909", "(516) 654-9062", "password"],
+    ["Quvenzhané", "Wallis", "quven_w", "quven_w@info.com", "9760 Meadowbrook Lane Freeport, NY 11520", "(416) 983-6369", "password"]
   ],
   :event_keys =>
    ["name"],
@@ -64,5 +64,16 @@ def make_users
   end
 end
 
+def make_events
+  DATA[:events].each do |event|
+    new_event = Event.new
+    event.each_with_index do |attribute, i|
+      new_event.send(DATA[:event_keys][i]+"=", attribute)
+    end
+    new_event.save
+  end
+end
+
 
 make_users
+make_events
