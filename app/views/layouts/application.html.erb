@@ -1,7 +1,14 @@
 
 <!Doctype html>
+
 <html lang="en">
   <head>
+    <title>AAM ETM: Event Task Manager</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,12 +16,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>AAM ETM: Event Task Manager</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
   </head>
+
+
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">AAM.ETM</a>
@@ -24,16 +29,60 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="<%= root_path %>">Home <span class="sr-only">(current)</span></a>
-          </li>
+
+          <!---------------->
+          <!--------------->
+          <!-- LOGGED IN -->
+          <!--------------->
+          <!---------------->
           <% if logged_in? %>
+
+          <!-- INDEX of USERS -->
+          <li class="nav-item active">
+            <a class="nav-link" href="<%= users_path %>">Home<span class="sr-only">(current)</span></a>
+          </li>
+
+            <!-- User's Homepage -->
             <li class="nav-item">
-              <a class="nav-link" href="<%= user_path(current_user) %>">Dashboard</a>
+              <a class="nav-link" href="<%= user_path(current_user) %>"><%= "#{current_user.username.capitalize}" %></a>
             </li>
+
+            <!-- DROP-DOWN: EVENTS -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Account
+                Event Options
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="<%= events_path %>">All Events</a>
+                <div class="dropdown-divider"></div>
+                <!-- MUST ADD PATH -->
+                <a class="dropdown-item" href="#">Join An Event</a> <!-- MUST ADD PATH -->
+                <!-- MUST ADD PATH -->
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<%= new_event_path %>">Create New Event</a>
+              </div>
+            </li>
+
+            <!-- DROP-DOWN: TASKS -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Task Options
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="<%= tasks_path %>">All Tasks</a>
+                <div class="dropdown-divider"></div>
+                <!-- MUST ADD -->
+                <a class="dropdown-item" href="#">Join A Task</a><!-- MUST ADD -->
+                <!-- MUST ADD -->
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="<%= new_task_path %>">Create New Task</a>
+              </div>
+            </li>
+
+            <!-- DROP-DOWN: User's Account -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Your Account
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="<%= profile_user_path(current_user) %>">Profile</a>
@@ -42,38 +91,51 @@
               </div>
             </li>
           </ul>
+
+          <!-- SEARCH FORM -->
           <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
-        <% else %>
-        <li class="nav-item">
-          <a class="nav-link" href="<%= new_user_path %>">Sign Up</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Log In Options
-          </a>
 
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="<%= login_path %>">Log In</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Facebook</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Twitter</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">GitHub</a>
-          </div>
+        <!---------------->
+        <!---------------->
+        <!-- LOGGED OUT -->
+        <!---------------->
+        <!---------------->
+        <% else %>
+
+          <!-- WELCOME PAGE -->
+          <li class="nav-item active">
+            <a class="nav-link" href="<%= root_path %>">Welcome to ETL<span class="sr-only">(current)</span></a>
+          </li>
+
+          <!-- SIGN-UP Page -->
+          <li class="nav-item">
+            <a class="nav-link" href="<%= new_user_path %>">Sign Up</a>
+          </li>
+
+          <!-- LOG-IN Options -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Log In Options
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="<%= login_path %>">Log In</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Facebook</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Twitter</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">GitHub</a>
+            </div>
+          </li>
         <% end %>
       </div>
     </nav>
 
     <%= yield %>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
   </body>
 </html>
