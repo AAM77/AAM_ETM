@@ -1,0 +1,14 @@
+<h1><%= @task.name %></h1>
+
+<%= form_for @task do |f| %>
+  <%= f.label :name, "Task Name: " %>
+  <%= f.text_field :name %>
+  <br>
+  <%= f.label :task_type, "Task Type: " %>
+  <%= f.collection_select :name, @task_types, :name, :name, prompt: "Please select your username from this dropdown" %>
+  <br>
+
+  <%= f.submit "Create Task" %>
+
+
+<% end %>
