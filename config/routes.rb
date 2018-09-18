@@ -9,13 +9,15 @@ Rails.application.routes.draw do
   delete '/signout', to: 'sessions#destroy'
 
   # usersroutes
-  resources :users do
+  resources :users, except: [:destroy] do
     member do
       get 'profile'
       post 'update_profile'
     end
   end
-  
+
+  delete '/users/:id', to: 'users#destroy', as:'delete_user'
+
   # event routes
   resources :events
 
