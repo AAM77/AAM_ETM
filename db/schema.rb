@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2018_09_18_185930) do
   create_table "tasks", force: :cascade do |t|
     t.string "name"
     t.string "task_type"
+    t.integer "points_awarded"
     t.date "deadline_date"
     t.time "deadline_time"
     t.datetime "created_at", null: false

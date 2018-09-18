@@ -5,6 +5,7 @@ class TasksController < ApplicationController
   end
 
   def new
+    TaskType.create_task_types
     @task = Task.new
     @task_types = TaskType.all
   end
@@ -40,7 +41,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :task_type)
+    params.require(:task).permit(:name, :task_type, :points_awarded)
   end
 
 
