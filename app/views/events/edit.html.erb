@@ -3,6 +3,13 @@
 <%= form_for @event do |f| %>
   <%= f.label :name, "Event Name: " %>
   <%= f.text_field :name %>
+  <br>
+  <%= f.label :deadline_date, "Event Deadline (Date): " %>
+  <%= f.date_field :deadline_date %>
+  <br>
+  <%= f.label :deadline_time, "Event Deadline (Time)" %>
+  <%= f.time_field :deadline_time %>
+  <br>
 
   <%= f.submit "Update Event" %>
 <% end %>

@@ -2,6 +2,6 @@
 
 <ol>
   <% @events.each do |event| %>
-    <li><%= event.name.titleize %></li>
+    <li><%= link_to event.name.titleize, event_path(event) %></li>
   <% end %>
 </ol>

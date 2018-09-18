@@ -34,6 +34,7 @@ class EventsController < ApplicationController
   end
 
   private
+
     def change_admin_status
       current_user.admin = true
       @user.save

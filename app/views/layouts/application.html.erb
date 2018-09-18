@@ -87,7 +87,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="<%= profile_user_path(current_user) %>">Profile</a>
                 <div class="dropdown-divider"></div>
-                <a class="nav-link" href="<%= signout_path %>" rel="nofollow" data-method="delete">Log Out</a>
+                <a class="dropdown-item" href="<%= signout_path %>" rel="nofollow" data-method="delete">Log Out</a>
               </div>
             </li>
           </ul>
@@ -136,6 +136,6 @@
     </nav>
 
     <%= yield %>
-    
+
   </body>
 </html>
