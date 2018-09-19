@@ -56,16 +56,16 @@ DATA = {
   ],
 
   :task_keys =>
-   ["name", "task_type", "points_awarded"],
+   ["name", "group_task", "points_awarded"],
   :tasks => [
-    ["Iron Clothes", "Solo Task", 2],
-    ["Wash Dishes", "Solo Task", 4],
-    ["Mow the Lawn", "Solo Task", 5],
-    ["Clean the Bathroom", "Group Task", 10],
-    ["Clean the Kitchen", "Group Task", 10],
-    ["Organize the Garage", "Group Task", 15],
-    ["Clean the Garage", "Group Task", 10],
-    ["Wash the Car", "Solo Task", 7]
+    ["Iron Clothes", false, 2],
+    ["Wash Dishes", false, 4],
+    ["Mow the Lawn", false, 5],
+    ["Clean the Bathroom", true, 10],
+    ["Clean the Kitchen", true, 10],
+    ["Organize the Garage", true, 15],
+    ["Clean the Garage", true, 10],
+    ["Wash the Car", false, 7]
   ]
 }
 
@@ -107,9 +107,9 @@ def make_tasks(current_event)
     end
     new_task.event_id = current_event.id
 
-    if new_task.task_type == "Solo Task"
+    if new_task.group_task
 
-      1.times do
+      rand(1..8).times do
         users = []
         User.all.each {|u| users << u } #if u.admin != true}
         new_task.users << users[rand(0...users.length)]
@@ -117,7 +117,7 @@ def make_tasks(current_event)
 
     else
 
-      rand(1..8).times do
+      1.times do
         users = []
         User.all.each {|u| users << u } #if u.admin != true}
         new_task.users << users[rand(0...users.length)]

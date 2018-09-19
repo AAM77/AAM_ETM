@@ -15,14 +15,14 @@
 
     <tbody>
       <% @event.tasks.each do |task| %>
-        <% if task.task_type == "Solo Task" %>
+        <% if !task.group_task %>
           <tr>
             <th scope="row"><%= @event.tasks.index(task) + 1 %></th>
             <td><%= task.name %></td>
             <td><%= task.task_type %></td>
             <td><%= task.points_awarded %></td>
             <td><%= task.deadline_date %></td>
-            <td><%= task.list_participants %></td>
+            <td><%= check_participants task %></td>
           </tr>
         <% end %>
       <% end %>
@@ -46,14 +46,14 @@
 
     <tbody>
       <% @event.tasks.each do |task| %>
-        <% if task.task_type == "Group Task" %>
+        <% if task.group_task %>
           <tr>
             <th scope="row"><%= @event.tasks.index(task) + 1 %></th>
             <td><%= task.name %></td>
             <td><%= task.task_type %></td>
             <td><%= task.points_awarded %></td>
             <td><%= task.deadline_date %></td>
-            <td><%= task.list_participants %></td>
+            <td><%= check_participants task %></td>
           </tr>
         <% end %>
       <% end %>

@@ -12,4 +12,8 @@ class Task < ApplicationRecord
     end
   end
 
+  def task_type
+    self.group_task ? "Group Task" : "Solo Task"
+  end
+
 end

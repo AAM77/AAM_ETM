@@ -5,15 +5,12 @@ class TasksController < ApplicationController
   end
 
   def new
-    TaskType.create_task_types
     @task = Task.new
-    @task_types = TaskType.all
   end
 
   def create
     @task = Task.new(task_params)
-    binding.pry
-
+    #binding.pry
     if @task.save
       redirect_to task_path(@task)
     else
@@ -41,7 +38,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :task_type, :points_awarded)
+    params.require(:task).permit(:name, :group_task, :points_awarded, :event_id)
   end
 
 

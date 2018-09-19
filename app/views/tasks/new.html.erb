@@ -4,12 +4,14 @@
   <%= f.label :name, "Task Name: " %>
   <%= f.text_field :name %>
   <br>
-  <%= f.label :task_type, "Task Type: " %>
-  <%= f.collection_select :task_type, @task_types, :name, :name, prompt: "Please select your task type" %>
+  <%= f.label :group_task, "Is this a group task?" %>
+  <%= f.check_box :group_task %>
   <br>
   <%= f.label :points_awarded, "How many points is this task worth?" %>
   <%= f.number_field :points_awarded %>
   <br>
+  <%= f.label :event, "Which event is this task for?" %>
+  <%= f.collection_select :event_id, Event.all, :id, :name, prompt: "Select an event"  %>
 
   <%= f.submit "Create Task" %>
 
