@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2018_09_18_185930) do
     t.string "name"
     t.string "task_type"
     t.integer "points_awarded"
+    t.integer "event_id"
     t.date "deadline_date"
     t.time "deadline_time"
     t.datetime "created_at", null: false

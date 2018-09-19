@@ -5,7 +5,7 @@
   <%= f.text_field :name %>
   <br>
   <%= f.label :task_type, "Task Type: " %>
-  <%= f.collection_select :task_type, @task_types, :name, :name, prompt: "Please select your username from this dropdown" %>
+  <%= f.collection_select :task_type, @task_types, :name, :name, prompt: "Please select your task type" %>
   <br>
   <%= f.label :points_awarded, "How many points is this task worth?" %>
   <%= f.number_field :points_awarded %>

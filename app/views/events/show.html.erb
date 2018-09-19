@@ -12,35 +12,24 @@
         <th scope="col">Participants</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Solo</td>
-        <td>5 points</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
 
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Solo</td>
-        <td>10 points</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>Solo</td>
-        <td>2 points</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-      </tr>
+    <tbody>
+      <% @event.tasks.each do |task| %>
+        <% if task.task_type == "Solo Task" %>
+          <tr>
+            <th scope="row"><%= @event.tasks.index(task) + 1 %></th>
+            <td><%= task.name %></td>
+            <td><%= task.task_type %></td>
+            <td><%= task.points_awarded %></td>
+            <td><%= task.deadline_date %></td>
+            <td><%= task.users[0].username %></td>
+          </tr>
+        <% end %>
+      <% end %>
     </tbody>
   </table>
 </div>
+
 
 <div class="table-responsive">
   <table class="table">
@@ -54,31 +43,20 @@
         <th scope="col">Participants</th>
       </tr>
     </thead>
+
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Group</td>
-        <td>3 points</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Group</td>
-        <td>10 points</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>Group</td>
-        <td>20 points</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-      </tr>
+      <% @event.tasks.each do |task| %>
+        <% if task.task_type == "Group Task" %>
+          <tr>
+            <th scope="row"><%= @event.tasks.index(task) + 1 %></th>
+            <td><%= task.name %></td>
+            <td><%= task.task_type %></td>
+            <td><%= task.points_awarded %></td>
+            <td><%= task.deadline_date %></td>
+            <td><%= task.users[0].username %></td>
+          </tr>
+        <% end %>
+      <% end %>
     </tbody>
   </table>
 </div>

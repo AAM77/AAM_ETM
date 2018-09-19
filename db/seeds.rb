@@ -21,6 +21,7 @@
 # t.time :deadline_time
 # admin
 
+
 DATA = {
   :user_keys =>
     ["first_name", "last_name", "username", "email", "address", "telephone_num", "password"],
@@ -35,6 +36,7 @@ DATA = {
     ["Cole", "Sand", "cole_s", "cole_s@info.com", "187 E. Thomas St. Elizabeth City, NC 27909", "(516) 654-9062", "password"],
     ["Quvenzhané", "Wallis", "quven_w", "quven_w@info.com", "9760 Meadowbrook Lane Freeport, NY 11520", "(416) 983-6369", "password"]
   ],
+
   :event_keys =>
    ["name"],
   :events => [
@@ -51,8 +53,22 @@ DATA = {
   :admins => [
     "Mary Elitch Long",
     "John Elitch"
+  ],
+
+  :task_keys =>
+   ["name", "task_type", "points_awarded"],
+  :tasks => [
+    ["Iron Clothes", "Solo Task", 2],
+    ["Wash Dishes", "Solo Task", 4],
+    ["Mow the Lawn", "Solo Task", 5],
+    ["Clean the Bathroom", "Group Task", 10],
+    ["Clean the Kitchen", "Group Task", 10],
+    ["Organize the Garage", "Group Task", 15],
+    ["Clean the Garage", "Group Task", 10],
+    ["Wash the Car", "Solo Task", 7]
   ]
 }
+
 
 def make_users
   DATA[:users].each do |user|
@@ -70,10 +86,48 @@ def make_events
     event.each_with_index do |attribute, i|
       new_event.send(DATA[:event_keys][i]+"=", attribute)
     end
+
+    rand(1..8).times do
+      users = []
+      User.all.each {|u| users << u } #if u.admin != true}
+      new_event.users << users[rand(0...users.length)]
+    end
+
+    new_event.users.each { |c| c.save }
     new_event.save
+    make_tasks(new_event)
   end
 end
 
+def make_tasks(current_event)
+  DATA[:tasks].each do |task|
+    new_task = Task.new
+    task.each_with_index do |attribute, i|
+      new_task.send(DATA[:task_keys][i]+"=", attribute)
+    end
+    new_task.event_id = current_event.id
+
+    if new_task.task_type == "Solo Task"
+
+      1.times do
+        users = []
+        User.all.each {|u| users << u } #if u.admin != true}
+        new_task.users << users[rand(0...users.length)]
+      end
+
+    else
+
+      rand(1..8).times do
+        users = []
+        User.all.each {|u| users << u } #if u.admin != true}
+        new_task.users << users[rand(0...users.length)]
+      end
+    end
+
+    new_task.users.each {|c| c.save}
+    new_task.save
+  end
+end
 
 make_users
 make_events
