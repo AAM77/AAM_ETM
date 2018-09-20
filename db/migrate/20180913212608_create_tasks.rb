@@ -7,7 +7,8 @@ class CreateTasks < ActiveRecord::Migration[5.2]
       t.date :deadline_date
       t.time :deadline_time
       t.boolean :group_task, default: false
-      
+      t.boolean :status_complete, default: false
+
       t.timestamps
     end
   end

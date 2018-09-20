@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 2018_09_13_213241) do
 
   create_table "events", force: :cascade do |t|
     t.string "name"
-    t.date "date_created"
+    t.string "admin"
     t.date "event_date"
     t.date "deadline_date"
     t.time "deadline_time"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2018_09_13_213241) do
     t.date "deadline_date"
     t.time "deadline_time"
     t.boolean "group_task", default: false
+    t.boolean "status_complete", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
