@@ -35,9 +35,8 @@ class TasksController < ApplicationController
 
   private
 
-  def task_params
-    params.require(:task).permit(:name, :group_task, :points_awarded, :event_id)
-  end
-
+    def task_params
+      params.require(:task).permit(:name, :group_task, :points_awarded, :event_id)
+    end
 
 end
