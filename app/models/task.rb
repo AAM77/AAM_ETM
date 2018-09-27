@@ -3,6 +3,9 @@ class Task < ApplicationRecord
   has_many :user_tasks
   has_many :users, through: :user_tasks
 
+  before_validation :set_defaults
+
+  # Adds a user to a task
   def add_participant(participant)
     if self.task_type == "Group Task"
       self.users << participant
@@ -16,6 +19,17 @@ class Task < ApplicationRecord
     participant.save
   end
 
+  # Remobes a user from a task
+  def remove_participant(participant)
+    task = self
+    user_task = UserTask.find_by_user_id_and_task_id(participant.id, task.id)
+
+    if user_task
+      user_task.delete
+    end
+  end
+
+  # Lists the usernames of users participating in the task
   def list_participants
     list = self.users.map { |u| u.username.capitalize }
     if list.size == 1
@@ -25,8 +39,16 @@ class Task < ApplicationRecord
     end
   end
 
+  # Labels a task type
   def task_type
     self.group_task ? "Group Task" : "Solo Task"
+  end
+
+
+  def set_defaults
+    if !self.group_task
+      self.max_participants = 1
+    end
   end
 
 end

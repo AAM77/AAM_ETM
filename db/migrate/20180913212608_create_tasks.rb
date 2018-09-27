@@ -6,6 +6,7 @@ class CreateTasks < ActiveRecord::Migration[5.2]
       t.integer :event_id
       t.date :deadline_date
       t.time :deadline_time
+      t.integer :max_participants
       t.boolean :group_task, default: false
       t.boolean :user_complete, default: false
       t.boolean :admin_complete, default: false

@@ -8,8 +8,14 @@
         <th scope="col">Task Name</th>
         <th scope="col-">Task Type</th>
         <th scope="col">Points Awarded</th>
+        <th scope="col">Max Participants</th>
         <th scope="col">Due Date</th>
         <th scope="col">Participants</th>
+        <th scope="col">Join Status</th>
+        <th scope="col">Completed?</th>
+        <% if @event.admin_id == current_user.id %>
+          <th scope="col">Confirm Complete?</th>
+        <% end %>
       </tr>
     </thead>
 
@@ -21,8 +27,14 @@
             <td><%= task.name %></td>
             <td><%= task.task_type %></td>
             <td><%= task.points_awarded %></td>
+            <td><%= task.max_participants %></td>
             <td><%= task.deadline_date %></td>
-            <td><%= check_participants task %></td>
+            <td><%= task.list_participants %></td>
+            <td><%= check_participant_join_status task %></td>
+            <td><%= task.user_complete %></td>
+            <% if @event.admin_id == current_user.id %>
+              <td><%= task.admin_complete %></td>
+            <% end %>
           </tr>
         <% end %>
       <% end %>
@@ -35,12 +47,18 @@
   <table class="table">
     <thead class="thead-light">
       <tr>
-        <th scope="col">#</th>
+        <th scope="col-">#</th>
         <th scope="col">Task Name</th>
         <th scope="col-">Task Type</th>
         <th scope="col">Points Awarded</th>
+        <th scope="col">Max Participants</th>
         <th scope="col">Due Date</th>
         <th scope="col">Participants</th>
+        <th scope="col">Join Status</th>
+        <th scope="col">Completed?</th>
+        <% if @event.admin_id == current_user.id %>
+          <th scope="col">Confirm Complete?</th>
+        <% end %>
       </tr>
     </thead>
 
@@ -52,8 +70,14 @@
             <td><%= task.name %></td>
             <td><%= task.task_type %></td>
             <td><%= task.points_awarded %></td>
+            <td><%= task.max_participants %></td>
             <td><%= task.deadline_date %></td>
-            <td><%= check_participants task %></td>
+            <td><%= task.list_participants %></td>
+            <td><%= check_participant_join_status task %></td>
+            <td><%= task.user_complete %></td>
+            <% if @event.admin_id == current_user.id %>
+              <td><%= task.admin_complete %></td>
+            <% end %>
           </tr>
         <% end %>
       <% end %>
@@ -74,6 +98,9 @@
     <br>
     <%= f.label :group_task, "Is this a group task?" %>
     <%= f.check_box :group_task %>
+    <br>
+    <%= f.label :max_participants, "How many people can participate in this task?" %>
+    <%= f.number_field :max_participants, value: 1 if params[:group_task] == 0 %>
     <br>
     <%= f.label :points_awarded, "How many points is this task worth?" %>
     <%= f.number_field :points_awarded %>

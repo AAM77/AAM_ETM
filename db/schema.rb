@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2018_09_13_213241) do
     t.integer "event_id"
     t.date "deadline_date"
     t.time "deadline_time"
+    t.integer "max_participants"
     t.boolean "group_task", default: false
     t.boolean "user_complete", default: false
     t.boolean "admin_complete", default: false

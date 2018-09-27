@@ -25,7 +25,6 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-    @task.add_participant(current_user)
     redirect_to event_path(@task.event_id)
   end
 

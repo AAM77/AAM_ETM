@@ -37,4 +37,7 @@ Rails.application.routes.draw do
   # Not sure how to setup this route with the alias issue. This might be correct. I will see.
   resources :tasks, only: [:index, :update, :destroy]
 
+  # user_task (participation)
+  resources :users_tasks, only: [:create, :destroy]
+
 end
