@@ -1,8 +1,8 @@
 module TasksHelper
 
   def check_participants(task)
-    if task.list_participants.empty?
-      link_to "Join Event"
+    if !task.users.where("username = ?", current_user.username).first
+      link_to "Join Event", task_path(task, visible: true), method: :patch
     else
       task.list_participants
     end

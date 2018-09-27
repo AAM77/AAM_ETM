@@ -9,10 +9,9 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(params[:event][:name])
+    @event = Event.new(event_params)
 
     if @event.save
-      change_admin_status
       redirect_to event_path(@event)
     else
       redirect_to events_path
@@ -21,10 +20,11 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find_by(id: params[:id])
+    @task = Task.new
   end
 
   def edit
-    @event = Event.find_by(name: params[:name])
+    @event = Event.find_by(id: params[:id])
   end
 
   def update
@@ -35,9 +35,8 @@ class EventsController < ApplicationController
 
   private
 
-    def change_admin_status
-      current_user.admin = true
-      @user.save
+    def event_params
+      params.require(:event).permit(:name, :deadline_date, :deadline_time, :admin_id)
     end
 
 end

@@ -18,10 +18,23 @@ Rails.application.routes.draw do
 
   delete '/users/:id', to: 'users#destroy', as:'delete_user'
 
+
+  resources :users, except: [:destroy] do
+    resources :events, only: [:index, :new, :edit, :show]
+  end
+
+  resources :users, except: [:destroy] do
+    resources :tasks, only: [:index, :edit, :show]
+  end
+
+  resources :events, except: [:destroy] do
+    resources :tasks, only: [:new, :edit, :create, :show]
+  end
+
   # event routes
   resources :events
 
   # Not sure how to setup this route with the alias issue. This might be correct. I will see.
-  resources :tasks
+  resources :tasks, only: [:index, :update, :destroy]
 
 end

@@ -14,8 +14,7 @@ ActiveRecord::Schema.define(version: 2018_09_13_213241) do
 
   create_table "events", force: :cascade do |t|
     t.string "name"
-    t.string "admin"
-    t.date "event_date"
+    t.integer "admin_id"
     t.date "deadline_date"
     t.time "deadline_time"
     t.datetime "created_at", null: false
@@ -29,7 +28,8 @@ ActiveRecord::Schema.define(version: 2018_09_13_213241) do
     t.date "deadline_date"
     t.time "deadline_time"
     t.boolean "group_task", default: false
-    t.boolean "status_complete", default: false
+    t.boolean "user_complete", default: false
+    t.boolean "admin_complete", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2018_09_13_213241) do
   create_table "user_events", force: :cascade do |t|
     t.integer "user_id"
     t.integer "event_id"
+    t.boolean "admin_user", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -44,6 +45,7 @@ ActiveRecord::Schema.define(version: 2018_09_13_213241) do
   create_table "user_tasks", force: :cascade do |t|
     t.integer "user_id"
     t.integer "task_id"
+    t.boolean "admin_user", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -56,6 +58,7 @@ ActiveRecord::Schema.define(version: 2018_09_13_213241) do
     t.string "email"
     t.string "username"
     t.string "password_digest"
+    t.integer "total_points", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

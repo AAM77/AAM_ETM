@@ -14,12 +14,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# t.string :name
-# t.date :date_created
-# t.date :event_date
-# t.date :deadline_date
-# t.time :deadline_time
-# admin
 
 
 DATA = {
@@ -34,25 +28,21 @@ DATA = {
     ["Tenzing", "Norgay Trainor", "tenzing_n", "tenzing_n@info.com", "26 High Noon Lane Charlottesville, VA 22901", "(743) 737-4430", "password"],
     ["Davis", "Cleveland", "davis_c", "davis_c@info.com", "753 St Margarets St. Port Orange, FL 32127", "(481) 557-7701", "password"],
     ["Cole", "Sand", "cole_s", "cole_s@info.com", "187 E. Thomas St. Elizabeth City, NC 27909", "(516) 654-9062", "password"],
-    ["Quvenzhané", "Wallis", "quven_w", "quven_w@info.com", "9760 Meadowbrook Lane Freeport, NY 11520", "(416) 983-6369", "password"]
+    ["Quvenzhane", "Wallis", "quven_w", "quven_w@info.com", "9760 Meadowbrook Lane Freeport, NY 11520", "(416) 983-6369", "password"]
   ],
 
   :event_keys =>
-   ["name"],
+   ["name", "admin_id"],
   :events => [
-    ["Scrambler Ride"],
-    ["Miniature Railroad"],
-    ["Merry-Go-Round"],
-    ["Roller Coaster"],
-    ["Swinging Ship"],
-    ["Go Karts"],
-    ["Haunted Mansion"],
-    ["Ferris Wheel"],
-    ["Teacups Ride"]
-  ],
-  :admins => [
-    "Mary Elitch Long",
-    "John Elitch"
+    ["Scrambler Ride", 1],
+    ["Miniature Railroad", 1],
+    ["Merry-Go-Round", 2],
+    ["Roller Coaster", 2],
+    ["Swinging Ship", 2],
+    ["Go Karts", 3],
+    ["Haunted Mansion", 3],
+    ["Ferris Wheel", 4],
+    ["Teacups Ride", 5]
   ],
 
   :task_keys =>

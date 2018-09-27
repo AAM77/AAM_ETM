@@ -4,17 +4,14 @@ class TasksController < ApplicationController
     @tasks = Task.all
   end
 
-  def new
-    @task = Task.new
-  end
-
   def create
     @task = Task.new(task_params)
-    #binding.pry
+    @task.event_id = params[:event_id]
+
     if @task.save
-      redirect_to task_path(@task)
+      redirect_to event_path(@task.event_id)
     else
-      redirect_to new_task_path
+      redirect_to new_event_task_path
     end
   end
 
@@ -28,6 +25,8 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
+    @task.add_participant(current_user)
+    redirect_to event_path(@task.event_id)
   end
 
   def destroy
