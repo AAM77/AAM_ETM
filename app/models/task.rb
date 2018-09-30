@@ -60,7 +60,7 @@ class Task < ApplicationRecord
   def distribute_points
     if self.completed
       self.users.each do |user|
-        user.total_points = user.total_points + points_distributed_to_each_participant
+        user.total_points = user.total_points + self.points_distributed_to_each_participant
         user.save
       end
     end

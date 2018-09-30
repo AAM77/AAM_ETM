@@ -26,11 +26,6 @@ class UsersTasksController < ApplicationController
     @task = Task.find(params[:admin_task_ids].first)
     @event = Event.find(@task.event_id)
     Task.where(id: params[:admin_task_ids]).update_all(["admin_confirmed_completion_at=?", Time.now])
-    @event.tasks.each do |t|
-      if t.mark_task_complete?
-        t.distribute_points
-      end
-    end
     redirect_to event_path(@event)
   end
 
