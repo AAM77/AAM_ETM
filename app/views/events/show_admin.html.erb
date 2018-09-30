@@ -1,0 +1,102 @@
+<h1><%= @event.name.titleize %> ADMIN PAGE</h1>
+
+
+<br>
+<br>
+<br>
+
+
+<h2>INCOMPLETE TASKS</h2>
+
+<div class="table-responsive">
+  <%= form_tag admin_complete_users_tasks_path, method: :patch do %>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <%= render partial: 'table_headers', locals: { event_instance: @event } %>
+          <th scope="col">Confirm Task Completion?</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @event.tasks.each do |task| %>
+         <% if !task.completed %>
+            <tr>
+              <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
+              <td><%= display_admin_checkbox task %></td>
+              <td>
+                <%= form_for task do |f| %>
+                  <%= f.hidden_field :event_id, value: task.event_id %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+    <%= submit_tag "Confirm Task Completion" %>
+  <% end %>
+</div>
+
+
+<br>
+<br>
+<br>
+
+
+<h2>COMPLETED TASKS</h2>
+<div class="table-responsive">
+  <table class="table">
+    <thead class="thead-dark">
+      <%= render partial: 'table_headers', locals: { event_instance: @event } %>
+    </thead>
+
+    <tbody>
+      <% @event.tasks.each do |task| %>
+        <% if task.completed %>
+          <tr>
+            <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<br>
+<br>
+<br>
+
+
+<% if @event.admin_id == current_user.id %>
+  <h1>Create a New Task</h1>
+
+  <%= form_for [@event, @task] do |f| %>
+    <% f.hidden_field :event_id, value: @event.id %>
+    <br>
+    <%= f.label :name, "Task Name: " %>
+    <%= f.text_field :name %>
+    <br>
+    <%= f.label :group_task, "Is this a group task?" %>
+    <%= f.check_box :group_task %>
+    <br>
+    <%= f.label :max_participants, "How many people can participate in this task?" %>
+    <%= f.number_field :max_participants %>
+    <br>
+    <%= f.label :points_awarded, "How many points is this task worth?" %>
+    <%= f.number_field :points_awarded %>
+    <br>
+    <%= f.label :deadline_date, "Task Deadline (Date): " %>
+    <%= f.date_field :deadline_date %>
+    <br>
+    <%= f.label :deadline_time, "Task Deadline (Time)" %>
+    <%= f.time_field :deadline_time %>
+    <br>
+
+    <%= f.submit "Create Task" %>
+
+  <% end %>
+
+  <%= link_to "Edit Event Details", edit_event_path %>
+<% end %>

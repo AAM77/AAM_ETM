@@ -1,120 +1,60 @@
 <h1><%= @event.name.titleize %></h1>
 
+
+<br>
+<br>
+<br>
+
+
+<h2>INCOMPLETE TASKS</h2>
+
+<div class="table-responsive">
+  <%= form_tag user_complete_users_tasks_path, method: :patch do %>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <%= render partial: 'table_headers', locals: { event_instance: @event } %>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @event.tasks.each do |task| %>
+          <% if !task.completed %>
+            <tr>
+              <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+    <%= submit_tag "Mark as Complete" %>
+    <% if user_is_event_admin(@event) %>
+      <%= link_to "View as Admin", show_admin_event_path %>
+    <% end %>
+  <% end %>
+</div>
+
+
+<br>
+<br>
+<br>
+
+
+<h2>COMPLETED TASKS</h2>
 <div class="table-responsive">
   <table class="table">
     <thead class="thead-dark">
-      <tr>
-        <th scope="col-">#</th>
-        <th scope="col">Task Name</th>
-        <th scope="col-">Task Type</th>
-        <th scope="col">Points Awarded</th>
-        <th scope="col">Max Participants</th>
-        <th scope="col">Due Date</th>
-        <th scope="col">Participants</th>
-        <th scope="col">Join Status</th>
-        <th scope="col">Completed?</th>
-        <% if @event.admin_id == current_user.id %>
-          <th scope="col">Confirm Complete?</th>
-        <% end %>
-      </tr>
+      <%= render partial: 'table_headers', locals: { event_instance: @event } %>
     </thead>
 
     <tbody>
       <% @event.tasks.each do |task| %>
-        <% if !task.group_task %>
+        <% if task.completed %>
           <tr>
-            <th scope="row"><%= @event.tasks.index(task) + 1 %></th>
-            <td><%= task.name %></td>
-            <td><%= task.task_type %></td>
-            <td><%= task.points_awarded %></td>
-            <td><%= task.max_participants %></td>
-            <td><%= task.deadline_date %></td>
-            <td><%= task.list_participants %></td>
-            <td><%= check_participant_join_status task %></td>
-            <td><%= task.user_complete %></td>
-            <% if @event.admin_id == current_user.id %>
-              <td><%= task.admin_complete %></td>
-            <% end %>
+            <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
           </tr>
         <% end %>
       <% end %>
     </tbody>
   </table>
 </div>
-
-
-<div class="table-responsive">
-  <table class="table">
-    <thead class="thead-light">
-      <tr>
-        <th scope="col-">#</th>
-        <th scope="col">Task Name</th>
-        <th scope="col-">Task Type</th>
-        <th scope="col">Points Awarded</th>
-        <th scope="col">Max Participants</th>
-        <th scope="col">Due Date</th>
-        <th scope="col">Participants</th>
-        <th scope="col">Join Status</th>
-        <th scope="col">Completed?</th>
-        <% if @event.admin_id == current_user.id %>
-          <th scope="col">Confirm Complete?</th>
-        <% end %>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @event.tasks.each do |task| %>
-        <% if task.group_task %>
-          <tr>
-            <th scope="row"><%= @event.tasks.index(task) + 1 %></th>
-            <td><%= task.name %></td>
-            <td><%= task.task_type %></td>
-            <td><%= task.points_awarded %></td>
-            <td><%= task.max_participants %></td>
-            <td><%= task.deadline_date %></td>
-            <td><%= task.list_participants %></td>
-            <td><%= check_participant_join_status task %></td>
-            <td><%= task.user_complete %></td>
-            <% if @event.admin_id == current_user.id %>
-              <td><%= task.admin_complete %></td>
-            <% end %>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-<br>
-<br>
-<br>
-<% if @event.admin_id == current_user.id %>
-  <h1>Create a New Task</h1>
-
-  <%= form_for [@event, @task] do |f| %>
-    <% f.hidden_field :event_id, value: @event.id %>
-    <br>
-    <%= f.label :name, "Task Name: " %>
-    <%= f.text_field :name %>
-    <br>
-    <%= f.label :group_task, "Is this a group task?" %>
-    <%= f.check_box :group_task %>
-    <br>
-    <%= f.label :max_participants, "How many people can participate in this task?" %>
-    <%= f.number_field :max_participants, value: 1 if params[:group_task] == 0 %>
-    <br>
-    <%= f.label :points_awarded, "How many points is this task worth?" %>
-    <%= f.number_field :points_awarded %>
-    <br>
-    <%= f.label :deadline_date, "Task Deadline (Date): " %>
-    <%= f.date_field :deadline_date %>
-    <br>
-    <%= f.label :deadline_time, "Task Deadline (Time)" %>
-    <%= f.time_field :deadline_time %>
-    <br>
-
-    <%= f.submit "Create Task" %>
-
-  <% end %>
-
-  <%= link_to "Edit Event Details", edit_event_path %>
-<% end %>

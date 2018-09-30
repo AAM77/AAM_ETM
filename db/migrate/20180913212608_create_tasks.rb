@@ -8,8 +8,9 @@ class CreateTasks < ActiveRecord::Migration[5.2]
       t.time :deadline_time
       t.integer :max_participants
       t.boolean :group_task, default: false
-      t.boolean :user_complete, default: false
-      t.boolean :admin_complete, default: false
+      t.datetime :user_completed_at
+      t.datetime :admin_confirmed_completion_at
+      t.boolean :completed
 
       t.timestamps
     end

@@ -44,6 +44,27 @@ class Task < ApplicationRecord
     self.group_task ? "Group Task" : "Solo Task"
   end
 
+  def points_distributed_to_each_participant
+    self.points_awarded / self.users.size
+  end
+
+  def mark_task_complete?
+    if self.user_completed_at
+      if self.admin_confirmed_completion_at
+        self.completed = true
+        self.save
+      end
+    end
+  end
+
+  def distribute_points
+    if self.completed
+      self.users.each do |user|
+        user.total_points = user.total_points + points_distributed_to_each_participant
+        user.save
+      end
+    end
+  end
 
   def set_defaults
     if !self.group_task

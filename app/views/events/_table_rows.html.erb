@@ -1,0 +1,9 @@
+<th scope="row"><%= event_instance.tasks.index(task_instance) + 1 %></th>
+<td><%= task_instance.name %></td>
+<td><%= task_instance.task_type %></td>
+<td><%= task_instance.points_awarded %></td>
+<td><%= task_instance.max_participants %></td>
+<td><%= task_instance.deadline_date %></td>
+<td><%= task_instance.list_participants %></td>
+<td><%= check_participant_join_status task_instance %></td>
+<td><%= display_user_checkbox task_instance %></td>

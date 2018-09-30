@@ -29,15 +29,24 @@ Rails.application.routes.draw do
 
   resources :events, except: [:destroy] do
     resources :tasks, only: [:new, :edit, :create, :show]
+    member do
+      get 'show_admin'
+    end
   end
 
   # event routes
   resources :events
 
+
   # Not sure how to setup this route with the alias issue. This might be correct. I will see.
   resources :tasks, only: [:index, :update, :destroy]
 
   # user_task (participation)
-  resources :users_tasks, only: [:create, :destroy]
+  resources :users_tasks, only: [:create, :destroy] do
+    collection do
+      patch :user_complete
+      patch :admin_complete
+    end
+  end
 
 end

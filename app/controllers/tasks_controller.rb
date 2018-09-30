@@ -36,7 +36,7 @@ class TasksController < ApplicationController
   private
 
     def task_params
-      params.require(:task).permit(:name, :group_task, :points_awarded, :event_id)
+      params.require(:task).permit(:name, :group_task, :points_awarded, :max_participants, :event_id, :user_completed_at, :admin_confirmed_completion_at)
     end
 
 end

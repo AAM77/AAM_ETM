@@ -33,6 +33,11 @@ class EventsController < ApplicationController
   def destroy
   end
 
+  def show_admin
+    @event = Event.find_by(id: params[:id])
+    @task = Task.new
+  end
+
   private
 
     def event_params
