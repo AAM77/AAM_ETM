@@ -3,16 +3,19 @@ class Task < ApplicationRecord
   has_many :user_tasks
   has_many :users, through: :user_tasks
 
+  scope :group_tasks, -> { where(group_task: true) }
+  scope :solo_tasks, -> { where(group_task: false) }
   before_validation :set_defaults
 
   # Adds a user to a task
   def add_participant(participant)
+    event = Event.find(self.event_id)
     if self.task_type == "Group Task"
       self.users << participant
-      self.user_ids << participant.id
+      participant.events << event
     elsif self.task_type == "Solo Task" && self.users.size != 1
       self.users << participant
-      self.user_ids << participant.id
+      participant.events << event
     end
 
     self.save

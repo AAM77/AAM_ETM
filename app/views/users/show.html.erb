@@ -13,9 +13,9 @@
           Events You Created
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">Your Event 1</li>
-          <li class="list-group-item">Your Event 2</li>
-          <li class="list-group-item">Your Event 3</li>
+          <% Event.admin(current_user).each do |event| %>
+            <li class="list-group-item"><%= link_to event.name.titleize, event_path(event) %></li>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -26,9 +26,9 @@
           Solo-Tasks
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">Solo-task 1</li>
-          <li class="list-group-item">Solo-task 2</li>
-          <li class="list-group-item">Solo-task 3</li>
+          <% current_user.tasks.solo_tasks.each do |solo_task| %>
+            <li class="list-group-item"><%= link_to solo_task.name.titleize, event_path(solo_task.event_id) %></li>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -41,9 +41,9 @@
           Other's Events Your are Participating In
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">Other Event 1</li>
-          <li class="list-group-item">Other Event 2</li>
-          <li class="list-group-item">Other Event 3</li>
+          <% Event.not_admin(current_user).each do |event| %>
+            <li class="list-group-item"><%= link_to event.name.titleize, event_path(event) %></li>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -54,9 +54,12 @@
           Group Tasks
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">Group-task 1</li>
-          <li class="list-group-item">Group-task 2</li>
-          <li class="list-group-item">Group-task 3</li>
+          <% current_user.tasks.group_tasks.each do |group_task| %>
+            <li class="list-group-item">
+              <%= link_to group_task.name.titleize, event_path(group_task.event_id) %> in Event:
+              <%= link_to Event.find(group_task.event_id).name, event_path(group_task.event_id) %>
+            </li>
+          <% end %>
         </ul>
       </div>
     </div>
