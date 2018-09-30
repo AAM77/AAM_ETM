@@ -56,7 +56,7 @@
                 <a class="dropdown-item" href="<%= events_path %>">All Events</a>
                 <div class="dropdown-divider"></div>
                 <!-- MUST ADD PATH -->
-                <a class="dropdown-item" href="#">Join An Event</a> <!-- MUST ADD PATH -->
+                <a class="dropdown-item" href="#">Friend Events</a> <!-- MUST ADD PATH -->
                 <!-- MUST ADD PATH -->
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="<%= new_event_path %>">Create New Event</a>
@@ -70,12 +70,6 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="<%= tasks_path %>">All Tasks</a>
-                <div class="dropdown-divider"></div>
-                <!-- MUST ADD -->
-                <a class="dropdown-item" href="#">Join A Task</a><!-- MUST ADD -->
-                <!-- MUST ADD -->
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Create New Task</a>
               </div>
             </li>
 
@@ -90,12 +84,11 @@
                 <a class="dropdown-item" href="<%= signout_path %>" rel="nofollow" data-method="delete">Log Out</a>
               </div>
             </li>
-
-            <li>Your Total Points: <%= current_user.total_points %></li>
           </ul>
 
           <!-- SEARCH FORM -->
           <form class="form-inline my-2 my-lg-0">
+            <label style="margin-right: 50px;">Your Total Points: <%= current_user.total_points %></label>
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
@@ -137,9 +130,14 @@
       </div>
     </nav>
 
-    <%= yield %>
+    <div>
+      <%= yield %>
 
-    <%= link_to "Return to the Previous Page", :back %>
+      <br>
+      <br>
+      <button><%= link_to "Return to the Previous Page", :back %></button>
+    </div>
+
 
   </body>
 </html>

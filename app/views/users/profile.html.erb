@@ -8,10 +8,4 @@
 <p>Email: <%= @user.email %></p><br>
 <br>
 <br>
-<%= link_to "Edit Details", edit_user_path %>
-<br>
-<br>
-
-<div>
-  <%= link_to "Delete", @user, method: :delete, data: { confirm: "Are you sure you want to delete your account?" } %>
-</div>
+<%= link_to "Edit Details", edit_user_path %> || <%= link_to "Delete Account", @user, method: :delete, data: { confirm: "Are you sure you want to delete your account?" } %>

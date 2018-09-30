@@ -5,6 +5,8 @@ class Task < ApplicationRecord
 
   scope :group_tasks, -> { where(group_task: true) }
   scope :solo_tasks, -> { where(group_task: false) }
+  scope :not_complete, -> { where(completed: nil) }
+
   before_validation :set_defaults
 
   # Adds a user to a task
@@ -13,6 +15,7 @@ class Task < ApplicationRecord
     if self.task_type == "Group Task"
       self.users << participant
       participant.events << event
+
     elsif self.task_type == "Solo Task" && self.users.size != 1
       self.users << participant
       participant.events << event

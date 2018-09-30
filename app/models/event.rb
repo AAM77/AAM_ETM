@@ -3,9 +3,9 @@ class Event < ApplicationRecord
   has_many :user_events
   has_many :users, through: :user_events
 
-
   scope :admin, -> (user){ where(admin_id: user.id) }
   scope :not_admin, -> (user){ where.not(admin_id: user.id) }
+  scope :with_tasks, -> { where(id: Task.pluck(:event_id)) }
 
   after_create :set_admin_user
 

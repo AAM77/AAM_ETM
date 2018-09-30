@@ -2,6 +2,7 @@ class TasksController < ApplicationController
 
   def index
     @tasks = Task.all
+    @events = Event.all
   end
 
   def create
@@ -25,6 +26,7 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
+    @task.update(task_params)
     redirect_to event_path(@task.event_id)
   end
 

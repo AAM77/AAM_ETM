@@ -11,20 +11,57 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
 
-    if @user.save
-      session[:user_id] = @user.id
-      redirect_to user_path(@user)
-    else
+    @user = User.find_by(username: params[:user][:username])
+    @email = User.find_by(email: params[:user][:email])
+
+    #binding.pry
+
+    if @user || @email
+      flash[:warning] = "That email or username is not valid. Please choose something else."
       redirect_to new_user_path
+
+    elsif  params[:user][:username].blank? || params[:user][:email].blank? || params[:user][:password].blank?
+      flash[:warning] = "YOU MUST FILL OUT ALL FIELDS!!"
+      redirect_to new_user_path
+
+    elsif params[:user][:username].match(/[\?\<\>\'\,\?\[\]\}\{\=\-\)\(\*\&\^\%\$\#\`\~\{\}@]/)
+      flash[:warning] = "The username can contain only letters, digits, and underscores"
+      redirect_to new_user_path
+
+    elsif (5 > params[:user][:username].length) || (params[:user][:username].length > 20)
+      flash[:warning] = "The length of the username must be between 5 and 20 characters long."
+      redirect_to new_user_path
+
+    elsif (5 > params[:user][:password].length) || (params[:user][:password].length > 30)
+      flash[:warning] = "The length of the password must be between 5 and 30 characters long."
+      redirect_to new_user_path
+
+    else
+      @user = User.new(user_params)
+
+      if @user.save
+        session[:user_id] = @user.id
+        redirect_to user_path(@user)
+        flash[:success] = "You have successfully registered!"
+      else
+        redirect_to new_user_path
+      end
     end
+
+    ############################
+    # @user = User.new(user_params)
+    #
+    # if @user.save
+    #   session[:user_id] = @user.id
+    #   redirect_to user_path(@user)
+    # else
+    #   redirect_to new_user_path
+    # end
+    #####################
   end
 
   def profile
-  end
-
-  def update_profile
   end
 
   def show
@@ -35,7 +72,7 @@ class UsersController < ApplicationController
 
   def update
     @user.update(user_params)
-    redirect_to user_path(@user)
+    redirect_to profile_user_path(@user)
   end
 
   def destroy
