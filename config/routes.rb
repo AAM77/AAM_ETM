@@ -8,6 +8,11 @@ Rails.application.routes.draw do
   post '/sessions/create', to: 'sessions#create'
   delete '/signout', to: 'sessions#destroy'
 
+  # OmniAuth routes
+  get '/auth/facebook', to: 'sessions#create'
+  get '/auth/github', to: 'sessions#create'
+  get '/auth/twitter', to: 'sessions#create'
+
   # usersroutes
   resources :users, except: [:destroy] do
     resources :events, only: [:index, :new, :edit, :show] #might night even need this

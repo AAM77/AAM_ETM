@@ -24,13 +24,22 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
-# Use ActiveModel has_secure_password
- gem 'bcrypt', '~> 3.1.7'
 
- gem 'bootstrap', '~> 4.1.3'
- gem 'jquery-rails'
- gem 'sprockets-rails', :require => 'sprockets/railtie'
- gem 'popper_js', '~> 1.14.3'
+# Use ActiveModel has_secure_password
+gem 'bcrypt', '~> 3.1.7'
+
+#log in with OmniAuth
+gem 'omniauth', '~> 1.8', '>= 1.8.1'
+gem 'omniauth-facebook', '~> 4.0'
+gem 'omniauth-twitter', '~> 1.4'
+gem 'omniauth-github', '~> 1.3'
+gem 'dotenv-rails', '~> 2.5'
+
+#use bootstrap & associated javascript
+gem 'bootstrap', '~> 4.1.3'
+gem 'jquery-rails'
+gem 'sprockets-rails', :require => 'sprockets/railtie'
+gem 'popper_js', '~> 1.14.3'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
@@ -40,6 +49,8 @@ gem 'jbuilder', '~> 2.5'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
+
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
