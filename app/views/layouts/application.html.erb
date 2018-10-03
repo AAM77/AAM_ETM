@@ -106,9 +106,21 @@
           </li>
 
           <!-- SIGN-UP Page -->
-          <li class="nav-item">
-            <a class="nav-link" href="<%= new_user_path %>">Sign Up</a>
-          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Sign Up Options
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="<%= new_user_path %>">Create a New Account</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/auth/facebook">Sign Up using Facebook</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/auth/github">Sign Up using Github</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/auth/google_oauth2">Sign Up using Google</a>
+            </div>
+            </li>
 
           <!-- LOG-IN Options -->
           <li class="nav-item dropdown">
@@ -117,13 +129,13 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="<%= login_path %>">Log In</a>
+              <a class="dropdown-item" href="<%= login_path %>">Log into Your Account</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Facebook</a>
+              <a class="dropdown-item" href="/auth/facebook">Log in using Facebook</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Twitter</a>
+              <a class="dropdown-item" href="/auth/github">Log in using Github</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">GitHub</a>
+              <a class="dropdown-item" href="/auth/google_oauth2">Log in using Google</a>
             </div>
           </li>
         <% end %>

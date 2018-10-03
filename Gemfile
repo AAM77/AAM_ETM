@@ -31,9 +31,8 @@ gem 'bcrypt', '~> 3.1.7'
 #log in with OmniAuth
 gem 'omniauth', '~> 1.8', '>= 1.8.1'
 gem 'omniauth-facebook', '~> 4.0'
-gem 'omniauth-twitter', '~> 1.4'
 gem 'omniauth-github', '~> 1.3'
-gem 'dotenv-rails', '~> 2.5'
+gem 'omniauth-google-oauth2', '~> 0.4.1'
 
 #use bootstrap & associated javascript
 gem 'bootstrap', '~> 4.1.3'
@@ -65,6 +64,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'pry-rails'
+  gem 'dotenv-rails', '~> 2.5'
 end
 
 group :test do

@@ -7,6 +7,15 @@ class SessionsController < ApplicationController
 
   def create
 
+    @user = User.find_or_create_from_auth_hash(auth)
+    # def create
+    # if @user = User.find_by(uid: auth['uid'])
+    #   session[:user_id] = @user.id
+    # else
+    #   @user = User.create(uid: auth['uid'], name: auth['info']['name'], email: auth['info']['email'])
+    #   session[:user_id] = @user.id
+    # end
+
     @user = User.find_by(username: params[:user][:username])
 
     if @user && @user.authenticate(params[:user][:password])
@@ -21,4 +30,11 @@ class SessionsController < ApplicationController
     session.destroy
     redirect_to root_path
   end
+
+  private
+
+    def auth
+      request.env['omniauth.auth']
+    end
+
 end

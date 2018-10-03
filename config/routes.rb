@@ -9,9 +9,10 @@ Rails.application.routes.draw do
   delete '/signout', to: 'sessions#destroy'
 
   # OmniAuth routes
-  get '/auth/facebook', to: 'sessions#create'
-  get '/auth/github', to: 'sessions#create'
-  get '/auth/twitter', to: 'sessions#create'
+  get '/auth/facebook/callback', to: 'sessions#create'
+  get '/auth/github/callback', to: 'sessions#create'
+  get '/auth/google_oauth2/callback', to: 'sessions#create'
+  get '/auth/failure', to: redirect('/')
 
   # usersroutes
   resources :users, except: [:destroy] do

@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 2018_09_13_213241) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "uid"
+    t.string "provider"
     t.string "first_name"
     t.string "last_name"
     t.string "telephone_num"
