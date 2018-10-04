@@ -147,7 +147,7 @@
 
       <br>
       <br>
-      <button><%= link_to "Return to the Previous Page", :back %></button>
+      <button><%= link_to "Return to the Previous Page", :back unless request.path == '/' %></button>
     </div>
 
 

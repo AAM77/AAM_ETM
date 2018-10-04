@@ -18,11 +18,21 @@ class ApplicationController < ActionController::Base
 
     def check_login_status
       redirect_to root_path unless logged_in?
-      # if logged_in? && !current_page?(user_path(current_user))
-      #   redirect_to user_path(current_user)
-      # elsif !signup_or_login_page?
-      #   redirect_to login_path
-      # end
+    end
+
+    def current_page
+      request.path
+    end
+
+    def prevent_double_login
+
+      if logged_in?
+        if current_page =='/auth/facebook' || current_page =='/auth/github' || current_page =='/auth/google_oauth2'
+          redirect_to user_path(current_user)
+        elsif current_page =='/auth/facebook/callback' || current_page =='/auth/github/callback' || current_page =='/auth/google_oauth2/callback'
+          redirect_to user_path(current_user)
+        end
+      end
     end
 
 end

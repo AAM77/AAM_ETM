@@ -62,8 +62,8 @@ class User < ApplicationRecord
     where(provider: auth.provider, uid: auth.uid).first
   end
 
-  def self.create_from_auth_hash(auth)
-    User.create(
+  def self.new_from_auth_hash(auth)
+    User.new(
       provider: auth.provider,
 			uid: auth.uid,
       username: auth.info.username || auth.info.nickname,
