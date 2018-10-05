@@ -9,6 +9,9 @@ class Event < ApplicationRecord
 
   after_create :set_admin_user
 
+  ################################################
+  # Adds this event to an admin user's event_ids #
+  ################################################
   def set_admin_user
     u = User.find(self.admin_id)
     u.event_ids << self.id

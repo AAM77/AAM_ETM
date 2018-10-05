@@ -7,77 +7,108 @@
 
 <div class="container">
   <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-header">
-          Events You Created
+
+    <% if @user.friends.where(id: current_user.id).first || @user.id == current_user.id %>
+
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            Events <%= @user.username %> Created
+          </div>
+          <ul class="list-group list-group-flush">
+            <% Event.admin(current_user).each do |event| %>
+              <li class="list-group-item"><%= link_to event.name.titleize, event_path(event) %></li>
+            <% end %>
+          </ul>
         </div>
-        <ul class="list-group list-group-flush">
-          <% Event.admin(current_user).each do |event| %>
-            <li class="list-group-item"><%= link_to event.name.titleize, event_path(event) %></li>
-          <% end %>
-        </ul>
       </div>
+
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            Solo-Tasks <%= @user.username %> is Participating in
+          </div>
+          <ul class="list-group list-group-flush">
+            <% current_user.tasks.solo_tasks.each do |solo_task| %>
+              <li class="list-group-item"><%= link_to solo_task.name.titleize, event_path(solo_task.event_id) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="w-100"></div>
+
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            Others' Events <%= @user.username %> is Participating In
+          </div>
+          <ul class="list-group list-group-flush">
+            <% Event.not_admin(current_user).each do |event| %>
+              <li class="list-group-item"><%= link_to event.name.titleize, event_path(event) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            Group Tasks <%= @user.username %> is Participating in
+          </div>
+          <ul class="list-group list-group-flush">
+            <% current_user.tasks.group_tasks.each do |group_task| %>
+              <li class="list-group-item">
+                <%= link_to group_task.name.titleize, event_path(group_task.event_id) %> in Event:
+                <%= link_to Event.find(group_task.event_id).name, event_path(group_task.event_id) %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+    <% else %>
+
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            Others' Events <%= @user.username %> is Participating In
+          </div>
+          <ul class="list-group list-group-flush">
+            <% Event.not_admin(current_user).each do |event| %>
+              <li class="list-group-item"><%= link_to event.name.titleize, event_path(event) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+    <% end %>
+
     </div>
 
-    <div class="col">
-      <div class="card">
-        <div class="card-header">
-          Solo-Tasks
-        </div>
-        <ul class="list-group list-group-flush">
-          <% current_user.tasks.solo_tasks.each do |solo_task| %>
-            <li class="list-group-item"><%= link_to solo_task.name.titleize, event_path(solo_task.event_id) %></li>
-          <% end %>
-        </ul>
-      </div>
+  <% if @user.friends.where(id: current_user.id).first || @user.id == current_user.id %>
+
+    <br>
+    <br>
+
+    <div>
+      <h2>Your Friends</h2>
+      <ul>
+        <% for friendship in @user.friendships %>
+        <li>
+          <%= h friendship.friend.username %>
+          (<%= link_to "remove", friendship, method: :delete %>)
+        </li>
+        <% end %>
+      </ul>
     </div>
 
-    <div class="w-100"></div>
-
-    <div class="col">
-      <div class="card">
-        <div class="card-header">
-          Other's Events Your are Participating In
-        </div>
-        <ul class="list-group list-group-flush">
-          <% Event.not_admin(current_user).each do |event| %>
-            <li class="list-group-item"><%= link_to event.name.titleize, event_path(event) %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card">
-        <div class="card-header">
-          Group Tasks
-        </div>
-        <ul class="list-group list-group-flush">
-          <% current_user.tasks.group_tasks.each do |group_task| %>
-            <li class="list-group-item">
-              <%= link_to group_task.name.titleize, event_path(group_task.event_id) %> in Event:
-              <%= link_to Event.find(group_task.event_id).name, event_path(group_task.event_id) %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <% end %>
 
   <br>
   <br>
-
-  <div>
-    <h2>Your Friends</h2>
-    <ul>
-      <% for friendship in @user.friendships %>
-      <li>
-        <%= h friendship.friend.username %>
-        (<%= link_to "remove", friendship, method: :delete %>)
-      </li>
-      <% end %>
-    </ul>
-  </div>
+  <% if @user.friends.where(id: current_user.id).first.nil? && @user.id != current_user.id %>
+    <%= link_to "Add Friend", friendships_path(friend_id: @user), method: :post %>
+  <% end %>
 
 </div>

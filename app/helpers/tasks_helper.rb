@@ -7,10 +7,17 @@ module TasksHelper
   # then list out of the participants and provide a leave task with a redirect to the user_task destroy action
   # otherwise (if it does not contain the pa) just list out the participants
 
+  ###########################################################
+  # Determines if the current_user is an admin of the event #
+  ###########################################################
   def user_is_event_admin(event)
     event.admin_id == current_user.id
   end
 
+  #########################################################
+  # Determines if a user if participating in an event     #
+  # Displays 'Join Task' or 'Leave Task' link accordingly #
+  #########################################################
   def check_participant_join_status(task)
     if !task.completed
       if task.users.where("username = ?", current_user.username).first
@@ -29,7 +36,9 @@ module TasksHelper
     end
   end
 
-
+  ####################################################################################
+  # Displays a checkbox or appropriate message depending on a task's complete status #
+  ####################################################################################
   def display_user_checkbox(task)
     if task.users.where("username = ?", current_user.username).first
       if task.user_completed_at && task.admin_confirmed_completion_at
@@ -42,6 +51,9 @@ module TasksHelper
     end
   end
 
+  #####################################
+  # Displays checkboxes for the admin #
+  #####################################
   def display_admin_checkbox(task)
     check_box_tag "admin_task_ids[]", task.id
   end

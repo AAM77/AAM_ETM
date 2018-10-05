@@ -47,7 +47,9 @@ class SessionsController < ApplicationController
     end
   end
 
-
+  ####################
+  # Ends the Session #
+  ####################
   def destroy
     session.destroy
     redirect_to root_path

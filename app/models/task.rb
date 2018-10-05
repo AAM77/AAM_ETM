@@ -9,10 +9,13 @@ class Task < ApplicationRecord
 
   before_validation :set_defaults
 
-  # Adds a user to a task
+  #########################
+  # Adds a user to a task #
+  #########################
   def add_participant(participant)
     event = Event.find(self.event_id)
-    if self.task_type == "Group Task"
+
+    if self.task_type == "Group Task" # || (self.task_type == "Solo Task" && self.users.size != 1)
       self.users << participant
       participant.events << event
 
@@ -25,7 +28,9 @@ class Task < ApplicationRecord
     participant.save
   end
 
-  # Remobes a user from a task
+  ##############################
+  # Removes a user from a task #
+  ##############################
   def remove_participant(participant)
     task = self
     user_task = UserTask.find_by_user_id_and_task_id(participant.id, task.id)
@@ -35,25 +40,28 @@ class Task < ApplicationRecord
     end
   end
 
-  # Lists the usernames of users participating in the task
+  ##########################################################
+  # Lists the usernames of users participating in the task #
+  ##########################################################
   def list_participants
-    list = self.users.map { |u| u.username.capitalize }
+    list = self.users
     if list.size == 1
-      list.first
+      list.first.username
     else
-      list.join(", ")
+      list.map { |u| u.username.capitalize }.join(", ")
     end
   end
 
-  # Labels a task type
+  ######################
+  # Labels a task type #
+  ######################
   def task_type
     self.group_task ? "Group Task" : "Solo Task"
   end
 
-  def points_distributed_to_each_participant
-    self.points_awarded / self.users.size
-  end
-
+  #######################################################################
+  # marks a task complete if the admin and user both confirm completion #
+  #######################################################################
   def mark_task_complete?
     if self.user_completed_at
       if self.admin_confirmed_completion_at
@@ -63,6 +71,18 @@ class Task < ApplicationRecord
     end
   end
 
+  ########################################################################################
+  # determines how many points each user should get                                      #
+  # I am choosing this method of point distribution to make it fair                      #
+  # if a single user completes a group task, why shouldn't that person earn more points? #
+  ########################################################################################
+  def points_distributed_to_each_participant
+    self.points_awarded / self.users.size
+  end
+
+  ##############################################################
+  # handles the distribution of the points to each participant #
+  ##############################################################
   def distribute_points
     if self.completed
       self.users.each do |user|
@@ -72,6 +92,11 @@ class Task < ApplicationRecord
     end
   end
 
+  ##################################################################
+  # sets the max_participants for a solo_task to 1                 #
+  # even if a user manages to insert a different value             #
+  # into the field for number of max people allowed to participate #
+  ##################################################################
   def set_defaults
     if !self.group_task
       self.max_participants = 1

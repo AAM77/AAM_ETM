@@ -4,10 +4,16 @@ class ApplicationController < ActionController::Base
 
   private
 
+    ##############################################
+    # Retrieves current user if one is logged in #
+    ##############################################
     def current_user
       current_user ||= User.find_by(id: session[:user_id])
     end
 
+    ##############################################
+    # Returns true/false if not logged in  #
+    ##############################################
     def logged_in?
       !!current_user
     end
@@ -16,14 +22,23 @@ class ApplicationController < ActionController::Base
       current_page?(new_user_path) || current_page?(login_path) || current_page?('/sessions/create')
     end
 
+    ###############################################################################
+    # Returns the user to the homepage if not the same as current logged in user  #
+    ###############################################################################
     def check_login_status
       redirect_to root_path unless logged_in?
     end
 
+    ###########################
+    # Checks the current path #
+    ###########################
     def current_page
       request.path
     end
 
+    #######################################################################
+    # Prevents a user from logging in using omniauth if already logged in #
+    #######################################################################
     def prevent_double_login
 
       if logged_in?
