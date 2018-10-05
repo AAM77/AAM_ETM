@@ -63,6 +63,21 @@
         </ul>
       </div>
     </div>
-
   </div>
+
+  <br>
+  <br>
+
+  <div>
+    <h2>Your Friends</h2>
+    <ul>
+      <% for friendship in @user.friendships %>
+      <li>
+        <%= h friendship.friend.username %>
+        (<%= link_to "remove", friendship, method: :delete %>)
+      </li>
+      <% end %>
+    </ul>
+  </div>
+
 </div>

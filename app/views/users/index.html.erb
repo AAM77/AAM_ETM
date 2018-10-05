@@ -2,6 +2,13 @@
 
 <ol>
   <% @users.each do |user| %>
-    <li><%= link_to user.full_name.titleize, user_path(user) %></li>
+    <li>
+      <%= link_to user.full_name.titleize, user_path(user) %>,
+      <% if current_user.friends.where(id: user.id).first %>
+        Your Friend
+      <% else %>
+        <%= link_to "Add Friend", friendships_path(friend_id: user), method: :post %>
+      <% end %>
+    </li>
   <% end %>
 </ol>
