@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, except: [:index, :new, :create, :destroy]
   before_action :prevent_double_login
 
-
+ 
   def index
     @users = User.all
   end
