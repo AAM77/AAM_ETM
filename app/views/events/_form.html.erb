@@ -1,0 +1,16 @@
+<%= form_for @event do |f| %>
+  <%= f.label :name, "Event Name: " %>
+  <%= f.text_field :name, value: @event.name %>
+  <br>
+  <%= f.label :deadline_date, "Event Deadline (Date): " %>
+  <%= f.date_field :deadline_date, value: @event.deadline_date %>
+  <br>
+  <%= f.label :deadline_time, "Event Deadline (Time)" %>
+  <%= f.time_field :deadline_time, value: @event.deadline_time %>
+  <br>
+  <%= f.hidden_field :admin_id, value: current_user.id %>
+  <br>
+
+
+  <%= f.submit submit_msg %>
+<% end %>

@@ -1,25 +1,3 @@
 <h1>Create a New Event</h1>
 
-<%= form_for @event do |f| %>
-  <%= f.label :name, "Event Name: " %>
-  <%= f.text_field :name %>
-  <br>
-  <%= f.label :deadline_date, "Event Deadline (Date): " %>
-  <%= f.date_field :deadline_date %>
-  <br>
-  <%= f.label :deadline_time, "Event Deadline (Time)" %>
-  <%= f.time_field :deadline_time %>
-  <br>
-  <%= f.hidden_field :admin_id, value: current_user.id %>
-  <br>
-
-
-  <%= f.submit "Create Event" %>
-<% end %>
-<!--
-
-t.string :name
-t.date :date_created
-t.date :event_date
-t.date :deadline_date
-t.time :deadline_time -->
+<%= render partial: 'form', locals: { submit_msg: "Create Event" } %>

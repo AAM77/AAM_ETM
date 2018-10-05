@@ -1,17 +1,3 @@
 <h1>Edit Event: <%= @event.name %></h1>
 
-<%= form_for @event do |f| %>
-  <%= f.label :name, "Event Name: " %>
-  <%= f.text_field :name, value: @event.name %>
-  <br>
-  <%= f.label :deadline_date, "Event Deadline (Date): " %>
-  <%= f.date_field :deadline_date, value: @event.deadline_date %>
-  <br>
-  <%= f.label :deadline_time, "Event Deadline (Time)" %>
-  <%= f.time_field :deadline_time, value: @event.deadline_time %>
-  <br>
-
-
-
-  <%= f.submit "Update Event" %>
-<% end %>
+<%= render partial: 'form', locals: { submit_msg: "Update Event" } %>
