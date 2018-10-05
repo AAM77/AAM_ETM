@@ -3,6 +3,8 @@ class User < ApplicationRecord
   has_many :user_tasks
   has_many :events, through: :user_events
   has_many :tasks, through: :user_tasks
+  has_many :friendships
+  has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
 
   has_secure_password(validations: false)
   validates_presence_of :password, on: :create, unless: :other_provider?
