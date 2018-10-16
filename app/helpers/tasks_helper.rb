@@ -60,17 +60,3 @@ module TasksHelper
 
 
 end
-
-#
-#     elsif task.task_type == "Group Task"
-#       if !task.users.where("username = ?", current_user.username).first
-#         link_to "Join Event", task_path(task, visible: true), method: :patch
-#       else
-#        task.list_participants
-#       end
-#     else
-#       task.list_participants
-#     end
-#   end
-# end
-# need to create a remove participant helper method

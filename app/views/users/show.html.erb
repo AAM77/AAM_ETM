@@ -107,8 +107,21 @@
 
   <br>
   <br>
-  <% if @user.friends.where(id: current_user.id).first.nil? && @user.id != current_user.id %>
-    <%= link_to "Add Friend", friendships_path(friend_id: @user), method: :post %>
+
+  <!-- what is this?      -->
+  <!-- is this necessary? -->
+  <% if @user.id != current_user.id %>
+    <% if current_user.friends.where(id: @user.id).first.nil? %>
+      <%= link_to "Add Friend", friendships_path(friend_id: @user), method: :post %>
+    <% else %>
+      <%= link_to "Unfriend #{@user.username}", friendship_path(Friendship.where(user_id: current_user, friend_id: @user).first.id), method: :delete %>
+    <% end %>
   <% end %>
+
+
+
+
+
+
 
 </div>

@@ -1,6 +1,6 @@
 class Task < ApplicationRecord
   belongs_to :event
-  has_many :user_tasks
+  has_many :user_tasks, dependent: :destroy
   has_many :users, through: :user_tasks
 
   scope :group_tasks, -> { where(group_task: true) }

@@ -1,10 +1,10 @@
 class User < ApplicationRecord
-  has_many :user_events
-  has_many :user_tasks
+  has_many :user_events, dependent: :destroy
+  has_many :user_tasks, dependent: :destroy
   has_many :events, through: :user_events
   has_many :tasks, through: :user_tasks
 
-  has_many :friendships
+  has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
   has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
   has_many :inverse_friends, through: :inverse_friendships, source: :user

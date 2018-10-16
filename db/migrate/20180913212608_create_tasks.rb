@@ -3,7 +3,7 @@ class CreateTasks < ActiveRecord::Migration[5.2]
     create_table :tasks do |t|
       t.string :name
       t.integer :points_awarded
-      t.integer :event_id
+      t.integer :event_id, index: true
       t.date :deadline_date
       t.time :deadline_time
       t.integer :max_participants

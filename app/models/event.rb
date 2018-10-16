@@ -1,6 +1,6 @@
 class Event < ApplicationRecord
-  has_many :tasks
-  has_many :user_events
+  has_many :tasks, dependent: :destroy
+  has_many :user_events, dependent: :destroy
   has_many :users, through: :user_events
 
   scope :admin, -> (user){ where(admin_id: user.id) }

@@ -1,0 +1,27 @@
+<%= form_for @task do |f| %>
+
+  <%= f.label :name, "Task Name: " %>
+  <%= f.text_field :name, value: @task.name %>
+  <br>
+  <%= f.label :group_task, "Is this a group task?" %>
+  <%= f.check_box :group_task, value: @task.group_task %>
+  <br>
+  <%= f.label :points_awarded, "How many points is this task worth?" %>
+  <%= f.number_field :points_awarded, value: @task.points_awarded %>
+  <br>
+  <%= f.label :deadline_date, "Event Deadline (Date): " %>
+  <%= f.date_field :deadline_date, value: @task.deadline_date %>
+  <br>
+  <%= f.label :deadline_time, "Event Deadline (Time)" %>
+  <%= f.time_field :deadline_time, value: @task.deadline_time %>
+  <br>
+  <% f.hidden_field :event_id, value: params[:event_id] %>
+
+  <% if params[:event_id].nil? %>
+    <%= f.label :event, "Which event is this task for?" %>
+    <%= f.collection_select :event_id, Event.all, :id, :name, prompt: "Select an event"  %>
+  <% end %>
+
+  <%= f.submit submit_msg %>
+
+<% end %>

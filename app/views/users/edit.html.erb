@@ -1,5 +1,8 @@
 <h1>Edit Account Info</h1>
 
+<label>Username: <%= @user.username %></label>
+<br>
+
 <%= form_for @user do |f| %>
 
   <%= f.label :first_name, "First Name: " %>

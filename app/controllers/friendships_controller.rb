@@ -4,7 +4,7 @@ class FriendshipsController < ApplicationController
   # Creates a Friendship between users #
   ######################################
   def create
-    binding.pry
+    #binding.pry
 
     @friendship = current_user.friendships.build(friend_id: params[:friend_id])
     if @friendship.save
@@ -20,7 +20,7 @@ class FriendshipsController < ApplicationController
   # Allows a user to unfriend someone #
   #####################################
   def destroy
-    binding.pry
+    #binding.pry
     @friendship = current_user.friendships.find(params[:id])
     @friendship.destroy
     flash[:warning] = "You ended this friendship"
