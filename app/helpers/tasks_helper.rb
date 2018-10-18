@@ -41,8 +41,10 @@ module TasksHelper
   ####################################################################################
   def display_user_checkbox(task)
     if task.users.where("username = ?", current_user.username).first
-      if task.user_completed_at && task.admin_confirmed_completion_at
+      if task.admin_confirmed_completion_at
         "Complete"
+        task.completed = true
+        task.save
       elsif task.user_completed_at && !task.admin_confirmed_completion_at
         "Pending Confirmation"
       else

@@ -1,7 +1,5 @@
 <h1><%= "#{@user.username}'s Events & Tasks" %></h1>
 
-<%= render partial: 'flash_messages/flash' %>
-
 <br>
 <br>
 
@@ -91,18 +89,18 @@
     </div>
 
   <% if @user.friends.where(id: current_user.id).first || @user.id == current_user.id %>
-
     <br>
     <br>
 
     <div>
-      <h2>Your Friends</h2>
+      <h2><%= "#{@user.username}'s Friends" %></h2>
+
       <ul>
-        <% for friendship in @user.friendships %>
-        <li>
-          <%= h friendship.friend.username %>
-          (<%= link_to "remove", friendship, method: :delete %>)
-        </li>
+        <% @user.friendships_list.each do |friendship| %>
+          <li>
+            <%= friendship.friend_id == current_user.id ? friendship.user.username : friendship.friend.username %>
+           (<%= link_to "Unfriend", friendship_path(friendship), method: :delete %>)
+          </li>
         <% end %>
       </ul>
     </div>
@@ -112,7 +110,7 @@
   <br>
   <br>
 
-  <!-- what is this?      -->
+  <!-- An add/remove friend link on a different user's page -->
   <!-- is this necessary? -->
   <% if @user.id != current_user.id %>
     <% if current_user.friends.where(id: @user.id).first.nil? %>

@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :events, through: :user_events
   has_many :tasks, through: :user_tasks
 
-  has_many :friendships, dependent: :destroy
+  has_many :friendships
   has_many :friends, through: :friendships
   has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
   has_many :inverse_friends, through: :inverse_friendships, source: :user
@@ -109,6 +109,23 @@ class User < ApplicationRecord
 			last_name: auth.info.last_name || auth.info.name.scan(/\s(.*)/)[0][0],
 			email: auth.info.email,
     )
+  end
+
+  #################
+  # Lists Friends #
+  #################
+  def friendships_list
+    friends_list = []
+
+    self.friendships.each do |friendship|
+      friends_list << friendship
+    end
+
+    self.inverse_friendships.each do |inverse_friendship|
+      friends_list << inverse_friendship
+    end
+
+    friends_list.uniq
   end
 
 

@@ -1,6 +1,6 @@
 <h1><%= @event.name.titleize %></h1>
 
-<%= render partial: 'flash_messages/flash' %>
+
 
 <br>
 <h2>This Event's Admin is: <%= User.find(@event.admin_id).username %></h2>
@@ -22,18 +22,16 @@
       </thead>
 
       <tbody>
-        <% @event.tasks.each do |task| %>
-          <% if !task.completed %>
-            <tr>
-              <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
-            </tr>
-          <% end %>
+        <% @event.tasks.not_complete.each do |task| %>
+          <tr>
+            <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
+          </tr>
         <% end %>
       </tbody>
     </table>
     <%= submit_tag "Mark as Complete", class: "btn btn-info" %>
     <% if user_is_event_admin(@event) %>
-      <%= link_to "View as Admin", show_admin_event_path, class: "btn btn-outline-primary" %>
+      <%= link_to "View as Admin", show_admin_event_path(@event), class: "btn btn-outline-primary" %>
     <% end %>
   <% end %>
 </div>
@@ -43,6 +41,9 @@
 <br>
 
 <h2>COMPLETED TASKS</h2>
+
+<p>Sort by: Name | Task Type | Points Awarded | Max Participants | Join Status </p>
+
 <div class="table-responsive">
   <table class="table border border-info">
     <thead class="thead bg-info text-white">
@@ -50,12 +51,10 @@
     </thead>
 
     <tbody>
-      <% @event.tasks.each do |task| %>
-        <% if task.completed %>
-          <tr>
-            <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
-          </tr>
-        <% end %>
+      <% @event.tasks.admin_marked_complete.each do |task| %>
+        <tr>
+          <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
+        </tr>
       <% end %>
     </tbody>
   </table>

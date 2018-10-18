@@ -5,14 +5,14 @@ class FriendshipsController < ApplicationController
   ######################################
   def create
     #binding.pry
-
+    @user = User.find(params[:friend_id])
     @friendship = current_user.friendships.build(friend_id: params[:friend_id])
     if @friendship.save
       flash[:success] = "Added friend successfully."
-      redirect_to root_url
+      redirect_to users_path
     else
       flash[:warning] = "Unable to add friend."
-      redirect_to root_url
+      redirect_to users_path
     end
   end
 
@@ -20,8 +20,7 @@ class FriendshipsController < ApplicationController
   # Allows a user to unfriend someone #
   #####################################
   def destroy
-    #binding.pry
-    @friendship = current_user.friendships.find(params[:id])
+    @friendship = Friendship.find(params[:id])
     @friendship.destroy
     flash[:warning] = "You ended this friendship"
     redirect_to user_path(current_user)

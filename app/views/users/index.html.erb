@@ -6,6 +6,8 @@
       <%= link_to user.full_name.titleize, user_path(user) %>
       <% if current_user.friends.where(id: user.id).first %>
         Your Friend
+      <% elsif current_user.inverse_friends.where(id: user.id).first %>
+        Your Friend
       <% else %>
         <%= link_to "|| Add Friend", friendships_path(friend_id: user), method: :post if user.id != current_user.id %>
       <% end %>

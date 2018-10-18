@@ -1,6 +1,6 @@
 <h1><%= @event.name.titleize %> ADMIN PAGE</h1>
 
-<%= render partial: 'flash_messages/flash' %>
+
 
 <br>
 <br>
@@ -19,24 +19,23 @@
       </thead>
 
       <tbody>
-        <% @event.tasks.each do |task| %>
-         <% if !task.completed %>
-            <tr>
-              <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
-              <td><%= display_admin_checkbox task %></td>
-              <td><%= link_to "Delete Task", task_path(task), method: :delete, data: { confirm: "Are you sure you want to delete this task?" } %></td>
+        <% @event.tasks.not_complete.each do |task| %>
+          <tr>
+            <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
+            <td><%= display_admin_checkbox task %></td>
+            <td><%= link_to "Delete Task", task_path(task), method: :delete, data: { confirm: "Are you sure you want to delete this task?" } %></td>
 
-              <td>
-                <%= form_for task do |f| %>
-                  <%= f.hidden_field :event_id, value: task.event_id %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
+            <td>
+              <%= form_for task do |f| %>
+                <%= f.hidden_field :event_id, value: task.event_id %>
+              <% end %>
+            </td>
+          </tr>
         <% end %>
       </tbody>
     </table>
     <%= submit_tag "Confirm Task Completion", class: "btn btn-info" %>
+    <%= link_to "View as Non-Admin", event_path(@event), class: "btn btn-outline-primary" %>
   <% end %>
 </div>
 
@@ -54,12 +53,10 @@
     </thead>
 
     <tbody>
-      <% @event.tasks.each do |task| %>
-        <% if task.completed %>
-          <tr>
-            <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
-          </tr>
-        <% end %>
+      <% @event.tasks.admin_marked_complete.each do |task| %>
+        <tr>
+          <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
+        </tr>
       <% end %>
     </tbody>
   </table>

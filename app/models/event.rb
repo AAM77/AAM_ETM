@@ -7,6 +7,8 @@ class Event < ApplicationRecord
   scope :not_admin, -> (user){ where.not(admin_id: user.id) }
   scope :with_tasks, -> { where(id: Task.pluck(:event_id)) }
 
+  validates :name, presence: true, presence: { message: "You must provide a name for this event." }
+
   after_create :set_admin_user
 
   ################################################
@@ -18,4 +20,15 @@ class Event < ApplicationRecord
     u.events << self
     u.save
   end
+
+
+  ###############################
+  # Displays all error messages #
+  ###############################
+  def display_errors
+    self.errors.messages.each do |message|
+      message
+    end
+  end
+
 end

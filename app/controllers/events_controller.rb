@@ -24,7 +24,8 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to show_admin_event_path(@event)
     else
-      redirect_to events_path
+      redirect_to new_event_path
+      flash[:warning] = @event.display_errors
     end
   end
 

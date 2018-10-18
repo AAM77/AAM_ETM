@@ -28,6 +28,7 @@ class TasksController < ApplicationController
   # handles displaying the task show page #
   ####################################
   def show
+    @event = Event.find(@task.event_id)
     #@task = Task.find(params[:id])
   end
 

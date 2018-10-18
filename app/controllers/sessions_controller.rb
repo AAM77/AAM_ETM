@@ -14,9 +14,7 @@ class SessionsController < ApplicationController
     # Checks if the user is logging in using facebook, etc.
     # if so, searches for or creates a new account using the
     # information received
-    binding.pry
     if auth
-
       if auth[:provider] || auth[:uid]
 
         @user = User.find_from_auth_hash(auth)

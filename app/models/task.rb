@@ -5,7 +5,8 @@ class Task < ApplicationRecord
 
   scope :group_tasks, -> { where(group_task: true) }
   scope :solo_tasks, -> { where(group_task: false) }
-  scope :not_complete, -> { where(completed: nil) }
+  scope :not_complete, -> { where("admin_confirmed_completion_at IS NULL") }
+  scope :admin_marked_complete, -> { where("admin_confirmed_completion_at IS NOT NULL") }
 
   before_validation :set_defaults
   after_create :assign_admin
@@ -18,6 +19,13 @@ class Task < ApplicationRecord
     event = Event.find(self.event_id)
     self.admin_id = event.admin_id
     self.save
+  end
+
+  ###########################
+  # Checks if user id admin #
+  ###########################
+  def task_admin(user)
+    self.admin_id == user.id
   end
 
   #########################
@@ -95,11 +103,9 @@ class Task < ApplicationRecord
   # handles the distribution of the points to each participant #
   ##############################################################
   def distribute_points
-    if self.completed
-      self.users.each do |user|
-        user.total_points = user.total_points + self.points_distributed_to_each_participant
-        user.save
-      end
+    self.users.each do |user|
+      total_points = user.total_points + self.points_distributed_to_each_participant
+      user.update(total_points: total_points)
     end
   end
 
