@@ -22,7 +22,7 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
 
     if @event.save
-      redirect_to event_path(@event)
+      redirect_to show_admin_event_path(@event)
     else
       redirect_to events_path
     end
@@ -54,7 +54,10 @@ class EventsController < ApplicationController
   # handles deleting an event #
   #############################
   def destroy
-    #@event = Event.find_by(id: params[:id])
+    event_name = @event.name
+    Event.destroy(@event.id)
+    redirect_to user_path(current_user)
+    flash[:warning] = "You deleted the event: #{event_name}."
   end
 
   ############################################

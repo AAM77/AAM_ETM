@@ -8,6 +8,17 @@ class Task < ApplicationRecord
   scope :not_complete, -> { where(completed: nil) }
 
   before_validation :set_defaults
+  after_create :assign_admin
+
+  #############################################
+  # Assigns the admin to be same as the event #
+  #############################################
+
+  def assign_admin
+    event = Event.find(self.event_id)
+    self.admin_id = event.admin_id
+    self.save
+  end
 
   #########################
   # Adds a user to a task #

@@ -4,6 +4,7 @@ class CreateTasks < ActiveRecord::Migration[5.2]
       t.string :name
       t.integer :points_awarded
       t.integer :event_id, index: true
+      t.integer :admin_id
       t.date :deadline_date
       t.time :deadline_time
       t.integer :max_participants

@@ -1,10 +1,9 @@
 <h1><%= @event.name.titleize %></h1>
 
-<br>
-<br>
+<%= render partial: 'flash_messages/flash' %>
+
 <br>
 <h2>This Event's Admin is: <%= User.find(@event.admin_id).username %></h2>
-<br>
 <br>
 <br>
 
@@ -39,11 +38,9 @@
   <% end %>
 </div>
 
-
 <br>
 <br>
 <br>
-
 
 <h2>COMPLETED TASKS</h2>
 <div class="table-responsive">

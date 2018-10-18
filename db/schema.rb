@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_024804) do
     t.string "name"
     t.integer "points_awarded"
     t.integer "event_id"
+    t.integer "admin_id"
     t.date "deadline_date"
     t.time "deadline_time"
     t.integer "max_participants"
@@ -43,6 +44,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_024804) do
     t.boolean "completed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_tasks_on_event_id"
   end
 
   create_table "user_events", force: :cascade do |t|

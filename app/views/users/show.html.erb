@@ -1,7 +1,7 @@
 <h1><%= "#{@user.username}'s Events & Tasks" %></h1>
 
-<br>
-<br>
+<%= render partial: 'flash_messages/flash' %>
+
 <br>
 <br>
 
@@ -45,7 +45,9 @@
           </div>
           <ul class="list-group list-group-flush">
             <% Event.not_admin(current_user).each do |event| %>
-              <li class="list-group-item"><%= link_to event.name.titleize, event_path(event) %></li>
+              <% if event.user_ids.include?(@user.id) %>
+                <li class="list-group-item"><%= link_to event.name.titleize, event_path(event) %></li>
+              <% end %>
             <% end %>
           </ul>
         </div>
@@ -76,7 +78,9 @@
           </div>
           <ul class="list-group list-group-flush">
             <% Event.not_admin(current_user).each do |event| %>
-              <li class="list-group-item"><%= link_to event.name.titleize, event_path(event) %></li>
+              <% if event.user_ids.include?(@user.id) %>
+                <li class="list-group-item"><%= link_to event.name.titleize, event_path(event) %></li>
+              <% end %>
             <% end %>
           </ul>
         </div>
@@ -117,11 +121,5 @@
       <%= link_to "Unfriend #{@user.username}", friendship_path(Friendship.where(user_id: current_user, friend_id: @user).first.id), method: :delete %>
     <% end %>
   <% end %>
-
-
-
-
-
-
 
 </div>

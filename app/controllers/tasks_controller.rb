@@ -18,7 +18,7 @@ class TasksController < ApplicationController
     @task.event_id = params[:event_id]
 
     if @task.save
-      redirect_to event_path(@task.event_id)
+      redirect_to show_admin_event_path(@task.event_id)
     else
       redirect_to new_event_task_path
     end
@@ -52,8 +52,11 @@ class TasksController < ApplicationController
   ###########################
   def destroy
     #@task = Task.find(params[:id])
-    @task.destroy
-    redirect_to tasks_path
+    event = Event.find(@task.event_id)
+    task_name = @task.name
+    Task.destroy(@task.id)
+    redirect_to "#{event_path(event)}/show_admin"
+    flash[:warning] = "You have deleted the task: #{task_name}."
   end
 
   private
