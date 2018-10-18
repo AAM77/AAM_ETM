@@ -14,23 +14,27 @@ class SessionsController < ApplicationController
     # Checks if the user is logging in using facebook, etc.
     # if so, searches for or creates a new account using the
     # information received
-    if auth[:provider] || auth[:uid]
+    binding.pry
+    if auth
 
-      @user = User.find_from_auth_hash(auth)
-      #binding.pry
-      if @user
-        session[:user_id] = @user.id
-        redirect_to user_path(@user)
-      else
-        @user = User.new_from_auth_hash(auth)
-        if @user.save
+      if auth[:provider] || auth[:uid]
+
+        @user = User.find_from_auth_hash(auth)
+        #binding.pry
+        if @user
           session[:user_id] = @user.id
           redirect_to user_path(@user)
         else
-          redirect_to root_path
-          flash[:warning] = "#{@user.errors.messages}"
-        end
-      end
+          @user = User.new_from_auth_hash(auth)
+          if @user.save
+            session[:user_id] = @user.id
+            redirect_to user_path(@user)
+          else
+            redirect_to root_path
+            flash[:warning] = "#{@user.errors.messages}"
+          end
+        end # if @user
+      end # if auth[:provider] || auth[:uid]
 
     # if the user is not logging in using facebook, etc.
     # searches for and existing account
@@ -43,6 +47,7 @@ class SessionsController < ApplicationController
         redirect_to user_path(@user)
       else
         redirect_to login_path
+        flash[:warning] = "Username or Password invalid. Please try again."
       end
     end
   end
@@ -53,6 +58,7 @@ class SessionsController < ApplicationController
   def destroy
     session.destroy
     redirect_to root_path
+    flash[:warning] = "You have been signed out."
   end
 
 

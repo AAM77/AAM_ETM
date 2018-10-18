@@ -21,134 +21,208 @@
 
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">AAM.ETM</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <div class="container-fluid background">
+      <div class="container ">
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <div class="navbar-container">
+          <nav class="navbar navbar-expand-lg navbar-light rounded border border-info">
+            <a class="navbar-brand" href="#">AAM.ETM</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
 
-          <!---------------->
-          <!--------------->
-          <!-- LOGGED IN -->
-          <!--------------->
-          <!---------------->
-          <% if logged_in? %>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
 
-          <!-- INDEX of USERS -->
-          <li class="nav-item active">
-            <a class="nav-link" href="<%= users_path %>">Home<span class="sr-only">(current)</span></a>
-          </li>
+                <!---------------->
+                <!--------------->
+                <!-- LOGGED IN -->
+                <!--------------->
+                <!---------------->
+                <% if logged_in? %>
 
-            <!-- User's Homepage -->
-            <li class="nav-item">
-              <a class="nav-link" href="<%= user_path(current_user) %>"><%= "#{current_user.display_user_name.capitalize}" %></a>
-            </li>
+                <!-- INDEX of USERS -->
+                <li class="nav-item active">
+                  <a class="nav-link" href="<%= users_path %>">Home<span class="sr-only">(current)</span></a>
+                </li>
 
-            <!-- DROP-DOWN: EVENTS -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Event Options
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="<%= events_path %>">All Events</a>
-                <div class="dropdown-divider"></div>
-                <!-- MUST ADD PATH -->
-                <a class="dropdown-item" href="#">Friend Events</a> <!-- MUST ADD PATH -->
-                <!-- MUST ADD PATH -->
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<%= new_event_path %>">Create New Event</a>
-              </div>
-            </li>
+                  <!-- User's Homepage -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="<%= user_path(current_user) %>"><%= "#{current_user.display_user_name.capitalize}" %></a>
+                  </li>
 
-            <!-- DROP-DOWN: TASKS -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Task Options
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="<%= tasks_path %>">All Tasks</a>
-              </div>
-            </li>
+                  <!-- DROP-DOWN: EVENTS -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Event Options
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="<%= events_path %>">All Events</a>
+                      <div class="dropdown-divider"></div>
+                      <!-- MUST ADD PATH -->
+                      <a class="dropdown-item" href="#">Friend Events</a> <!-- MUST ADD PATH -->
+                      <!-- MUST ADD PATH -->
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="<%= new_event_path %>">Create New Event</a>
+                    </div>
+                  </li>
 
-            <!-- DROP-DOWN: User's Account -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Your Account
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="<%= profile_user_path(current_user) %>">Profile</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<%= signout_path %>" rel="nofollow" data-method="delete">Log Out</a>
-              </div>
-            </li>
-          </ul>
+                  <!-- DROP-DOWN: TASKS -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Task Options
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="<%= tasks_path %>">All Tasks</a>
+                    </div>
+                  </li>
 
-          <!-- SEARCH FORM -->
-          <form class="form-inline my-2 my-lg-0">
-            <label style="margin-right: 50px;">Your Total Points: <%= current_user.total_points %></label>
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+                  <!-- DROP-DOWN: User's Account -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Your Account
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="<%= profile_user_path(current_user) %>">Profile</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="<%= signout_path %>" rel="nofollow" data-method="delete">Log Out</a>
+                    </div>
+                  </li>
+                </ul>
 
-        <!---------------->
-        <!---------------->
-        <!-- LOGGED OUT -->
-        <!---------------->
-        <!---------------->
-        <% else %>
+                <!-- SEARCH FORM -->
+                <form class="form-inline my-2 my-lg-0">
+                  <label style="margin-right: 50px;">Your Total Points: <%= current_user.total_points %></label>
+                </form>
 
-          <!-- WELCOME PAGE -->
-          <li class="nav-item active">
-            <a class="nav-link" href="<%= root_path %>">Welcome to ETL<span class="sr-only">(current)</span></a>
-          </li>
+              <!---------------->
+              <!---------------->
+              <!-- LOGGED OUT -->
+              <!---------------->
+              <!---------------->
+              <% else %>
 
-          <!-- SIGN-UP Page -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Sign Up Options
-            </a>
+                <!-- WELCOME PAGE -->
+                <li class="nav-item active">
+                  <a class="nav-link" href="<%= root_path %>">Welcome to ETL<span class="sr-only">(current)</span></a>
+                </li>
 
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="<%= new_user_path %>">Create a New Account</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/auth/facebook">Sign Up using Facebook</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/auth/github">Sign Up using Github</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/auth/google_oauth2">Sign Up using Google</a>
+                <!-- SIGN-UP Page -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sign Up Options
+                  </a>
+
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="<%= new_user_path %>">Create a New Account</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/auth/facebook">Sign Up using Facebook</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/auth/github">Sign Up using Github</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/auth/google_oauth2">Sign Up using Google</a>
+                  </div>
+                  </li>
+
+                <!-- LOG-IN Options -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Log In Options
+                  </a>
+
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="<%= login_path %>">Log into Your Account</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/auth/facebook">Log in using Facebook</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/auth/github">Log in using Github</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/auth/google_oauth2">Log in using Google</a>
+                  </div>
+                </li>
+              <% end %>
             </div>
-            </li>
+          </nav>
+        </div> <!-- navbar-container -->
 
-          <!-- LOG-IN Options -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Log In Options
-            </a>
+        <div class="spacer"></div>
 
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="<%= login_path %>">Log into Your Account</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/auth/facebook">Log in using Facebook</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/auth/github">Log in using Github</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/auth/google_oauth2">Log in using Google</a>
+        <div class = "container main-content bg-white text-dark border border-info" >
+
+          <%= yield %>
+
+          <br>
+          <br>
+
+          <% unless request.path == '/' %>
+
+            <div class="back-button">
+              <%= link_to "Return to the Previous Page", :back, class: "btn btn-outline-primary" %>
             </div>
-          </li>
-        <% end %>
-      </div>
-    </nav>
 
-    <div>
-      <%= yield %>
+          <% end %>
 
-      <br>
-      <br>
-      <button><%= link_to "Return to the Previous Page", :back unless request.path == '/' %></button>
-    </div>
+
+          <div class="large-spacer"></div>
+
+          <!-- Footer Columns -->
+
+          <div class="container footer-columns">
+            <div class="row page-links">
+              <div class="col-sm-4">
+
+                <!-- Contact info -->
+                <h3>Contact</h3>
+
+                <address>
+                  <p>Address:</p>
+                  AAM . ETM<br>
+                  P.O. Box 77777<br>
+                  Brooklyn, NY 11223
+                </address>
+                <p>
+                  Email: <a href="mailto:info@aametm.com">info@aametm.com</a><br>
+                  Phone: +1 (762) 798-7700
+                </p>
+              </div>
+
+              <!-- Useful links -->
+              <div class="col-sm-4">
+                <h3>Links</h3>
+                <p>
+                  <a href="#" target="_blank">Something Useful 1</a><br>
+                  <a href="#" target="_blank">Something Useful 2</a><br>
+                  <a href="#" target="_blank">Something Useful 3</a>
+                </p>
+              </div>
+
+              <!-- Social Media Links -->
+              <div class="col-sm-4">
+                <h3>Follow</h3>
+                <p>
+                  <a href="https://www.youtube.com/" target="_blank">YouTube</a><br>
+                  <a href="https://www.facebook.com/" target="_blank">Facebook</a><br>
+                  <a href="https://twitter.com/" target="_blank">Twitter</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Copyright & Developer Info -->
+          <!-- links to my github and blog -->
+
+          <div class="row bg-info text-white text-center">
+            <div class="col-sm-12">
+              <small>&copy; 2018 <span>AAM Event Tast Manager. All Rights Reserved.</span> Developed by <a class="text-white" href="http://adeelstechbeat.net/">Mohammad Adeel</a> | <a class="text-white" href="https://github.com/AAM77/hearth_and_home_inventory">GitHub</a></small>
+            </div>
+          </div>
+
+        </div> <!-- yield / main-content container -->
+        </div>
+      </div> <!-- container ... ## might be unnecessary ## -->
+    </div>  <!-- container-fluid background -->
+
 
 
   </body>

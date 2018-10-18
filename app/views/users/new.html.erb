@@ -2,20 +2,26 @@
 
 <%= render partial: 'flash_messages/flash' %>
 
+<br>
+
 <%= form_for @user do |f| %>
 
-  <%= f.label :username, "Display Name: " %>
-  <%= f.text_field :username %>
-  <br>
-  <br>
-  <%= f.label :password, "Password: " %>
-  <%= f.password_field :password %>
-  <br>
-  <br>
-  <%= f.label :email, "Email: " %>
-  <%= f.text_field :email %>
-  <br>
-  <br>
-  <%= f.submit "Create Account" %>
+  <div class="container">
+    <%= f.label :username, "Display Name: " %>
+    <%= f.text_field :username %>
+    <br>
+    <br>
+    <%= f.label :email, "Email: " %>
+    <%= f.text_field :email %>
+    <br>
+    <br>
+    <%= f.label :password, "Password: " %>
+    <%= f.password_field :password %>
+    <br>
+    <br>
+  </div>
+
+
+  <%= f.submit "Create Account", class: "bg-info text-white" %>
 
 <% end %>

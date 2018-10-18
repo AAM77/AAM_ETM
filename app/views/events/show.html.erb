@@ -15,8 +15,8 @@
 
 <div class="table-responsive">
   <%= form_tag user_complete_users_tasks_path, method: :patch do %>
-    <table class="table">
-      <thead class="thead-dark">
+    <table class="table border border-info">
+      <thead class="thead bg-info text-white">
         <tr>
           <%= render partial: 'table_headers', locals: { event_instance: @event } %>
         </tr>
@@ -32,9 +32,9 @@
         <% end %>
       </tbody>
     </table>
-    <%= submit_tag "Mark as Complete" %>
+    <%= submit_tag "Mark as Complete", class: "btn btn-info" %>
     <% if user_is_event_admin(@event) %>
-      <%= link_to "View as Admin", show_admin_event_path %>
+      <%= link_to "View as Admin", show_admin_event_path, class: "btn btn-outline-primary" %>
     <% end %>
   <% end %>
 </div>
@@ -47,8 +47,8 @@
 
 <h2>COMPLETED TASKS</h2>
 <div class="table-responsive">
-  <table class="table">
-    <thead class="thead-dark">
+  <table class="table border border-info">
+    <thead class="thead bg-info text-white">
       <%= render partial: 'table_headers', locals: { event_instance: @event } %>
     </thead>
 

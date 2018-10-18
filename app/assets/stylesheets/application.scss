@@ -12,5 +12,36 @@
  *
  */
 
- @import "bootstrap-sprockets";
  @import "bootstrap";
+
+ body .container-fluid.background {
+   background: image_url('overlook_bench.JPG') no-repeat;
+   padding-top:10px;
+   background-size:cover;
+ }
+
+ body .spacer {
+   height: 30px;
+ }
+
+ body .large-spacer {
+   height: 200px;
+ }
+
+
+ body .main-content {
+   padding-top:20px;
+   border-width: 3px !important;
+ }
+
+ body .back-button {
+   padding-bottom:20px;
+ }
+
+ body .navbar {
+   background-color:  #e3f2fd;
+ }
+
+ body nav.navbar.border {
+   border-width: 5px !important;
+ }

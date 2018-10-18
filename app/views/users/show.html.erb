@@ -11,8 +11,8 @@
     <% if @user.friends.where(id: current_user.id).first || @user.id == current_user.id %>
 
       <div class="col">
-        <div class="card">
-          <div class="card-header">
+        <div class="card mb-4 border border-info">
+          <div class="card-header bg-info text-white">
             Events <%= @user.username %> Created
           </div>
           <ul class="list-group list-group-flush">
@@ -24,8 +24,8 @@
       </div>
 
       <div class="col">
-        <div class="card">
-          <div class="card-header">
+        <div class="card mb-4 border border-info">
+          <div class="card-header bg-info text-white">
             Solo-Tasks <%= @user.username %> is Participating in
           </div>
           <ul class="list-group list-group-flush">
@@ -39,8 +39,8 @@
       <div class="w-100"></div>
 
       <div class="col">
-        <div class="card">
-          <div class="card-header">
+        <div class="card mb-4 border border-info">
+          <div class="card-header bg-info text-white">
             Others' Events <%= @user.username %> is Participating In
           </div>
           <ul class="list-group list-group-flush">
@@ -52,8 +52,8 @@
       </div>
 
       <div class="col">
-        <div class="card">
-          <div class="card-header">
+        <div class="card mb-4 border border-info">
+          <div class="card-header bg-info text-white">
             Group Tasks <%= @user.username %> is Participating in
           </div>
           <ul class="list-group list-group-flush">
@@ -70,8 +70,8 @@
     <% else %>
 
       <div class="col">
-        <div class="card">
-          <div class="card-header">
+        <div class="card mb-4 border border-info">
+          <div class="card-header bg-info text-white">
             Others' Events <%= @user.username %> is Participating In
           </div>
           <ul class="list-group list-group-flush">

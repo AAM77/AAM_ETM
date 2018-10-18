@@ -10,8 +10,8 @@
 
 <div class="table-responsive">
   <%= form_tag admin_complete_users_tasks_path, method: :patch do %>
-    <table class="table">
-      <thead class="thead-dark">
+    <table class="table border border-info">
+      <thead class="thead bg-info text-white">
         <tr>
           <%= render partial: 'table_headers', locals: { event_instance: @event } %>
           <th scope="col">Confirm Task Completion?</th>
@@ -34,7 +34,7 @@
         <% end %>
       </tbody>
     </table>
-    <%= submit_tag "Confirm Task Completion" %>
+    <%= submit_tag "Confirm Task Completion", class: "btn btn-info" %>
   <% end %>
 </div>
 
@@ -46,8 +46,8 @@
 
 <h2>COMPLETED TASKS</h2>
 <div class="table-responsive">
-  <table class="table">
-    <thead class="thead-dark">
+  <table class="table border border-info">
+    <thead class="thead bg-info text-white">
       <%= render partial: 'table_headers', locals: { event_instance: @event } %>
     </thead>
 
@@ -94,9 +94,10 @@
     <%= f.time_field :deadline_time %>
     <br>
 
-    <%= f.submit "Create Task" %>
+    <%= f.submit "Create Task", class: "btn btn-info" %>
 
   <% end %>
 
-  <%= link_to "Edit Event Details", edit_event_path %>
+  <br>
+  <%= link_to "Edit Event Details", edit_event_path, class: "btn btn-outline-primary" %>
 <% end %>
