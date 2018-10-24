@@ -3,11 +3,11 @@ class Event < ApplicationRecord
   has_many :user_events, dependent: :destroy
   has_many :users, through: :user_events
 
+  validates :name, presence: true, presence: { message: "You must provide a name for this event." }
+
   scope :admin, -> (user){ where(admin_id: user.id) }
   scope :not_admin, -> (user){ where.not(admin_id: user.id) }
   scope :with_tasks, -> { where(id: Task.pluck(:event_id)) }
-
-  validates :name, presence: true, presence: { message: "You must provide a name for this event." }
 
   after_create :set_admin_user
 

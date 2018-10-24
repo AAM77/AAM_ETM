@@ -14,8 +14,9 @@ Rails.application.routes.draw do
 
   # usersroutes
   resources :users, except: [:destroy] do
-    resources :events, only: [:index, :new, :edit, :show] #might night even need this
-    resources :tasks, only: [:index, :edit, :show] #might not even need this
+    resources :events, only: [:index, :new, :edit, :show] do #might night even need this
+      resources :tasks, only: [:index, :edit, :show] #might not even need this
+    end
     member do
       get 'profile'
     end

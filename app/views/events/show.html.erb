@@ -3,7 +3,7 @@
 
 
 <br>
-<h2>This Event's Admin is: <%= User.find(@event.admin_id).username %></h2>
+<h2>This Event's Admin is: <%= link_to @admin.username, user_path(@admin) %></h2>
 <br>
 <br>
 

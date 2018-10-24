@@ -29,21 +29,18 @@ class TasksController < ApplicationController
   ####################################
   def show
     @event = Event.find(@task.event_id)
-    #@task = Task.find(params[:id])
   end
 
   #########################################
   # handles displaying the task edit page #
   #########################################
   def edit
-    #@task = Task.find(params[:id])
   end
 
   #############################
   # handles updating the task #
   #############################
   def update
-    #@task = Task.find(params[:id])
     @task.update(task_params)
     redirect_to event_path(@task.event_id)
   end
@@ -52,7 +49,6 @@ class TasksController < ApplicationController
   # handles deleting a task #
   ###########################
   def destroy
-    #@task = Task.find(params[:id])
     event = Event.find(@task.event_id)
     task_name = @task.name
     Task.destroy(@task.id)

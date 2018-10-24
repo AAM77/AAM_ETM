@@ -61,4 +61,13 @@ module TasksHelper
   end
 
 
+  #####################################
+  # Displays checkboxes for the admin #
+  #####################################
+  def task_participants(task)
+    task.users.map { |participant| (link_to participant.username, user_path(participant)) }
+  end
+
+
+
 end

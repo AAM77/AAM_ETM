@@ -17,7 +17,12 @@ class UsersTasksController < ApplicationController
   def user_complete
     @task = Task.find(params[:user_task_ids].first)
     @event = Event.find(@task.event_id)
-    @task = Task.where(id: params[:user_task_ids]).update_all(["user_completed_at=?", Time.now])
+
+    params[:user_task_ids].each do |user_task_id|
+      task = Task.find(user_task_id)
+      task.update(user_completed_at: Time.now)
+    end
+
     redirect_to event_path(@event)
   end
 
@@ -27,10 +32,10 @@ class UsersTasksController < ApplicationController
   def admin_complete
     @task = Task.find(params[:admin_task_ids].first)
     @event = Event.find(@task.event_id)
+
     params[:admin_task_ids].each do |admin_task_id|
       task = Task.find(admin_task_id)
       task.update(admin_confirmed_completion_at: Time.now)
-      binding.pry
       task.distribute_points
     end
 

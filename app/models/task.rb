@@ -3,6 +3,11 @@ class Task < ApplicationRecord
   has_many :user_tasks, dependent: :destroy
   has_many :users, through: :user_tasks
 
+  validates :users, length: {
+    maximum: :max_participants,
+    message: "The task can have only #{:max_participants} number of participants."
+  }
+
   scope :group_tasks, -> { where(group_task: true) }
   scope :solo_tasks, -> { where(group_task: false) }
   scope :not_complete, -> { where("admin_confirmed_completion_at IS NULL") }

@@ -33,8 +33,8 @@ class EventsController < ApplicationController
   # handles routing to an event's show page #
   ###########################################
   def show
-    #@event = Event.find_by(id: params[:id])
     @task = Task.new
+    @admin = User.find(@event.admin_id)
   end
 
   ############################################

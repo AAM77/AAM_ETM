@@ -2,15 +2,15 @@
 
 <br>
 <br>
-<p>Name: <%= @user.full_name %></p><br>
-<p>Address: <%= @user.address %></p><br>
-<p>Telephone: <%= @user.telephone_num %></p>
-<br>
 <p>Display Name: <%= @user.username %></p>
-<p>Email: <%= @user.email %></p><br>
-<a href="#">Change Password</a>
+<p>Email: <%= @user.email %></p>
+<p>Password: <%= link_to "Change Password", edit_user_path(@user),  class: "btn-sm btn-info" %></p>
+<p>-------------------------------------------</p>
+<p>Name: <%= @user.full_name %></p>
+<p>Address: <%= @user.address %></p>
+<p>Telephone: <%= @user.telephone_num %></p>
 
 
 <br>
 <br>
-<%= link_to "Edit Details", edit_user_path %> || <%= link_to "Delete Account", @user, method: :delete, data: { confirm: "Are you sure you want to delete your account?" } %>
+<%= link_to "Edit Details", edit_user_path(@user), class: "btn btn-info" %>  <%= link_to "Delete Account", @user, method: :delete, data: { confirm: "Are you sure you want to delete your account?" }, class: "btn btn-danger" %>
