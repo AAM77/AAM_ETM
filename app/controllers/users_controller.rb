@@ -66,6 +66,7 @@ class UsersController < ApplicationController
 
   # handles routing to the user's show page
   def show
+    @adminned_events = Event.admin(@user)
   end
 
   # handles routing to the user's account edit page

@@ -14,6 +14,7 @@ class Task < ApplicationRecord
   scope :admin_marked_complete, -> { where("admin_confirmed_completion_at IS NOT NULL") }
 
   before_validation :set_defaults
+  before_create :titleize_name
   after_create :assign_admin
 
   #############################################
@@ -123,6 +124,14 @@ class Task < ApplicationRecord
     if !self.group_task
       self.max_participants = 1
     end
+  end
+
+
+  ######################
+  # Titleizes the Name #
+  ######################
+  def titleize_name
+    self.name = self.name.titleize
   end
 
 end

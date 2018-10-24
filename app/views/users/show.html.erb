@@ -17,7 +17,7 @@
       </div>
       <ul class="list-group list-group-flush">
         <% Event.admin(@user).each do |event| %>
-          <li class="list-group-item"><%= link_to event.name.titleize, user_event_path(@user, event) %></li>
+          <li class="list-group-item"><%= link_to event.name, user_event_path(@user, event) %></li>
         <% end %>
       <% end %>
 
@@ -28,8 +28,7 @@
         <ul class="list-group list-group-flush">
         <% @user.tasks.solo_tasks.not_complete.each do |solo_task| %>
           <li class="list-group-item">
-            <%= link_to solo_task.name.titleize, event_task_path(solo_task.event_id, solo_task) %>
-            in Event: <%= link_to Event.find(solo_task.event_id).name, event_path(solo_task.event_id) %>
+            <%= task_participating_in solo_task, @user %>
           </li>
         <% end %>
       <% end %>
@@ -43,7 +42,7 @@
       <ul class="list-group list-group-flush">
         <% Event.not_admin(@user).each do |event| %>
           <% if event.user_ids.include?(@user.id) %>
-            <li class="list-group-item"><%= link_to event.name.titleize, user_event_path(event.admin_id, event) %></li>
+            <li class="list-group-item"><%= link_to event.name, user_event_path(event.admin_id, event) %></li>
           <% end %>
         <% end %>
       <% end %>
@@ -55,8 +54,7 @@
       <ul class="list-group list-group-flush">
         <% @user.tasks.group_tasks.not_complete.each do |group_task| %>
           <li class="list-group-item">
-            <%= link_to group_task.name.titleize, event_task_path(group_task.event_id, group_task) %> in Event:
-            <%= link_to Event.find(group_task.event_id).name, user_event_path(@user, group_task.event_id) %>
+            <%= task_participating_in group_task, @user %>
           </li>
         <% end %>
       <% end %>
@@ -65,13 +63,12 @@
 
       <!-- If the user is NOT friends with the current user -->
       <!-- List the events the user created -->
-      <!-- List the Events the User Created -->
       <%= render layout: "card" do %>
         Events <%= @user.username %> Created
       </div>
       <ul class="list-group list-group-flush">
-        <% Event.admin(@user).each do |event| %>
-          <li class="list-group-item"><%= link_to event.name.titleize, user_event_path(@user, event) %></li>
+        <% @adminned_events.each do |event| %>
+          <li class="list-group-item"><%= link_to event.name, user_event_path(@user, event) %></li>
         <% end %>
       <% end %>
 
@@ -85,17 +82,15 @@
 
   <!-- when visiting a user's homepage: -->
   <!-- if it is the current user's page or the current user is friends with the user page's owner -->
-  <% if @user == current_user || @user.friend_ids_list.include?(current_user.id) %>
-
+  <% friends_dropdown @user do %>
     <div class="btn-group">
       <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <%= "Friends List" %>
+        Friends List
       </button>
-      <div class="dropdown-menu">
+      <div class="dropdown-menu scrollable-menu">
         <% @user.friendships_list.each do |friendship| %>
           <p class="dropdown-item">
-            <%= friendship.friend_id == @user.id ? friendship.user.username : friendship.friend.username %>
-            <%= link_to "( Unfriend )", friendship_path(friendship), method: :delete if @user == current_user %>
+            <%= friend_name(friendship, @user) %>
           </p>
           <div class="dropdown-divider"></div>
         <% end %>

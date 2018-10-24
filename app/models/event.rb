@@ -9,6 +9,7 @@ class Event < ApplicationRecord
   scope :not_admin, -> (user){ where.not(admin_id: user.id) }
   scope :with_tasks, -> { where(id: Task.pluck(:event_id)) }
 
+  before_create :titleize_name
   after_create :set_admin_user
 
   ################################################
@@ -30,5 +31,13 @@ class Event < ApplicationRecord
       message
     end
   end
+
+  ######################
+  # Titleizes the Name #
+  ######################
+  def titleize_name
+    self.name = self.name.titleize
+  end
+
 
 end

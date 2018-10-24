@@ -18,6 +18,10 @@ class User < ApplicationRecord
   validates :username, uniqueness: true
 
   after_create :assign_uniq_username
+  after_create :capitalize_first_and_last_name
+  after_create :capitalize_username
+  after_create :capitalize_email
+
 
   ###################################################################
   # Checks if the user's account was created through facebook, etc. #
@@ -69,7 +73,7 @@ class User < ApplicationRecord
   # Used for: assign_uniq_username      #
   #######################################
   def generate_username
-    "#{last_name_capped}.#{first_name_letter}.#{random_num}"
+    "#{self.first_name}.#{last_name_first_letter}.#{random_num}"
   end
 
   #######################################
@@ -80,20 +84,12 @@ class User < ApplicationRecord
     Random.new.rand(1000)
   end
 
-  ###############################
-  # Capitalizes the last name   #
-  # Used for: generate_username #
-  ###############################
-  def last_name_capped
-    self.last_name.capitalize
-  end
-
   ##################################################
-  # Capitalizes the first letter of the first name #
+  # Capitalizes the first letter of the last name #
   # Used for: generate_username                    #
   ##################################################
-  def first_name_letter
-    self.first_name.scan(/\b[a-zA-Z]/)[0][0].capitalize
+  def last_name_first_letter
+    self.first_name.scan(/\b[a-zA-Z]/)[0][0]
   end
 
   #######################################################
@@ -152,7 +148,30 @@ class User < ApplicationRecord
     friends_ids_list.uniq
   end
 
+  ########################################
+  # Capitalizes the First and Last Names #
+  ########################################
+  def capitalize_first_and_last_name
+    self.first_name = self.first_name.capitalize if self.first_name
+    self.last_name = self.last_name.capitalize if self.last_name
+    self.save
+  end
 
+  ############################
+  # Capitalizes the Username #
+  ############################
+  def capitalize_username
+    self.username = self.username.capitalize if self.username
+    self.save
+  end
+
+  #########################
+  # Capitalizes the Email #
+  #########################
+  def capitalize_email
+    self.email = self.email.capitalize if self.email
+    self.save
+  end
 
 
 end

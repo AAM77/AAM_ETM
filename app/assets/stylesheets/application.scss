@@ -45,3 +45,10 @@
  body nav.navbar.border {
    border-width: 5px !important;
  }
+
+
+ .scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
