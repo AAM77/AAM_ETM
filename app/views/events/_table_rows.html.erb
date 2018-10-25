@@ -5,5 +5,5 @@
 <td><%= task_instance.max_participants %></td>
 <td><%= task_instance.deadline_date %></td>
 <td><%= task_instance.list_participants %></td>
-<td><%= current_user.friend_ids_list.include?(task_instance.admin_id) ? (check_participant_join_status task_instance) : "Cannot Join" %></td>
-<td><%= current_user.friend_ids_list.include?(task_instance.admin_id) ? (display_user_checkbox task_instance) : "Cannot Join" %></td>
+<td><%= permission_to_join?(task_instance) { (check_task_availability task_instance) } %></td>
+<td><%= permission_to_join?(task_instance) { (display_user_checkbox task_instance) } %></td>

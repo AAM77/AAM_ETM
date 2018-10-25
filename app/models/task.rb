@@ -60,11 +60,7 @@ class Task < ApplicationRecord
     user_task.delete if user_task
 
     event = Event.find(self.event_id)
-
-    if event.tasks_with_user(participant).empty?
-      user_event = UserEvent.find_by_user_id_and_event_id(participant.id, event.id)
-      user_event.delete
-    end
+    event.remove_from_event?(participant)
   end
 
   ##########################################################

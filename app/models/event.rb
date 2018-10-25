@@ -39,6 +39,9 @@ class Event < ApplicationRecord
     self.name = self.name.titleize
   end
 
+  #####################################################################
+  # Checks if a particular user is participating in the event's tasks #
+  #####################################################################
   def tasks_with_user(user)
     task_ids = []
     self.tasks.each do |task|
@@ -48,6 +51,17 @@ class Event < ApplicationRecord
     end
 
     task_ids
+  end
+
+  ##############################################
+  # deletes a user's association with an event #
+  ##############################################
+
+  def remove_from_event?(participant)
+    if self.tasks_with_user(participant).empty?
+      user_event = UserEvent.find_by_user_id_and_event_id(participant.id, self.id)
+      user_event.delete
+    end
   end
 
 
