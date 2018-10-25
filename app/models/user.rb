@@ -39,6 +39,20 @@ class User < ApplicationRecord
     self.password_digest
   end
 
+  ##########################################
+  # Case Insensitive search for a username #
+  ##########################################
+  def self.search_for_username(user_name)
+    self.where("LOWER(username) = ?", user_nam.downcasee).first
+  end
+
+  ########################################
+  # Case Insensitive search for an email #
+  ########################################
+  def self.search_for_email(e_mail)
+    self.where("LOWER(email) = ?", e_mail.downcase).first
+  end
+
   ######################################################################
   # Concatenates the user's first and last names to create a full name #
   ######################################################################

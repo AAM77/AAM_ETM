@@ -18,8 +18,9 @@ class UsersController < ApplicationController
   def create
 
     # prevents multiple accounts with the same username or email
-    @user = User.find_by(username: params[:user][:username])
-    @email = User.find_by(email: params[:user][:email])
+    # via a case Insensitive seearch for username and email
+    @user = User.search_for_username(params[:user][:username])
+    @email = User.search_for_email(params[:user][:email])
 
     if @user || @email
       flash[:warning] = "That email or username is not valid. Please choose something else."

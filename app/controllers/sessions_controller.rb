@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
     if auth
       if auth[:provider] || auth[:uid]
         @user = User.find_from_auth_hash(auth)
-        
+
         if @user
           session[:user_id] = @user.id
           redirect_to user_path(@user)
@@ -37,7 +37,7 @@ class SessionsController < ApplicationController
     # searches for and existing account
     # or asks the user to create a new one
     else
-      @user = User.find_by(email: params[:user][:email])
+      @user = User.search_for_email(params[:user][:email])
 
       if @user && @user.authenticate(params[:user][:password])
         session[:user_id] = @user.id
