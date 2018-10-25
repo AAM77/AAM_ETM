@@ -39,5 +39,16 @@ class Event < ApplicationRecord
     self.name = self.name.titleize
   end
 
+  def tasks_with_user(user)
+    task_ids = []
+    self.tasks.each do |task|
+      if task.user_ids.include?(user.id)
+        task_ids << task.id
+      end
+    end
+
+    task_ids
+  end
+
 
 end

@@ -1,6 +1,9 @@
 module UsersHelper
 
-  def friend_link(user)
+  ###########################################
+  # Displays an add or remove friend button #
+  ###########################################
+  def add_remove_friend_button(user)
     if user.id != current_user.id
       if user.friend_ids_list.exclude?(current_user.id)
         link_to "Add Friend", friendships_path(friend_id: user),
@@ -13,13 +16,18 @@ module UsersHelper
     end
   end
 
-
+  ############################################################
+  # conditional logic for displaying a friends dropdown menu #
+  ############################################################
   def friends_dropdown(user)
     if user == current_user || user.friend_ids_list.include?(current_user.id)
       yield
     end
   end
 
+  #######################################################################################
+  # Displays the name and link to a friend's homepage as well as the option to unfriend #
+  #######################################################################################
   def friend_name(friendship, user)
     if friendship.friend_id == user.id
       (link_to friendship.user.username, user_path(friendship.user)) +

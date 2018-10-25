@@ -15,17 +15,17 @@ class Task < ApplicationRecord
 
   before_validation :set_defaults
   before_create :titleize_name
-  after_create :assign_admin
+  # after_create :assign_admin
 
   #############################################
   # Assigns the admin to be same as the event #
   #############################################
 
-  def assign_admin
-    event = Event.find(self.event_id)
-    self.admin_id = event.admin_id
-    self.save
-  end
+  # def assign_admin
+  #   event = Event.find(self.event_id)
+  #   self.admin_id = event.admin_id
+  #   self.save
+  # end
 
   ###########################
   # Checks if user id admin #
@@ -42,12 +42,11 @@ class Task < ApplicationRecord
 
     if self.task_type == "Group Task" # || (self.task_type == "Solo Task" && self.users.size != 1)
       self.users << participant
-      participant.events << event
-
     elsif self.task_type == "Solo Task" && self.users.size != 1
       self.users << participant
-      participant.events << event
     end
+
+    participant.events << event unless participant.event_ids.include?(event_id)
 
     self.save
     participant.save
@@ -57,11 +56,14 @@ class Task < ApplicationRecord
   # Removes a user from a task #
   ##############################
   def remove_participant(participant)
-    task = self
-    user_task = UserTask.find_by_user_id_and_task_id(participant.id, task.id)
+    user_task = UserTask.find_by_user_id_and_task_id(participant.id, self.id)
+    user_task.delete if user_task
 
-    if user_task
-      user_task.delete
+    event = Event.find(self.event_id)
+
+    if event.tasks_with_user(participant).empty?
+      user_event = UserEvent.find_by_user_id_and_event_id(participant.id, event.id)
+      user_event.delete
     end
   end
 

@@ -43,7 +43,7 @@ class User < ApplicationRecord
   # Case Insensitive search for a username #
   ##########################################
   def self.search_for_username(user_name)
-    self.where("LOWER(username) = ?", user_nam.downcasee).first
+    self.where("LOWER(username) = ?", user_name.downcase).first
   end
 
   ########################################

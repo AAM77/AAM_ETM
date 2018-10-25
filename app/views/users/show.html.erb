@@ -1,4 +1,4 @@
-<h1><%= "#{@user.username}'s Events & Tasks" %></h1>
+<h1><%= "#{@user.username}'s Homepage" %></h1>
 <br>
 <h3><%= "#{@user.username}'s Points: #{@user.total_points}" if @user != current_user %></h3>
 
@@ -16,6 +16,7 @@
         Events <%= @user.username %> Created
       </div>
       <ul class="list-group list-group-flush">
+
         <% Event.admin(@user).each do |event| %>
           <li class="list-group-item"><%= link_to event.name, user_event_path(@user, event) %></li>
         <% end %>
@@ -103,6 +104,6 @@
 
   <!-- An add/remove friend link on a different user's page -->
   <!-- is this necessary? -->
-  <%= friend_link @user %>
+  <%= add_remove_friend_button @user %>
 
 </div>

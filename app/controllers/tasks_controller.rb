@@ -49,10 +49,10 @@ class TasksController < ApplicationController
   # handles deleting a task #
   ###########################
   def destroy
-    event = Event.find(@task.event_id)
+    tasks_event_id = @task.event_id
     task_name = @task.name
     Task.destroy(@task.id)
-    redirect_to "#{event_path(event)}/show_admin"
+    redirect_to "#{event_path(tasks_event_id)}/show_admin"
     flash[:warning] = "You have deleted the task: #{task_name}."
   end
 

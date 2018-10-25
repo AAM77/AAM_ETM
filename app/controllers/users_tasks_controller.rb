@@ -46,9 +46,9 @@ class UsersTasksController < ApplicationController
   # handles deleting a record of the user's participation in a task #
   ###################################################################
   def destroy
-    @task = Task.find(params[:id])
-    @task.remove_participant(current_user)
-    redirect_to event_path(@task.event_id)
+    task = Task.find(params[:id])
+    task.remove_participant(current_user)
+    redirect_to event_path(task.event_id)
   end
 
 end

@@ -47,4 +47,6 @@ Rails.application.routes.draw do
   end
 
   resources :friendships, only: [:create, :destroy]
+
+  resources :usersevents, only: [:destroy]
 end
