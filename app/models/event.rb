@@ -5,12 +5,27 @@ class Event < ApplicationRecord
 
   validates :name, presence: true, presence: { message: "You must provide a name for this event." }
 
+  scope :set_order, -> { order("tasks.group_task DESC, tasks.name ASC, tasks.max_participants ASC") }
   scope :admin, -> (user){ where(admin_id: user.id) }
   scope :not_admin, -> (user){ where.not(admin_id: user.id) }
   scope :with_tasks, -> { where(id: Task.pluck(:event_id)) }
 
   before_create :titleize_name
   after_create :set_admin_user
+
+  #######################################
+  # Sets the default order of the tasks #
+  #######################################
+  def order_tasks
+    self.tasks.order("group_task ASC, user_completed_at ASC, name ASC")
+  end
+
+  ######################
+  # Titleizes the Name #
+  ######################
+  def titleize_name
+    self.name = self.name.titleize
+  end
 
   ################################################
   # Adds this event to an admin user's event_ids #
@@ -30,13 +45,6 @@ class Event < ApplicationRecord
     self.errors.messages.each do |message|
       message
     end
-  end
-
-  ######################
-  # Titleizes the Name #
-  ######################
-  def titleize_name
-    self.name = self.name.titleize
   end
 
   #####################################################################

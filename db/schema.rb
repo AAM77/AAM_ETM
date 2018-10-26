@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_024804) do
 
   create_table "tasks", force: :cascade do |t|
     t.string "name"
-    t.integer "points_awarded"
+    t.decimal "points_awarded", precision: 30, scale: 2, default: "0.0"
     t.integer "event_id"
     t.integer "admin_id"
     t.date "deadline_date"
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_024804) do
     t.string "email"
     t.string "username"
     t.string "password_digest"
-    t.integer "total_points", default: 0
+    t.decimal "total_points", precision: 30, scale: 2, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

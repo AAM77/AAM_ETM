@@ -2,7 +2,7 @@ class CreateTasks < ActiveRecord::Migration[5.2]
   def change
     create_table :tasks do |t|
       t.string :name
-      t.integer :points_awarded
+      t.decimal :points_awarded, default: 0.00, precision: 30, scale: 2
       t.integer :event_id, index: true
       t.integer :admin_id
       t.date :deadline_date

@@ -15,17 +15,35 @@ class Task < ApplicationRecord
 
   before_validation :set_defaults
   before_create :titleize_name
-  # after_create :assign_admin
+  after_create :assign_admin
+
+  ######################
+  # Titleizes the Name #
+  ######################
+  def titleize_name
+    self.name = self.name.titleize
+  end
+
+  ##################################################################
+  # sets the max_participants for a solo_task to 1                 #
+  # even if a user manages to insert a different value             #
+  # into the field for number of max people allowed to participate #
+  ##################################################################
+  def set_defaults
+    unless self.group_task
+      self.max_participants = 1
+    end
+  end
 
   #############################################
   # Assigns the admin to be same as the event #
   #############################################
 
-  # def assign_admin
-  #   event = Event.find(self.event_id)
-  #   self.admin_id = event.admin_id
-  #   self.save
-  # end
+  def assign_admin
+    event = Event.find(self.event_id)
+    self.admin_id = event.admin_id
+    self.save
+  end
 
   ###########################
   # Checks if user id admin #
@@ -82,25 +100,13 @@ class Task < ApplicationRecord
     self.group_task ? "Group Task" : "Solo Task"
   end
 
-  #######################################################################
-  # marks a task complete if the admin and user both confirm completion #
-  #######################################################################
-  def mark_task_complete?
-    if self.user_completed_at
-      if self.admin_confirmed_completion_at
-        self.completed = true
-        self.save
-      end
-    end
-  end
-
   ########################################################################################
   # determines how many points each user should get                                      #
   # I am choosing this method of point distribution to make it fair                      #
   # if a single user completes a group task, why shouldn't that person earn more points? #
   ########################################################################################
   def points_distributed_to_each_participant
-    self.points_awarded / self.users.size
+    points = (self.points_awarded.to_f / self.users.size).round(3)
   end
 
   ##############################################################
@@ -108,28 +114,10 @@ class Task < ApplicationRecord
   ##############################################################
   def distribute_points
     self.users.each do |user|
-      total_points = user.total_points + self.points_distributed_to_each_participant
+      total_points = user.total_points.to_f + points_distributed_to_each_participant.to_f
+      total_points = total_points.round(4)
       user.update(total_points: total_points)
     end
-  end
-
-  ##################################################################
-  # sets the max_participants for a solo_task to 1                 #
-  # even if a user manages to insert a different value             #
-  # into the field for number of max people allowed to participate #
-  ##################################################################
-  def set_defaults
-    if !self.group_task
-      self.max_participants = 1
-    end
-  end
-
-
-  ######################
-  # Titleizes the Name #
-  ######################
-  def titleize_name
-    self.name = self.name.titleize
   end
 
 end

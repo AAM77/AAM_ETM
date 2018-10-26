@@ -1,12 +1,13 @@
 class TasksController < ApplicationController
+  before_action :task_exists?, except: [:index, :create]
   before_action :set_task, except: [:index, :create]
 
   ###################################################
   # Lists all of the events nad corresponding tasks #
   ###################################################
   def index
-    @tasks = Task.all
-    @events = Event.all
+    @tasks = Task.all.order(:name)
+    @events = Event.all.order(:name)
   end
 
 
@@ -24,9 +25,9 @@ class TasksController < ApplicationController
     end
   end
 
-  ####################################
+  #########################################
   # handles displaying the task show page #
-  ####################################
+  #########################################
   def show
     @event = Event.find(@task.event_id)
   end
@@ -59,7 +60,14 @@ class TasksController < ApplicationController
   private
 
     def set_task
-      @task = Task.find(params[:id])
+      @task = Task.find_by(id: params[:id])
+    end
+
+    def task_exists?
+      unless set_task
+        redirect_to tasks_path
+        flash[:warning] = "That task does not exist"
+      end
     end
 
     def task_params

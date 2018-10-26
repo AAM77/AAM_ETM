@@ -1,11 +1,12 @@
 class EventsController < ApplicationController
+  before_action :event_exists?, except: [:index, :new, :create]
   before_action :set_event, except: [:index, :new, :create]
 
   ###########################################
   # handles routing to a list of all events #
   ###########################################
   def index
-    @events = Event.all
+    @events = Event.all.order(:name)
   end
 
   ##############################################
@@ -33,6 +34,7 @@ class EventsController < ApplicationController
   # handles routing to an event's show page #
   ###########################################
   def show
+    @ordered_tasks = @event.order_tasks
     @task = Task.new
     @admin = User.find(@event.admin_id)
   end
@@ -41,14 +43,12 @@ class EventsController < ApplicationController
   # handles routing to form to edit an event #
   ############################################
   def edit
-    #@event = Event.find_by(id: params[:id])
   end
 
   #############################
   # handles updating an event #
   #############################
   def update
-    #@event = Event.find_by(id: params[:id])
   end
 
   #############################
@@ -65,7 +65,7 @@ class EventsController < ApplicationController
   # handles routing to the admin's show page #
   ############################################
   def show_admin
-    #@event = Event.find_by(id: params[:id])
+    @ordered_tasks = @event.order_tasks
     @task = Task.new
   end
 
@@ -75,6 +75,13 @@ class EventsController < ApplicationController
     ########################
     def set_event
       @event = Event.find_by(id: params[:id])
+    end
+
+    def event_exists?
+      unless set_event
+        redirect_to events_path
+        flash[:warning] = "That event does not exist"
+      end
     end
 
     def event_params

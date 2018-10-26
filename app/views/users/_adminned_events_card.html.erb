@@ -1,0 +1,11 @@
+<%= render layout: "card" do %>
+    Events <%= user.username %> Created
+  </div>
+  <ul class="list-group list-group-flush">
+    <% adminned_events.each do |event| %>
+      <li class="list-group-item">
+        <%= link_to event.name, user_event_path(user, event) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

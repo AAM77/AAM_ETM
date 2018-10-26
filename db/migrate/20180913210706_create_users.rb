@@ -10,7 +10,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string  :email
       t.string  :username
       t.string  :password_digest
-      t.integer :total_points, default: 0
+      t.decimal :total_points, default: 0.00, precision: 30, scale: 2
 
       t.timestamps
     end

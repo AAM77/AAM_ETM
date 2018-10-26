@@ -53,19 +53,44 @@ class User < ApplicationRecord
     self.where("LOWER(email) = ?", e_mail.downcase).first
   end
 
+  ########################################
+  # Capitalizes the First and Last Names #
+  ########################################
+  def capitalize_first_and_last_name
+    self.first_name = self.first_name.capitalize if self.first_name
+    self.last_name = self.last_name.capitalize if self.last_name
+    self.save
+  end
+
+  ############################
+  # Capitalizes the Username #
+  ############################
+  def capitalize_username
+    self.username = self.username.capitalize if self.username
+    self.save
+  end
+
+  #########################
+  # Capitalizes the Email #
+  #########################
+  def capitalize_email
+    self.email = self.email.capitalize if self.email
+    self.save
+  end
+
+  #########################
+  # Displays Total Points #
+  #########################
+  def display_points
+    self.total_points.round(2)
+  end
+
   ######################################################################
   # Concatenates the user's first and last names to create a full name #
   ######################################################################
   def full_name
     "#{self.first_name} #{self.last_name}"
   end
-
-  # ############################################################################
-  # # If a username is not present, it uses the first part of the user's email #
-  # ############################################################################
-  # def display_username
-  #   self.username ? self.username : self.email.scan(/^[^@]*/)[0]
-  # end
 
   ###################################################
   # Assigns a randomly rengenerated unique username #
@@ -160,31 +185,6 @@ class User < ApplicationRecord
     end
 
     friends_ids_list.uniq
-  end
-
-  ########################################
-  # Capitalizes the First and Last Names #
-  ########################################
-  def capitalize_first_and_last_name
-    self.first_name = self.first_name.capitalize if self.first_name
-    self.last_name = self.last_name.capitalize if self.last_name
-    self.save
-  end
-
-  ############################
-  # Capitalizes the Username #
-  ############################
-  def capitalize_username
-    self.username = self.username.capitalize if self.username
-    self.save
-  end
-
-  #########################
-  # Capitalizes the Email #
-  #########################
-  def capitalize_email
-    self.email = self.email.capitalize if self.email
-    self.save
   end
 
 

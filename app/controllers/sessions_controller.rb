@@ -10,7 +10,6 @@ class SessionsController < ApplicationController
 
   def create
 
-    #binding.pry
     # Checks if the user is logging in using facebook, etc.
     # if so, searches for or creates a new account using the
     # information received

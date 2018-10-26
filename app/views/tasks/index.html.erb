@@ -1,12 +1,12 @@
 <h1>All Tasks</h1>
 
-<ol>
   <% @events.with_tasks.each do |event| %>
     <br>
     <br>
-    <h3><%= event.name %></h3>
-    <% event.tasks.not_complete.each do |task| %>
-      <li><%= link_to task.name, task_path(task) %></li>
-    <% end %>
+    <h3><%= link_to event.name, event_path(event) %></h3>
+    <ol>
+      <% event.tasks.not_complete.each do |task| %>
+        <li><%= link_to task.name, task_path(task) %></li>
+      <% end %>
+    </ol>
   <% end %>
-</ol>

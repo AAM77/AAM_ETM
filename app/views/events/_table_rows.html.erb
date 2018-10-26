@@ -7,3 +7,8 @@
 <td><%= task_instance.list_participants %></td>
 <td><%= permission_to_join?(task_instance) { (check_task_availability task_instance) } %></td>
 <td><%= permission_to_join?(task_instance) { (display_user_checkbox task_instance) } %></td>
+
+
+<%= form_for task_instance do |f| %>
+  <%= f.hidden_field :event_id, value: task_instance.event_id %>
+<% end %>

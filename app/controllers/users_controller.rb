@@ -1,11 +1,13 @@
 class UsersController < ApplicationController
   before_action :check_login_status, except: [:index, :new, :create, :show]
-  before_action :set_user, except: [:index, :new, :create, :destroy]
   before_action :prevent_double_login
+  before_action :user_exists?, except: [:index, :new, :create, :destroy]
+  before_action :set_user, except: [:index, :new, :create, :destroy]
+
 
 
   def index
-    @users = User.all
+    @users = User.all.order(:username)
   end
 
   def new
@@ -67,6 +69,7 @@ class UsersController < ApplicationController
 
   # handles routing to the user's show page
   def show
+    @friends_events = Event.not_admin(@user)
     @adminned_events = Event.admin(@user)
   end
 
@@ -91,7 +94,14 @@ class UsersController < ApplicationController
 
     # finds and sets the user
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find_by(id: params[:id])
+    end
+
+    def user_exists?
+      unless set_user
+        redirect_to users_path
+        flash[:warning] = "That user does not exist"
+      end
     end
 
 

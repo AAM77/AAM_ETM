@@ -22,7 +22,7 @@
       </thead>
 
       <tbody>
-        <% @event.tasks.not_complete.each do |task| %>
+        <% @ordered_tasks.not_complete.each do |task| %>
           <tr>
             <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
           </tr>
@@ -51,7 +51,7 @@
     </thead>
 
     <tbody>
-      <% @event.tasks.admin_marked_complete.each do |task| %>
+      <% @ordered_tasks.admin_marked_complete.each do |task| %>
         <tr>
           <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
         </tr>
