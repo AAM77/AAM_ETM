@@ -1,4 +1,5 @@
 class UsersTasksController < ApplicationController
+  before_action :redirect_if_not_logged_in
   # temporary/stop-gap measure to prevent remove authenticity_token errors
   skip_before_action :verify_authenticity_token, only: [:user_complete, :admin_complete]
 

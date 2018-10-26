@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  before_action :redirect_if_not_logged_in
   before_action :event_exists?, except: [:index, :new, :create]
   before_action :set_event, except: [:index, :new, :create]
 
@@ -49,6 +50,8 @@ class EventsController < ApplicationController
   # handles updating an event #
   #############################
   def update
+    @event.update(event_params)
+    redirect_to show_admin_event_path(@event)
   end
 
   #############################

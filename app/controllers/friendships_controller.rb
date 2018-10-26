@@ -1,4 +1,5 @@
 class FriendshipsController < ApplicationController
+  before_action :redirect_if_not_logged_in
 
   ######################################
   # Creates a Friendship between users #

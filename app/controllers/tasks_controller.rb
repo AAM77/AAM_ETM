@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  before_action :redirect_if_not_logged_in
   before_action :task_exists?, except: [:index, :create]
   before_action :set_task, except: [:index, :create]
 

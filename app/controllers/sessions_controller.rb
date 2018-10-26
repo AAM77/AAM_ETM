@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :check_login_status, except: [:new, :create]
+  before_action :redirect_if_not_logged_in, except: [:new, :create]
   before_action :prevent_double_login
 
 

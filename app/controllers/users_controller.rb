@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :check_login_status, except: [:index, :new, :create, :show]
+  before_action :redirect_if_not_logged_in, except: [:new, :create]
   before_action :prevent_double_login
   before_action :user_exists?, except: [:index, :new, :create, :destroy]
   before_action :set_user, except: [:index, :new, :create, :destroy]
