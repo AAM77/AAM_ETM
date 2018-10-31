@@ -36,7 +36,6 @@ class EventsController < ApplicationController
   # handles routing to an event's show page #
   ###########################################
   def show
-    #binding.pry
     @ordered_tasks = @event.order_tasks
     @task = Task.new
     @admin = User.find(@event.admin_id)

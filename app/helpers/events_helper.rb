@@ -1,7 +1,7 @@
 module EventsHelper
 
   ### FINISHED EDITING ###
-  
+
   ###########################################################
   # Determines if the current_user is an admin of the event #
   ###########################################################
@@ -58,7 +58,7 @@ module EventsHelper
     unless  task.completed
       if task.user_ids.include?(current_user.id)
         if task.users.size <= task.max_participants
-          link_to "Leave Task", users_task_path(task), method: :delete
+          link_to "Leave Task", users_task_path(task), method: :delete, data: { confirm: "Are you sure you wish to leave task: #{task.name}?"}
         end
 
       elsif task.users.size < task.max_participants

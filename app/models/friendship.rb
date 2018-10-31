@@ -17,8 +17,6 @@ class Friendship < ApplicationRecord
 
   private
 
-  private
-
     ########################################################
     # Development method: deletes all orphaned friendships #
     ########################################################

@@ -53,7 +53,6 @@ module UsersHelper
   #####################################
 
   def friends_page(friendship, user)
-    #binding.pry
     if friendship.friend_id == user.id
       (link_to friendship.user.username, user_path(friendship.user))
     else
@@ -78,8 +77,9 @@ module UsersHelper
   # that the user is taking part in           #
   #############################################
   def task_participating_in(task, user)
-    (link_to task.name, event_task_path(task.event_id, task)) + " in Event: " +
-    (link_to Event.find(task.event_id).name, user_event_path(user, task.event_id))
+    (link_to task.name, event_task_path(task.event_id, task)) + ", in Event: " +
+    (link_to Event.find(task.event_id).name, user_event_path(user, task.event_id)) + ", by: " +
+    (link_to User.find(task.admin_id).username, user_path(task.admin_id))
   end
 
 
