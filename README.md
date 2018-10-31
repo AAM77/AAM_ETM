@@ -1,5 +1,5 @@
 
-# Hearth and Home Inventory Sorter (HHIS)
+# AAM Event Task Manager (HHIS)
 
 ## Background
 
@@ -69,10 +69,10 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/AAM77/
 
 ## Code of Conduct
 
-Everyone interacting in the Hearth and Home inventory Sorter project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/AAM77/aam_event_task_manager/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the AAM Event Task Manager project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/AAM77/aam_event_task_manager/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
-The Hearth and Home Inventory Sorter project has a Mozilla Public License. You may view the contents of the license at [license](https://github.com/AAM77/aam_event_task_manager/blob/master/LICENSE)
+The AAM Event Task Manager project has a Mozilla Public License. You may view the contents of the license at [license](https://github.com/AAM77/aam_event_task_manager/blob/master/LICENSE)
 
 ## Built With
 
