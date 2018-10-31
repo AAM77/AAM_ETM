@@ -24,7 +24,6 @@ class User < ApplicationRecord
   before_destroy :unfriend_all
   before_destroy :delete_events_user_created
 
-
   ###################################################################
   # Checks if the user's account was created through facebook, etc. #
   # Used for: conditional user validations                          #
