@@ -15,4 +15,24 @@ class Friendship < ApplicationRecord
     list.uniq.first
   end
 
+  private
+
+  private
+
+    ########################################################
+    # Development method: deletes all orphaned friendships #
+    ########################################################
+
+    def self.end_invalid_friendships
+      range = (1..17).to_a
+
+      range.each do |n|
+        u ||= User.find_by(id: n)
+        unless u
+          self.where(user_id: n).each { |f| f.destroy }
+          self.where(friend_id: n).each { |f| f.destroy }
+        end
+      end
+    end
+
 end

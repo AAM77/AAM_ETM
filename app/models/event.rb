@@ -69,10 +69,28 @@ class Event < ApplicationRecord
     if self.tasks_with_user(participant).empty?
       user_event = UserEvent.find_by_user_id_and_event_id(participant.id, self.id)
       self.user_ids.delete(participant.id)
-      participant.event_ids.delete(self.id)
       user_event.delete
     end
   end
+
+  private
+
+    #################################################
+    # Development method: deletes all orphan events #
+    #################################################
+
+    def self.end_all_invalid_events
+
+      range = (1..17).to_a
+
+      range.each do |n|
+        u ||= User.find_by(id: n)
+        unless u
+          self.where(admin_id: n).each { |e| e.destroy }
+        end
+      end
+    end
+
 
 
 end

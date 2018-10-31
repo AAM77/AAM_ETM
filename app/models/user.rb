@@ -1,13 +1,13 @@
 class User < ApplicationRecord
   has_many :user_events, dependent: :destroy
   has_many :user_tasks, dependent: :destroy
-  has_many :events, through: :user_events
-  has_many :tasks, through: :user_tasks
+  has_many :events, through: :user_events, dependent: :destroy
+  has_many :tasks, through: :user_tasks, dependent: :destroy
 
-  has_many :friendships
-  has_many :friends, through: :friendships
-  has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
-  has_many :inverse_friends, through: :inverse_friendships, source: :user
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships, dependent: :destroy
+  has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy
+  has_many :inverse_friends, through: :inverse_friendships, source: :user, dependent: :destroy
 
   has_secure_password(validations: false)
   validates_presence_of :password, on: :create, unless: :other_provider?
@@ -21,6 +21,8 @@ class User < ApplicationRecord
   after_create :capitalize_first_and_last_name
   after_create :capitalize_username
   after_create :capitalize_email
+  before_destroy :unfriend_all
+  before_destroy :delete_events_user_created
 
 
   ###################################################################
@@ -52,6 +54,22 @@ class User < ApplicationRecord
   def self.search_for_email(e_mail)
     self.where("LOWER(email) = ?", e_mail.downcase).first
   end
+
+  ##################################################
+  # Destroys Friendships associated with this user #
+  ##################################################
+  def unfriend_all
+    Friendship.where(user_id: self.id).each { |f| f.destroy }
+    Friendship.where(friend_id: self.id).each { |f| f.destroy }
+  end
+
+  ########################################
+  # Destroys Events Created by this User #
+  ########################################
+  def delete_events_user_created
+    Event.where(admin_id: self.id).each { |f| f.destroy }
+  end
+
 
   ########################################
   # Capitalizes the First and Last Names #

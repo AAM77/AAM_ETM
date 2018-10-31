@@ -53,6 +53,7 @@ module UsersHelper
   #####################################
 
   def friends_page(friendship, user)
+    #binding.pry
     if friendship.friend_id == user.id
       (link_to friendship.user.username, user_path(friendship.user))
     else
