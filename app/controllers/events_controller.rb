@@ -22,7 +22,8 @@ class EventsController < ApplicationController
   ####################################
   def create
     @event = Event.new(event_params)
-
+    @event.admin_id = current_user.id
+    
     if @event.save
       redirect_to show_admin_event_path(@event)
     else

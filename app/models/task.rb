@@ -52,6 +52,13 @@ class Task < ApplicationRecord
     self.admin_id == user.id
   end
 
+  #################################
+  # Checks if user already exists #
+  #################################
+  def detect_user?(participant)
+    self.users.where(id: participant.id).first
+  end
+
   #########################
   # Adds a user to a task #
   #########################
@@ -78,7 +85,7 @@ class Task < ApplicationRecord
     user_task.delete if user_task
 
     event = Event.find(self.event_id)
-    event.remove_from_event?(participant)
+    event.remove_from_event(participant)
   end
 
   ##########################################################
@@ -92,6 +99,8 @@ class Task < ApplicationRecord
       list.map { |u| u.username.capitalize }.join(", ")
     end
   end
+
+
 
   ######################
   # Labels a task type #

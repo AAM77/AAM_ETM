@@ -59,11 +59,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item" href="<%= events_path %>">All Events</a>
                       <div class="dropdown-divider"></div>
-                      <!-- MUST ADD PATH -->
-                      <a class="dropdown-item" href="#">Friend Events</a> <!-- MUST ADD PATH -->
-                      <!-- MUST ADD PATH -->
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="<%= new_event_path %>">Create New Event</a>
+                      <a class="dropdown-item" href="<%= new_user_event_path(current_user) %>">Create New Event</a>
                     </div>
                   </li>
 

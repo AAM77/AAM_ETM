@@ -65,9 +65,11 @@ class Event < ApplicationRecord
   # deletes a user's association with an event #
   ##############################################
 
-  def remove_from_event?(participant)
+  def remove_from_event(participant)
     if self.tasks_with_user(participant).empty?
       user_event = UserEvent.find_by_user_id_and_event_id(participant.id, self.id)
+      self.user_ids.delete(participant.id)
+      participant.event_ids.delete(self.id)
       user_event.delete
     end
   end

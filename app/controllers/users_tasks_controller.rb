@@ -4,12 +4,19 @@ class UsersTasksController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:user_complete, :admin_complete]
 
   ###################################################################
-  # handles creating a record of the user's participation in a task #
+  # handles creating a record of the user's participation (joining) in a task #
   ###################################################################
   def create
-    @task = Task.find(params[:id])
-    @task.add_participant(current_user)
-    redirect_to event_path(@task.event_id)
+    task = Task.find(params[:id])
+
+    if task.detect_user?(current_user)
+      flash[:warning] = "You cannot join this task twice."
+    else
+      task.add_participant(current_user)
+      flash[:success] = "You have successfully joined task: #{task.name}"
+    end
+
+    redirect_to event_path(task.event_id)
   end
 
 
@@ -55,7 +62,14 @@ class UsersTasksController < ApplicationController
   ###################################################################
   def destroy
     task = Task.find(params[:id])
-    task.remove_participant(current_user)
+
+    if task.detect_user?(current_user)
+      task.remove_participant(current_user)
+      flash[:success] = "You have left the task: #{task.name}."
+    else
+      flash[:warning] = "You cannot leave a task you are nt participating in!"
+    end
+
     redirect_to event_path(task.event_id)
   end
 
