@@ -5,13 +5,14 @@ class Event < ApplicationRecord
 
   validates_presence_of :name, message: "You must provide a name for this event."
   validates_uniqueness_of :name, case_sensitive: false, message: "You already have an event with that name."
+
+  before_create :titleize_name
+  after_create :set_admin_user
+
   scope :set_order, -> { order("tasks.group_task DESC, tasks.name ASC, tasks.max_participants ASC") }
   scope :admin, -> (user){ where(admin_id: user.id) }
   scope :not_admin, -> (user){ where.not(admin_id: user.id) }
   scope :with_tasks, -> { where(id: Task.not_complete.pluck(:event_id)) }
-
-  before_create :titleize_name
-  after_create :set_admin_user
 
   #######################################
   # Sets the default order of the tasks #
