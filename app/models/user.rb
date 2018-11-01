@@ -13,9 +13,9 @@ class User < ApplicationRecord
   validates_presence_of :password, on: :create, unless: :other_provider?
   validates_confirmation_of :password, if: :password_present?
   validates :email, presence: true, on: :create, unless: :other_provider?
-  validates :email, uniqueness: true
   validates :username, presence: true, on: :create, unless: :other_provider?
-  validates :username, uniqueness: true
+  validates_uniqueness_of :username, case_sensitive: false
+  validates_uniqueness_of :email, case_sensitive: false, on: :create
 
   after_create :assign_uniq_username
   after_create :capitalize_first_and_last_name

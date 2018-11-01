@@ -79,8 +79,11 @@ class UsersController < ApplicationController
 
   # handles updating the user's account
   def update
-    @user.update(user_params)
-    redirect_to profile_user_path(@user)
+    #binding.pry
+    @user.update(user_params.except(:email))
+    flash[:warning] = @user.errors.full_messages.first if @user.errors.any?
+    flash[:success] = "Successfully updated details" unless @user.errors.any?
+    redirect_to edit_user_path(@user)
   end
 
   # handles deleting a user's account
