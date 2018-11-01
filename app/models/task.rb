@@ -9,14 +9,14 @@ class Task < ApplicationRecord
   }
   validates_presence_of :name, message: "Task name cannot be blank"
 
+  before_validation :set_defaults
+  before_create :titleize_name
+  after_create :assign_admin
+
   scope :group_tasks, -> { where(group_task: true) }
   scope :solo_tasks, -> { where(group_task: false) }
   scope :not_complete, -> { where("admin_confirmed_completion_at IS NULL") }
   scope :admin_marked_complete, -> { where("admin_confirmed_completion_at IS NOT NULL") }
-
-  before_validation :set_defaults
-  before_create :titleize_name
-  after_create :assign_admin
 
   ######################
   # Titleizes the Name #
