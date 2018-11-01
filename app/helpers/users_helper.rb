@@ -44,7 +44,7 @@ module UsersHelper
   #########################################
 
   def link_to_user(user)
-    (link_to user.username, user_path(user)) + " || " +
+    (link_to user.username, user_path(user)) + (user == current_user ? "" : " || ") +
     (friends?(user) ? "Your Friend" : add_friend_link(user) { "" })
   end
 

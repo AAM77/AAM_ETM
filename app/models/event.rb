@@ -3,12 +3,12 @@ class Event < ApplicationRecord
   has_many :user_events, dependent: :destroy
   has_many :users, through: :user_events
 
-  validates :name, presence: true, presence: { message: "You must provide a name for this event." }
-
+  validates_presence_of :name, message: "You must provide a name for this event."
+  validates_uniqueness_of :name, case_sensitive: false, message: "You already have an event with that name."
   scope :set_order, -> { order("tasks.group_task DESC, tasks.name ASC, tasks.max_participants ASC") }
   scope :admin, -> (user){ where(admin_id: user.id) }
   scope :not_admin, -> (user){ where.not(admin_id: user.id) }
-  scope :with_tasks, -> { where(id: Task.pluck(:event_id)) }
+  scope :with_tasks, -> { where(id: Task.not_complete.pluck(:event_id)) }
 
   before_create :titleize_name
   after_create :set_admin_user
@@ -35,16 +35,6 @@ class Event < ApplicationRecord
     u.event_ids << self.id
     u.events << self
     u.save
-  end
-
-
-  ###############################
-  # Displays all error messages #
-  ###############################
-  def display_errors
-    self.errors.messages.each do |message|
-      message
-    end
   end
 
   #####################################################################

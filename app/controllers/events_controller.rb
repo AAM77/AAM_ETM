@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   before_action :redirect_if_not_logged_in
-  before_action :event_exists?, except: [:index, :new, :create]
-  before_action :set_event, except: [:index, :new, :create]
+  before_action :event_exists?, only: [:show, :edit, :update, :destroy, :show_admin]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :show_admin]
 
   ###########################################
   # handles routing to a list of all events #
@@ -28,7 +28,7 @@ class EventsController < ApplicationController
       redirect_to show_admin_event_path(@event)
     else
       redirect_to new_event_path
-      flash[:warning] = @event.display_errors
+      flash[:warning] = @event.errors.messages[:name].first
     end
   end
 

@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :redirect_if_not_logged_in
-  before_action :task_exists?, except: [:index, :create]
-  before_action :set_task, except: [:index, :create]
+  before_action :task_exists?, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   ###################################################
   # Lists all of the events nad corresponding tasks #
@@ -17,13 +17,13 @@ class TasksController < ApplicationController
   ##################################
   def create
     @task = Task.new(task_params)
-    @task.event_id = params[:event_id]
-
+    @task.event = Event.find(params[:event_id])
     if @task.save
-      redirect_to show_admin_event_path(@task.event_id)
+      flash[:success] = "Successfully create task: #{@task.name}"
     else
-      redirect_to new_event_task_path
+      flash[:warning] = @task.errors.messages[:name].first
     end
+    redirect_to show_admin_event_path(params[:event_id])
   end
 
   #########################################
@@ -66,7 +66,7 @@ class TasksController < ApplicationController
 
     def task_exists?
       unless set_task
-        redirect_to tasks_path
+        redirect_to user_path(current_user)
         flash[:warning] = "That task does not exist"
       end
     end

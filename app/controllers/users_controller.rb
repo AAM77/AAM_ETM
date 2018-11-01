@@ -79,7 +79,6 @@ class UsersController < ApplicationController
 
   # handles updating the user's account
   def update
-    #binding.pry
     @user.update(user_params.except(:email))
     flash[:warning] = @user.errors.full_messages.first if @user.errors.any?
     flash[:success] = "Successfully updated details" unless @user.errors.any?

@@ -7,6 +7,7 @@ class Task < ApplicationRecord
     maximum: :max_participants,
     message: "The task can have only #{:max_participants} number of participants."
   }
+  validates_presence_of :name, message: "Task name cannot be blank"
 
   scope :group_tasks, -> { where(group_task: true) }
   scope :solo_tasks, -> { where(group_task: false) }
