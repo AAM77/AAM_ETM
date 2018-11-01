@@ -101,8 +101,6 @@ class Task < ApplicationRecord
     end
   end
 
-
-
   ######################
   # Labels a task type #
   ######################

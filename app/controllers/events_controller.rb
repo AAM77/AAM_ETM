@@ -36,7 +36,8 @@ class EventsController < ApplicationController
   # handles routing to an event's show page #
   ###########################################
   def show
-    @ordered_tasks = @event.order_tasks
+    @incomplete_ordered_tasks = @event.order_tasks.not_complete
+    @complete_ordered_tasks = @event.order_tasks.admin_marked_complete
     @task = Task.new
     @admin = User.find(@event.admin_id)
   end
@@ -69,8 +70,14 @@ class EventsController < ApplicationController
   # handles routing to the admin's show page #
   ############################################
   def show_admin
-    @ordered_tasks = @event.order_tasks
-    @task = Task.new
+    if @event.admin_id != current_user.id
+      redirect_to event_path(@event)
+      flash[:warning] = "Hey, stop it! You aren't this event's admin!"
+    else
+      @incomplete_ordered_tasks = @event.order_tasks.not_complete
+      @complete_ordered_tasks = @event.order_tasks.admin_marked_complete
+      @task = Task.new
+    end
   end
 
   private

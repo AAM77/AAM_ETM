@@ -44,7 +44,9 @@ class TasksController < ApplicationController
   #############################
   def update
     @task.update(task_params)
-    redirect_to event_path(@task.event_id)
+    flash[:warning] = @task.errors.full_messages.first if @task.errors.any?
+    flash[:success] = "Successfully updated details" unless @task.errors.any?
+    redirect_to edit_task_path(@task)
   end
 
   ###########################

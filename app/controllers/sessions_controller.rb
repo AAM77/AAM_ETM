@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
     # information received
     if auth
       if auth[:provider] || auth[:uid]
-        @user = User.find_from_auth_hash(auth)
+        @user = User.find_from_auth_hash(auth).first
 
         if @user
           session[:user_id] = @user.id

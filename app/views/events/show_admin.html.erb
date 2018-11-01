@@ -5,6 +5,8 @@
 
 <h2>INCOMPLETE TASKS</h2>
 
+<p>Sort by: Name | Task Type | Points Awarded | Max Participants | Join Status </p>
+
 <div class="table-responsive">
   <%= form_tag admin_complete_users_tasks_path, method: :patch do %>
     <table class="table border border-info">
@@ -17,7 +19,7 @@
       </thead>
 
       <tbody>
-        <% @ordered_tasks.not_complete.each do |task| %>
+        <% @incomplete_ordered_tasks.not_complete.each do |task| %>
           <tr>
             <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
             <td><%= display_admin_checkbox task %></td>
@@ -36,23 +38,7 @@
 <br>
 <br>
 
-
-<h2>COMPLETED TASKS</h2>
-<div class="table-responsive">
-  <table class="table border border-info">
-    <thead class="thead bg-info text-white">
-      <%= render partial: 'table_headers', locals: { event_instance: @event } %>
-    </thead>
-
-    <tbody>
-      <% @ordered_tasks.admin_marked_complete.each do |task| %>
-        <tr>
-          <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+<%= render partial: 'completed_tasks', locals: { completed_tasks: @complete_ordered_tasks, event: @event } %>
 
 
 <br>
@@ -64,27 +50,8 @@
   <h1>Create a New Task</h1>
 
   <%= form_for [@event, @task] do |f| %>
-    <% f.hidden_field :event_id, value: @event.id %>
-    <br>
-    <%= f.label :name, "Task Name: " %>
-    <%= f.text_field :name %>
-    <br>
-    <%= f.label :group_task, "Is this a group task?" %>
-    <%= f.check_box :group_task %>
-    <br>
-    <%= f.label :max_participants, "How many people can participate in this task?" %>
-    <%= f.number_field :max_participants %>
-    <br>
-    <%= f.label :points_awarded, "How many points is this task worth?" %>
-    <%= f.number_field :points_awarded %>
-    <br>
-    <%= f.label :deadline_date, "Task Deadline (Date): " %>
-    <%= f.date_field :deadline_date %>
-    <br>
-    <%= f.label :deadline_time, "Task Deadline (Time)" %>
-    <%= f.time_field :deadline_time %>
-    <br>
 
+    <%= render partial: "tasks/form", locals: { f: f } %>
     <%= f.submit "Create Task", class: "btn btn-info" %>
 
   <% end %>

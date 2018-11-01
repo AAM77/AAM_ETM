@@ -82,5 +82,28 @@ module UsersHelper
     (link_to User.find(task.admin_id).username, user_path(task.admin_id))
   end
 
+  #############################################
+  # Links to the task and corresponding event #
+  # that the user is taking part in           #
+  #############################################
+  def friend_event_participating_in(event, user)
+    (link_to event.name, user_event_path(event.admin_id, event)) + ", by:" +
+    (link_to User.find(event.admin_id).username, user_event_path(event.admin_id, event))
+  end
+
+
+  ##########################
+  # Incomplete Group Tasks #
+  ##########################
+  def users_incomplete_group_tasks
+    @user.tasks.group_tasks.not_complete
+  end
+
+  #########################
+  # Incomplete Solo Tasks #
+  #########################
+  def users_incomplete_solo_tasks
+    @user.tasks.solo_tasks.not_complete
+  end
 
 end

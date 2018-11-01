@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
 
   resources :events, except: [:destroy] do
-    resources :tasks, only: [:new, :edit, :create, :show]
+    resources :tasks, only: [:new, :create, :show]
     member do
       get 'show_admin'
     end
@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   delete '/events/:id', to: 'events#destroy'
 
   # Not sure how to setup this route with the alias issue. This might be correct. I will see.
-  resources :tasks, only: [:index, :show, :update, :destroy]
+  resources :tasks, only: [:index, :edit, :show, :update, :destroy]
 
   # user_task (participation)
   resources :users_tasks, only: [:create, :destroy] do

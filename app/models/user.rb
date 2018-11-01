@@ -11,7 +11,6 @@ class User < ApplicationRecord
 
   has_secure_password(validations: false)
   validates_presence_of :password, on: :create, unless: :other_provider?
-  validates_confirmation_of :password, if: :password_present?
   validates :email, presence: true, on: :create, unless: :other_provider?
   validates :username, presence: true, on: :create, unless: :other_provider?
   validates_uniqueness_of :username, case_sensitive: false
@@ -23,6 +22,10 @@ class User < ApplicationRecord
   after_create :capitalize_email
   before_destroy :unfriend_all
   before_destroy :delete_events_user_created
+
+  scope :search_for_username, -> (user_name){ where("LOWER(username) = ?", user_name.downcase) }
+  scope :search_for_email, -> (email){ where("LOWER(email) = ?", email.downcase) }
+  scope :find_from_auth_hash, -> (auth){ where(provider: auth.provider, uid: auth.uid) }
 
   ###################################################################
   # Checks if the user's account was created through facebook, etc. #
@@ -39,36 +42,6 @@ class User < ApplicationRecord
   def password_present?
     self.password_digest
   end
-
-  ##########################################
-  # Case Insensitive search for a username #
-  ##########################################
-  def self.search_for_username(user_name)
-    self.where("LOWER(username) = ?", user_name.downcase).first
-  end
-
-  ########################################
-  # Case Insensitive search for an email #
-  ########################################
-  def self.search_for_email(e_mail)
-    self.where("LOWER(email) = ?", e_mail.downcase).first
-  end
-
-  ##################################################
-  # Destroys Friendships associated with this user #
-  ##################################################
-  def unfriend_all
-    Friendship.where(user_id: self.id).each { |f| f.destroy }
-    Friendship.where(friend_id: self.id).each { |f| f.destroy }
-  end
-
-  ########################################
-  # Destroys Events Created by this User #
-  ########################################
-  def delete_events_user_created
-    Event.where(admin_id: self.id).each { |f| f.destroy }
-  end
-
 
   ########################################
   # Capitalizes the First and Last Names #
@@ -148,13 +121,6 @@ class User < ApplicationRecord
     self.first_name.scan(/\b[a-zA-Z]/)[0][0]
   end
 
-  #######################################################
-  # Finds a user by uid and provider from the auth hash #
-  #######################################################
-  def self.find_from_auth_hash(auth)
-    where(provider: auth.provider, uid: auth.uid).first
-  end
-
   ###################################################################
   # Creates a new user based on information gathered from auth hash #
   ###################################################################
@@ -169,9 +135,9 @@ class User < ApplicationRecord
     )
   end
 
-  #####################
-  # Lists Friendships #
-  #####################
+  ####################################################
+  # Compiles a list of all of the user's Friendships #
+  ####################################################
   def friendships_list
     friends_list = []
 
@@ -187,9 +153,9 @@ class User < ApplicationRecord
   end
 
 
-  ####################
-  # Lists Friend IDs #
-  ####################
+  #####################################################
+  # Compiles a list of all of the user's Friends' IDs #
+  #####################################################
   def friend_ids_list
     friends_ids_list = []
 
@@ -202,6 +168,22 @@ class User < ApplicationRecord
     end
 
     friends_ids_list.uniq
+  end
+
+
+  ##################################################
+  # Destroys Friendships associated with this user #
+  ##################################################
+  def unfriend_all
+    Friendship.where(user_id: self.id).each { |f| f.destroy }
+    Friendship.where(friend_id: self.id).each { |f| f.destroy }
+  end
+
+  ########################################
+  # Destroys Events Created by this User #
+  ########################################
+  def delete_events_user_created
+    Event.where(admin_id: self.id).each { |f| f.destroy }
   end
 
 

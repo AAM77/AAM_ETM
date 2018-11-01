@@ -1,12 +1,9 @@
 <h1><%= @event.name %></h1>
 
-
-
 <br>
 <h2>This Event's Admin is: <%= link_to @admin.username, user_path(@admin) %></h2>
 <br>
 <br>
-
 
 <h2>INCOMPLETE TASKS</h2>
 
@@ -22,7 +19,7 @@
       </thead>
 
       <tbody>
-        <% @ordered_tasks.not_complete.each do |task| %>
+        <% @incomplete_ordered_tasks.each do |task| %>
           <tr>
             <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
           </tr>
@@ -40,22 +37,4 @@
 <br>
 <br>
 
-<h2>COMPLETED TASKS</h2>
-
-<p>Sort by: Name | Task Type | Points Awarded | Max Participants | Join Status </p>
-
-<div class="table-responsive">
-  <table class="table border border-info">
-    <thead class="thead bg-info text-white">
-      <%= render partial: 'table_headers', locals: { event_instance: @event } %>
-    </thead>
-
-    <tbody>
-      <% @ordered_tasks.admin_marked_complete.each do |task| %>
-        <tr>
-          <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+<%= render partial: 'completed_tasks', locals: { completed_tasks: @complete_ordered_tasks, event: @event } %>
