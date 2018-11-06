@@ -14,7 +14,7 @@ class User < ApplicationRecord
   validates :email, presence: true, on: :create, unless: :other_provider?
   validates :username, presence: true, on: :create, unless: :other_provider?
   validates_uniqueness_of :username, case_sensitive: false
-  validates_uniqueness_of :email, case_sensitive: false, on: :create
+  validates_uniqueness_of :email, case_sensitive: false, on: :create, message: "That email is already in use."
 
   after_create :assign_uniq_username
   after_create :capitalize_first_and_last_name
@@ -23,8 +23,8 @@ class User < ApplicationRecord
   before_destroy :unfriend_all
   before_destroy :delete_events_user_created
 
-  scope :search_for_username, -> (user_name){ where("LOWER(username) = ?", user_name.downcase) }
-  scope :search_for_email, -> (email){ where("LOWER(email) = ?", email.downcase) }
+  scope :search_for_username, -> (user_name){ where("LOWER(username) = ?", user_name.downcase).first }
+  scope :search_for_email, -> (email){ where("LOWER(email) = ?", email.downcase).first }
   scope :find_from_auth_hash, -> (auth){ where(provider: auth.provider, uid: auth.uid) }
 
   ###################################################################
