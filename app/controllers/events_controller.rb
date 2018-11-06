@@ -88,6 +88,9 @@ class EventsController < ApplicationController
       @event = Event.find_by(id: params[:id])
     end
 
+    ####################################################
+    # avoids running into the issue of orphaned events #
+    ####################################################
     def event_exists?
       unless set_event
         redirect_to events_path
