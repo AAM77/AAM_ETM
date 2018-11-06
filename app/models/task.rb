@@ -8,9 +8,10 @@ class Task < ApplicationRecord
     message: "The task can have only #{:max_participants} number of participants."
   }
   validates_presence_of :name, message: "Task name cannot be blank"
+  validates_uniqueness_of :name, case_sensitive: false, scope: :event_id, message: "You already have a task with that name in this event."
 
   before_validation :set_defaults
-  before_create :titleize_name
+  before_create :capitalize_name
   after_create :assign_admin
 
   scope :group_tasks, -> { where(group_task: true) }
@@ -19,10 +20,10 @@ class Task < ApplicationRecord
   scope :admin_marked_complete, -> { where("admin_confirmed_completion_at IS NOT NULL") }
 
   ######################
-  # Titleizes the Name #
+  # Capitalizes the Name #
   ######################
-  def titleize_name
-    self.name = self.name.titleize
+  def capitalize_name
+    self.name = self.name.capitalize
   end
 
   ##################################################################
