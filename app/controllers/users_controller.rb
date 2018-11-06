@@ -94,11 +94,16 @@ class UsersController < ApplicationController
 
   private
 
-    # finds and sets the user
+    ###########################
+    # finds and sets the user #
+    ###########################
     def set_user
       @user = User.find_by(id: params[:id])
     end
 
+    ##########################################
+    # Deals with the issue of orphaned users #
+    ##########################################
     def user_exists?
       unless set_user
         redirect_to users_path
@@ -106,9 +111,19 @@ class UsersController < ApplicationController
       end
     end
 
-
+    #############################################
+    # A listing of the params permitted for use #
+    #############################################
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :telephone_num, :address, :email, :username, :password)
+      params.require(:user).permit(
+        :first_name,
+        :last_name,
+        :telephone_num,
+        :address,
+        :email,
+        :username,
+        :password
+      )
     end
 
 end
