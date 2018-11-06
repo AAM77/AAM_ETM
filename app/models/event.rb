@@ -4,9 +4,9 @@ class Event < ApplicationRecord
   has_many :users, through: :user_events
 
   validates_presence_of :name, message: "You must provide a name for this event."
-  validates_uniqueness_of :name, case_sensitive: false, message: "You already have an event with that name."
+  validates_uniqueness_of :name, case_sensitive: false, scope: :admin_id, message: "You already have an event with that name."
 
-  before_create :titleize_name
+  before_create :capitalize_name
   after_create :set_admin_user
 
   scope :set_order, -> { order("tasks.group_task DESC, tasks.name ASC, tasks.max_participants ASC") }
@@ -23,10 +23,10 @@ class Event < ApplicationRecord
   end
 
   ######################
-  # Titleizes the Name #
+  # Capitalizes the Name #
   ######################
-  def titleize_name
-    self.name = self.name.titleize
+  def capitalize_name
+    self.name = self.name.capitalize
   end
 
   ################################################
