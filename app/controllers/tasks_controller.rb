@@ -11,7 +11,6 @@ class TasksController < ApplicationController
     @events = Event.all.order(:name)
   end
 
-
   ##################################
   # Handles the creation of a Task #
   ##################################
@@ -62,19 +61,38 @@ class TasksController < ApplicationController
 
   private
 
+    ###########################
+    # finds and sets the task #
+    ###########################
+
     def set_task
       @task = Task.find_by(id: params[:id])
     end
 
+    ##########################################
+    # Deals with the issue of orphaned tasks #
+    ##########################################
     def task_exists?
       unless set_task
         redirect_to user_path(current_user)
-        flash[:warning] = "That task does not exist"
+        flash[:warning] = "That task does not exist."
       end
     end
 
+    #############################################
+    # A listing of the params permitted for use #
+    #############################################
     def task_params
-      params.require(:task).permit(:name, :group_task, :points_awarded, :max_participants, :event_id, :user_completed_at, :admin_confirmed_completion_at)
+      params.require(:task).permit(
+        :name,
+        :group_task,
+        :points_awarded,
+        :max_participants,
+        :event_id,
+        :deadline_date,
+        :user_completed_at,
+        :admin_confirmed_completion_at
+      )
     end
 
 end
