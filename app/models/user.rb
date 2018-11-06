@@ -23,8 +23,8 @@ class User < ApplicationRecord
   before_destroy :unfriend_all
   before_destroy :delete_events_user_created
 
-  scope :search_for_username, -> (user_name){ where("LOWER(username) = ?", user_name.downcase).first }
-  scope :search_for_email, -> (email){ where("LOWER(email) = ?", email.downcase).first }
+  scope :search_for_username, -> (user_name){ where("LOWER(username) = ?", user_name.downcase) }
+  scope :search_for_email, -> (email){ where("LOWER(email) = ?", email.downcase) }
   scope :find_from_auth_hash, -> (auth){ where(provider: auth.provider, uid: auth.uid) }
 
   ###################################################################
