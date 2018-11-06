@@ -27,17 +27,17 @@ class SessionsController < ApplicationController
             redirect_to user_path(@user)
           else
             redirect_to root_path
-            flash[:warning] = "#{@user.errors.messages}"
+            flash[:warning] = "#{@user.errors.messages[:email].first}"
           end
         end # if @user
       end # if auth[:provider] || auth[:uid]
 
     # if the user is not logging in using facebook, etc.
-    # searches for and existing account
+    # searches for an existing account
     # or asks the user to create a new one
     else
       @user = User.search_for_email(params[:user][:email])
-
+      binding.pry
       if @user && @user.authenticate(params[:user][:password])
         session[:user_id] = @user.id
         redirect_to user_path(@user)
