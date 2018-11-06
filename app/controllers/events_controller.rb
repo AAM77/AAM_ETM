@@ -80,10 +80,12 @@ class EventsController < ApplicationController
     end
   end
 
+
   private
-    ########################
-    # finds an event by id #
-    ########################
+
+    ############################
+    # finds and sets the event #
+    ############################
     def set_event
       @event = Event.find_by(id: params[:id])
     end
@@ -98,8 +100,16 @@ class EventsController < ApplicationController
       end
     end
 
+    #############################################
+    # A listing of the params permitted for use #
+    #############################################
     def event_params
-      params.require(:event).permit(:name, :deadline_date, :deadline_time, :admin_id)
+      params.require(:event).permit(
+        :name,
+        :deadline_date,
+        :deadline_time,
+        :admin_id
+      )
     end
 
 end
