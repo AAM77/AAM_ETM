@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#create'
   get '/auth/failure', to: redirect('/')
 
-  # usersroutes
+  # users routes (nested events and tasks)
   resources :users, except: [:destroy] do
     resources :events, only: [:index, :new, :edit, :show] do #might night even need this
       resources :tasks, only: [:index, :edit, :show] #might not even need this
@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
   delete '/users/:id', to: 'users#destroy', as:'delete_user'
 
-
+  # nested routes (events) --- do I need this is I have the above? Test out later
   resources :events, except: [:destroy] do
     resources :tasks, only: [:new, :create, :show]
     member do
@@ -46,7 +46,10 @@ Rails.application.routes.draw do
     end
   end
 
+  # friendship controlle action routes
   resources :friendships, only: [:create, :destroy]
 
+  # I don't think I am going to use this.
+  # But, I might need it if I decide to do use activerecord associations to deal with this
   resources :usersevents, only: [:destroy]
 end
