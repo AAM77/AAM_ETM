@@ -14,9 +14,10 @@ class Event < ApplicationRecord
   scope :not_admin, -> (user){ where.not(admin_id: user.id) }
   scope :with_tasks, -> { where(id: Task.not_complete.pluck(:event_id)) }
 
-  #######################################
-  # Sets the default order of the tasks #
-  #######################################
+  #####################################################################
+  # Sets the default order of the tasks by                            #
+  # task type, then marked for completion or not, and lastly, by name #
+  #####################################################################
   def order_tasks
     self.tasks.order("group_task ASC, user_completed_at ASC, name ASC")
   end
