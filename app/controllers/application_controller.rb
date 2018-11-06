@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   before_action :redirect_if_logged_in_and_on_signup_or_login
 
+
   private
 
     ##############################################
@@ -15,12 +16,14 @@ class ApplicationController < ActionController::Base
       @current_user ||= User.find_by(id: session[:user_id])
     end
 
+
     ########################################
     # Returns true/false if not logged in  #
     ########################################
     def logged_in?
       !!current_user
     end
+
 
     ###############################################################################
     # Returns the user to the homepage if not the same as current logged in user  #
@@ -32,6 +35,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
+
     #########################################################################################
     # Checks the current path                                                               #
     # used in: [1] :signup_or_login_page, [2] :redirect_if_logged_in_and_on_signup_or_login #
@@ -40,6 +44,7 @@ class ApplicationController < ActionController::Base
     def current_page
       request.path
     end
+
 
     ##############################################################
     # Checks if the current page is a signup or login page       #
@@ -59,6 +64,7 @@ class ApplicationController < ActionController::Base
         redirect_to user_path(current_user)
       end
     end
+
 
     #######################################################################
     # Prevents a user from logging in using omniauth if already logged in #
