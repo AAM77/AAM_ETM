@@ -2,12 +2,17 @@ class SessionsController < ApplicationController
   before_action :redirect_if_not_logged_in, except: [:new, :create]
   before_action :prevent_double_login
 
-
+  #########################################
+  # Submits a request to display the view #
+  #########################################
   def new
     @user = User.new
   end
 
-
+  ###########################
+  # Submits a request to    #
+  # create a session        #
+  ###########################
   def create
 
     # Checks if the user is logging in using facebook, etc.
@@ -37,7 +42,7 @@ class SessionsController < ApplicationController
     # or asks the user to create a new one
     else
       @user = User.search_for_email(params[:user][:email]).first
-      binding.pry
+
       if @user && @user.authenticate(params[:user][:password])
         session[:user_id] = @user.id
         redirect_to user_path(@user)
@@ -48,9 +53,9 @@ class SessionsController < ApplicationController
     end
   end
 
-  ####################
-  # Ends the Session #
-  ####################
+  ########################################
+  # Submits a request to end the Session #
+  ########################################
   def destroy
     session.destroy
     redirect_to root_path
