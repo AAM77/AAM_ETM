@@ -3,6 +3,8 @@ class Event < ApplicationRecord
   has_many :user_events, dependent: :destroy
   has_many :users, through: :user_events
 
+  validate :deadline_date_cannot_be_in_the_past
+
   validates_presence_of :name, message: "You must provide a name for this event."
   validates_uniqueness_of :name, case_sensitive: false, scope: :admin_id, message: "You already have an event with that name."
 
@@ -13,6 +15,15 @@ class Event < ApplicationRecord
   scope :admin, -> (user){ where(admin_id: user.id) }
   scope :not_admin, -> (user){ where.not(admin_id: user.id) }
   scope :with_tasks, -> { where(id: Task.not_complete.pluck(:event_id)) }
+
+  ####################################################
+  # Adds: conditions for validation & custom message #
+  # Makes sure that the date has not already passed  #
+  ####################################################
+  def deadline_date_cannot_be_in_the_past
+    errors.add(:deadline_date, "The deadline date cannot be in the past!") if
+      deadline_date and deadline_date < Date.today
+  end
 
   #####################################################################
   # Sets the default order of the tasks by                            #
