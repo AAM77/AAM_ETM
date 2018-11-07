@@ -46,9 +46,14 @@
    border-width: 5px !important;
  }
 
-
  .scrollable-menu {
     height: auto;
     max-height: 200px;
     overflow-x: hidden;
+}
+
+.main-header, .sub-header{
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-color: rgb(36,162,182);
 }
