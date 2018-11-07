@@ -3,7 +3,7 @@
 <td><%= task_instance.task_type %></td>
 <td><%= task_instance.points_awarded %></td>
 <td><%= task_instance.max_participants %></td>
-<td><%= task_instance.deadline_date %></td>
+<td><%= task_instance.deadline_date.strftime("%m-%d-%y") if task_instance.deadline_date %></td>
 <td><%= task_instance.list_participants %></td>
 <td><%= permission_to_join?(task_instance) { (check_task_availability task_instance) } %></td>
 <td><%= permission_to_join?(task_instance) { (display_user_checkbox task_instance) } %></td>
