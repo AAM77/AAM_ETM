@@ -10,7 +10,7 @@ class UsersTasksController < ApplicationController
     task = Task.find(params[:id])
 
     if task.detect_user?(current_user)
-      flash[:warning] = "You cannot join this task twice."
+      flash[:warnings] = [ "You cannot join this task twice." ]
     else
       task.add_participant(current_user)
       flash[:success] = "You have successfully joined task: #{task.name}"
@@ -32,7 +32,7 @@ class UsersTasksController < ApplicationController
 
       flash[:success] = "Tasks successfully marked complete."
     else
-      flash[:warning] = "You did not select any tasks to complete."
+      flash[:warnings] = [ "You did not select any tasks to complete." ]
     end
 
     redirect_to event_path(params[:task][:event_id])
@@ -51,7 +51,7 @@ class UsersTasksController < ApplicationController
 
       flash[:success] = "Tasks successfully confirmed complete."
     else
-      flash[:warning] = "You did not select any tasks to complete."
+      flash[:warnings] = [ "You did not select any tasks to complete." ]
     end
 
     redirect_to show_admin_event_path(params[:task][:event_id])
@@ -67,7 +67,7 @@ class UsersTasksController < ApplicationController
       task.remove_participant(current_user)
       flash[:success] = "You have left the task: #{task.name}."
     else
-      flash[:warning] = "You cannot leave a task you are nt participating in!"
+      flash[:warnings] = [ "You cannot leave a task you are nt participating in!" ]
     end
 
     redirect_to event_path(task.event_id)
