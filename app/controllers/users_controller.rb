@@ -25,27 +25,27 @@ class UsersController < ApplicationController
     @email = User.search_for_email(params[:user][:email]).first
 
     if @user || @email
-      flash[:warning] = "That email or username is not valid. Please choose something else."
+      flash[:warnings] = [ "That email or username is not valid. Please choose something else." ]
       redirect_to new_user_path
 
     # prevents form submission with blank entries
     elsif  params[:user][:username].blank? || params[:user][:email].blank? || params[:user][:password].blank?
-      flash[:warning] = "YOU MUST FILL OUT ALL FIELDS!!"
+      flash[:warnings] = [ "YOU MUST FILL OUT ALL FIELDS!!" ]
       redirect_to new_user_path
 
     # prevents the user from using most special characters
     elsif params[:user][:username].match(/[\?\<\>\'\,\?\[\]\}\{\=\-\)\(\*\&\^\%\$\#\`\~\{\}\@]/)
-      flash[:warning] = "The username can contain only letters, digits, periods, and underscores"
+      flash[:warnings] = [ "The username can contain only letters, digits, periods, and underscores" ]
       redirect_to new_user_path
 
     # forces the usernam to be a specific length
     elsif (5 > params[:user][:username].length) || (params[:user][:username].length > 20)
-      flash[:warning] = "The length of the username must be between 5 and 20 characters long."
+      flash[:warnings] = [ "The length of the username must be between 5 and 20 characters long." ]
       redirect_to new_user_path
 
     # forces the password to be a specific length
     elsif (5 > params[:user][:password].length) || (params[:user][:password].length > 30)
-      flash[:warning] = "The length of the password must be between 5 and 30 characters long."
+      flash[:warnings] = [ "The length of the password must be between 5 and 30 characters long." ]
       redirect_to new_user_path
 
     # if all of the above conditions are true, then create and validate the new account
@@ -58,6 +58,8 @@ class UsersController < ApplicationController
         redirect_to user_path(@user)
         flash[:success] = "You have successfully registered!"
       else
+        flash[:warnings] = []
+        @event.errors.messages.each { |error| flash[:warnings] << error.second.first }
         redirect_to new_user_path
       end
     end
@@ -80,8 +82,12 @@ class UsersController < ApplicationController
   # handles updating the user's account
   def update
     @user.update(user_params.except(:email))
-    flash[:warning] = @user.errors.full_messages.first if @user.errors.any?
-    flash[:success] = "Successfully updated details" unless @user.errors.any?
+    if @user.errors.any?
+      flash[:warnings] = []
+      @user.errors.messages.each { |error| flash[:warnings] << error.second.first }
+    else
+      flash[:success] = "Successfully updated details" unless @user.errors.any?
+    end
     redirect_to edit_user_path(@user)
   end
 
@@ -89,7 +95,7 @@ class UsersController < ApplicationController
   def destroy
     User.destroy(current_user.id)
     redirect_to root_path
-    flash[:warning] = "You deleted your account."
+    flash[:warnings] = [ "You deleted your account." ]
   end
 
   private
@@ -107,7 +113,7 @@ class UsersController < ApplicationController
     def user_exists?
       unless set_user
         redirect_to users_path
-        flash[:warning] = "That user does not exist"
+        flash[:warnings] = [ "That user does not exist" ]
       end
     end
 
