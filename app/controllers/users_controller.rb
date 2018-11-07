@@ -33,21 +33,29 @@ class UsersController < ApplicationController
     end
   end
 
-  # handles routing to the user's account details
+  #################################################
+  # handles routing to the user's account details #
+  #################################################
   def profile
   end
 
-  # handles routing to the user's show page
+  ###########################################
+  # handles routing to the user's show page #
+  ###########################################
   def show
     @friends_events = Event.not_admin(@user)
     @adminned_events = Event.admin(@user)
   end
 
-  # handles routing to the user's account edit page
+  ###################################################
+  # handles routing to the user's account edit page #
+  ###################################################
   def edit
   end
 
-  # handles updating the user's account
+  #######################################
+  # handles updating the user's account #
+  #######################################
   def update
     @user.update(user_params.except(:email))
     if @user.errors.any?
@@ -59,7 +67,9 @@ class UsersController < ApplicationController
     redirect_to edit_user_path(@user)
   end
 
-  # handles deleting a user's account
+  #####################################
+  # handles deleting a user's account #
+  #####################################
   def destroy
     User.destroy(current_user.id)
     redirect_to root_path
