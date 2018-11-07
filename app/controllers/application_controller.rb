@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
     ###############################################################################
     def redirect_if_not_logged_in
       unless logged_in?
-        flash[:warning] = "You must sign up or log in to access this page."
+        flash[:warnings] = [ "You must sign up or log in to access this page." ]
         redirect_to root_path
       end
     end
@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
     ##################################################################
     def redirect_if_logged_in_and_on_signup_or_login
       if logged_in? && signup_or_login_page?
-        flash[:warning] = "Stop it! You are already logged in!"
+        flash[:warnings] = [ "Stop it! You are already logged in!" ]
         redirect_to user_path(current_user)
       end
     end
