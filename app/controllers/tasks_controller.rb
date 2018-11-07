@@ -20,7 +20,8 @@ class TasksController < ApplicationController
     if @task.save
       flash[:success] = "Successfully create task: #{@task.name}"
     else
-      flash[:warning] = @task.errors.messages[:name].first
+      flash[:warnings] = []
+      @task.errors.messages.each { |error| flash[:warnings] << error.second.first }
     end
     redirect_to show_admin_event_path(params[:event_id])
   end
@@ -43,7 +44,7 @@ class TasksController < ApplicationController
   #############################
   def update
     @task.update(task_params)
-    flash[:warning] = @task.errors.full_messages.first if @task.errors.any?
+    flash[:warnings] = @task.errors.full_messages.first if @task.errors.any?
     flash[:success] = "Successfully updated details" unless @task.errors.any?
     redirect_to edit_task_path(@task)
   end
@@ -56,7 +57,7 @@ class TasksController < ApplicationController
     task_name = @task.name
     Task.destroy(@task.id)
     redirect_to "#{event_path(tasks_event_id)}/show_admin"
-    flash[:warning] = "You have deleted the task: #{task_name}."
+    flash[:warnings] = [ "You have deleted the task: #{task_name}." ]
   end
 
   private
@@ -75,7 +76,7 @@ class TasksController < ApplicationController
     def task_exists?
       unless set_task
         redirect_to user_path(current_user)
-        flash[:warning] = "That task does not exist."
+        flash[:warnings] = [ "That task does not exist." ]
       end
     end
 
