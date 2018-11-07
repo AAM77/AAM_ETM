@@ -11,7 +11,7 @@ class FriendshipsController < ApplicationController
       flash[:success] = "Added friend successfully."
       redirect_to user_path(params[:friend_id])
     else
-      flash[:warning] = "Unable to add friend."
+      flash[:warnings] = [ "Unable to add friend." ]
       redirect_to users_path
     end
   end
@@ -23,7 +23,7 @@ class FriendshipsController < ApplicationController
     friendship = Friendship.find(params[:id])
     friendship.destroy
 
-    flash[:warning] = "You ended the friendship."
+    flash[:warnings] = [ "You ended the friendship." ]
     redirect_to user_path(current_user)
   end
 
