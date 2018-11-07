@@ -27,8 +27,9 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to show_admin_event_path(@event)
     else
+      flash[:warnings] = []
+      @event.errors.messages.each { |error| flash[:warnings] << error.second.first }
       redirect_to new_event_path
-      flash[:warning] = @event.errors.messages[:name].first
     end
   end
 
@@ -60,19 +61,21 @@ class EventsController < ApplicationController
   # handles deleting an event #
   #############################
   def destroy
-    event_name = @event.name
+    @event_name = @event.name
     Event.destroy(@event.id)
     redirect_to user_path(current_user)
-    flash[:warning] = "You deleted the event: #{event_name}."
+    flash[:warnings] = [ "You deleted the event: #{@event_name}." ]
   end
 
   ############################################
   # handles routing to the admin's show page #
   ############################################
   def show_admin
+    @admin = @admin = User.find(@event.admin_id)
+
     if @event.admin_id != current_user.id
       redirect_to event_path(@event)
-      flash[:warning] = "Hey, stop it! You aren't this event's admin!"
+      flash[:warnings] = [ "Hey, stop it! You aren't this event's admin!" ]
     else
       @incomplete_ordered_tasks = @event.order_tasks.not_complete
       @complete_ordered_tasks = @event.order_tasks.admin_marked_complete
@@ -96,7 +99,7 @@ class EventsController < ApplicationController
     def event_exists?
       unless set_event
         redirect_to events_path
-        flash[:warning] = "That event does not exist"
+        flash[:warnings] = [ "That event does not exist" ]
       end
     end
 
