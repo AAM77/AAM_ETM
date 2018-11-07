@@ -31,8 +31,9 @@ class SessionsController < ApplicationController
             session[:user_id] = @user.id
             redirect_to user_path(@user)
           else
+            flash[:warnings] = []
+            @user.errors.messages.each { |error| flash[:warnings] << error.second.first }
             redirect_to root_path
-            flash[:warning] = "#{@user.errors.messages[:email].first}"
           end
         end # if @user
       end # if auth[:provider] || auth[:uid]
@@ -47,8 +48,8 @@ class SessionsController < ApplicationController
         session[:user_id] = @user.id
         redirect_to user_path(@user)
       else
+        flash[:warnings] = [ "Invalid email or password. Please try again." ]
         redirect_to login_path
-        flash[:warning] = "Invalid email or password. Please try again."
       end
     end
   end
@@ -58,8 +59,8 @@ class SessionsController < ApplicationController
   ########################################
   def destroy
     session.destroy
+    flash[:warnings] = [ "You have been signed out." ]
     redirect_to root_path
-    flash[:warning] = "You have been signed out."
   end
 
 
