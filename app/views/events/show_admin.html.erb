@@ -1,8 +1,7 @@
-<h1><%= @event.name %> ADMIN PAGE</h1>
+<%= render partial: 'show_heading', locals: { event: @event, admin: @admin } %>
 
+<h1>ADMIN PAGE</h1>
 <br>
-<br>
-
 <h2>INCOMPLETE TASKS</h2>
 
 <p>Sort by: Name | Task Type | Points Awarded | Max Participants | Join Status </p>
