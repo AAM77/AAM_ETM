@@ -13,6 +13,7 @@ class User < ApplicationRecord
   validates_presence_of :password, on: :create, unless: :other_provider?
   validates :email, presence: true, on: :create, unless: :other_provider?
   validates :username, presence: true, on: :create, unless: :other_provider?
+  validates :username, presence: true, on: :update, presence: { message: "The username cannot be blank." }
   validates_uniqueness_of :username, case_sensitive: false
   validates_uniqueness_of :email, case_sensitive: false, on: :create, message: "That email is already in use."
 
