@@ -1,15 +1,10 @@
-<h1><%= @event.name %></h1>
-
-<br>
-<h2>This Event's Admin is: <%= link_to @admin.username, user_path(@admin) %></h2>
-<br>
-<br>
+<%= render partial: 'show_heading', locals: { event: @event, admin: @admin } %>
 
 <h2>INCOMPLETE TASKS</h2>
 
 <p>Sort by: Name | Task Type | Points Awarded | Max Participants | Join Status </p>
 
-<div class="table-responsive">
+<div class="table-responsive dark">
   <%= form_tag user_complete_users_tasks_path, method: :patch do %>
     <table class="table border border-info">
       <thead class="thead bg-info text-white">
