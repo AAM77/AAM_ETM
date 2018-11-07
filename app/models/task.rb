@@ -3,12 +3,13 @@ class Task < ApplicationRecord
   has_many :user_tasks, dependent: :destroy
   has_many :users, through: :user_tasks
 
+  validates_presence_of :name, message: "The task name cannot be blank"
+  validates_uniqueness_of :name, case_sensitive: false, scope: :event_id, message: "You already have a task with that name in this event."
+  validate :deadline_date_cannot_be_in_the_past
   validates :users, length: {
     maximum: :max_participants,
     message: "The task can have only #{:max_participants} number of participants."
   }
-  validates_presence_of :name, message: "Task name cannot be blank"
-  validates_uniqueness_of :name, case_sensitive: false, scope: :event_id, message: "You already have a task with that name in this event."
 
   before_validation :set_defaults
   before_create :capitalize_name
@@ -18,6 +19,15 @@ class Task < ApplicationRecord
   scope :solo_tasks, -> { where(group_task: false) }
   scope :not_complete, -> { where("admin_confirmed_completion_at IS NULL") }
   scope :admin_marked_complete, -> { where("admin_confirmed_completion_at IS NOT NULL") }
+
+  ####################################################
+  # Adds: conditions for validation & custom message #
+  # Makes sure that the date has not already passed  #
+  ####################################################
+  def deadline_date_cannot_be_in_the_past
+    errors.add(:deadline_date, "The deadline date cannot be in the past!") if
+      deadline_date and deadline_date < Date.today
+  end
 
   ######################
   # Capitalizes the Name #
