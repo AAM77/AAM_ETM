@@ -1,4 +1,4 @@
-<h1><%= @task.name %></h1>
+<h1 class="main-header"><%= @task.name %></h1>
 
 <%= form_for @task do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
