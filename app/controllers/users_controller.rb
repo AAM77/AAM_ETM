@@ -18,50 +18,18 @@ class UsersController < ApplicationController
   # Handles the Logic for Account Creation #
   ##########################################
   def create
+    @user = User.new(user_params)
 
-    # prevents multiple accounts with the same username or email
-    # via a case Insensitive seearch for username and email
-    @user = User.search_for_username(params[:user][:username]).first
-    @email = User.search_for_email(params[:user][:email]).first
-
-    if @user || @email
-      flash[:warnings] = [ "That email or username is not valid. Please choose something else." ]
-      redirect_to new_user_path
-
-    # prevents form submission with blank entries
-    elsif  params[:user][:username].blank? || params[:user][:email].blank? || params[:user][:password].blank?
-      flash[:warnings] = [ "YOU MUST FILL OUT ALL FIELDS!!" ]
-      redirect_to new_user_path
-
-    # prevents the user from using most special characters
-    elsif params[:user][:username].match(/[\?\<\>\'\,\?\[\]\}\{\=\-\)\(\*\&\^\%\$\#\`\~\{\}\@]/)
-      flash[:warnings] = [ "The username can contain only letters, digits, periods, and underscores" ]
-      redirect_to new_user_path
-
-    # forces the usernam to be a specific length
-    elsif (5 > params[:user][:username].length) || (params[:user][:username].length > 20)
-      flash[:warnings] = [ "The length of the username must be between 5 and 20 characters long." ]
-      redirect_to new_user_path
-
-    # forces the password to be a specific length
-    elsif (5 > params[:user][:password].length) || (params[:user][:password].length > 30)
-      flash[:warnings] = [ "The length of the password must be between 5 and 30 characters long." ]
-      redirect_to new_user_path
-
-    # if all of the above conditions are true, then create and validate the new account
+    # If it passes validations, creates the account, logs in the user, and flashes a success message.
+    # Otherwise, it stores the validation error messages to display them in the view.
+    if @user.save
+      session[:user_id] = @user.id
+      flash[:success] = "You have successfully registered!"
+      redirect_to user_path(@user)
     else
-      @user = User.new(user_params)
-
-      # if it passes validations, creates the account, logs in the user, and flashes a success message
-      if @user.save
-        session[:user_id] = @user.id
-        redirect_to user_path(@user)
-        flash[:success] = "You have successfully registered!"
-      else
-        flash[:warnings] = []
-        @event.errors.messages.each { |error| flash[:warnings] << error.second.first }
-        redirect_to new_user_path
-      end
+      flash[:warnings] = []
+      @user.errors.messages.each { |error| flash[:warnings] << error.second.first }
+      redirect_to new_user_path
     end
   end
 
