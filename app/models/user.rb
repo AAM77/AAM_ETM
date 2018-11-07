@@ -175,21 +175,22 @@ class User < ApplicationRecord
     friends_ids_list.uniq
   end
 
+  private
 
-  ##################################################
-  # Destroys Friendships associated with this user #
-  ##################################################
-  def unfriend_all
-    Friendship.where(user_id: self.id).each { |f| f.destroy }
-    Friendship.where(friend_id: self.id).each { |f| f.destroy }
-  end
+    ##################################################
+    # Destroys Friendships associated with this user #
+    ##################################################
+    def unfriend_all
+      Friendship.where(user_id: self.id).each { |f| f.destroy }
+      Friendship.where(friend_id: self.id).each { |f| f.destroy }
+    end
 
-  ########################################
-  # Destroys Events Created by this User #
-  ########################################
-  def delete_events_user_created
-    Event.where(admin_id: self.id).each { |f| f.destroy }
-  end
+    ########################################
+    # Destroys Events Created by this User #
+    ########################################
+    def delete_events_user_created
+      Event.where(admin_id: self.id).each { |f| f.destroy }
+    end
 
 
 end
