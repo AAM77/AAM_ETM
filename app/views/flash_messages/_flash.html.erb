@@ -7,11 +7,14 @@
   </div>
   <br>
 
-<% elsif flash[:warning] %>
+<% elsif flash[:warnings] %>
   <br>
-  <div class="alert alert-danger">
-    <%= flash[:warning] %>
-  </div>
+  
+  <% flash[:warnings].each do |warning| %>
+    <div class="alert alert-danger">
+      <%= warning %>
+    </div>
+  <% end %>
   <br>
 
 <% end %>
