@@ -11,7 +11,7 @@ This project is currently built on Rails with as few gems as possible. I built i
 
 A limited list of features for the app include:
 
-(1) Users can create an account (the passwords is created with a salted encryption, so there is no way to retrieve it).
+(1) Users can create an account (the passwords is created with a salted encryption, so there is no way to retrieve it).<br />
 (2) Users can sign up or log in using their Facebook, Github, or Google accounts.
 (3) If any of the social media account provides a username, that username is used. Otherwise one is generated.
 (4) Users can change the display name (username) via the 'Profile' in the navbar, but not the email.
