@@ -12,24 +12,24 @@ This project is currently built on Rails with as few gems as possible. I built i
 A limited list of features for the app include:
 
 (1) Users can create an account (the passwords is created with a salted encryption, so there is no way to retrieve it).<br />
-(2) Users can sign up or log in using their Facebook, Github, or Google accounts.
-(3) If any of the social media account provides a username, that username is used. Otherwise one is generated.
-(4) Users can change the display name (username) via the 'Profile' in the navbar, but not the email.
-(5) Users can view only limited content on another user's page unless they are friends with the user.
-(6) Users can view a list of all the events via the navbar.
-(7) Users can view a list of all the tasks via the navbar.
-(8) Each user can create events, which makes him/her the admin/organizer for that event.
-(9) The admin of an event can create tasks from the admin page.
-(10) Only users who are friends with the admin can join tasks for an event.
-(11) Once a user completes one or more tasks, the user can mark those tasks complete for confirmation.
-(12) The event admin/organizer must confirm task completion for it to be marked complete.
-(13) Once an admin confirms a task complete, the task's participants are assigned a proportional amount of points.
-(14) An event admin can delete tasks.
-(15) An event admin can delete the event.
-(16) Users can leave tasks, with confirmation.
-(17) Users remain in a task even if they unfriend someone, but can still leave, if they choose to.
-(18) A user can delete the account
-(19) A user can log out
+(2) Users can sign up or log in using their Facebook, Github, or Google accounts.<br />
+(3) If any of the social media account provides a username, that username is used. Otherwise one is generated.<br />
+(4) Users can change the display name (username) via the 'Profile' in the navbar, but not the email.<br />
+(5) Users can view only limited content on another user's page unless they are friends with the user.<br />
+(6) Users can view a list of all the events via the navbar.<br />
+(7) Users can view a list of all the tasks via the navbar.<br />
+(8) Each user can create events, which makes him/her the admin/organizer for that event.<br />
+(9) The admin of an event can create tasks from the admin page.<br />
+(10) Only users who are friends with the admin can join tasks for an event.<br />
+(11) Once a user completes one or more tasks, the user can mark those tasks complete for confirmation.<br />
+(12) The event admin/organizer must confirm task completion for it to be marked complete.<br />
+(13) Once an admin confirms a task complete, the task's participants are assigned a proportional amount of points.<br />
+(14) An event admin can delete tasks.<br />
+(15) An event admin can delete the event.<br />
+(16) Users can leave tasks, with confirmation.<br />
+(17) Users remain in a task even if they unfriend someone, but can still leave, if they choose to.<br />
+(18) A user can delete the account.<br />
+(19) A user can log out.<br />
 
 ## Plans
 
