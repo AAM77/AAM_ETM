@@ -45,19 +45,20 @@ You can simply download this repository to your machine and follow the instructi
 At present, you can run this app by doing the following:
 
 (Note: If you already have ruby and sinatra installed on your machine, skip to (5))
-(1) Check if you have Ruby installed by typing 'ruby --version' into the terminal.
+
+(1) Check if you have Ruby installed by typing 'ruby --version' into the terminal.<br />
 (2) Install using RVM. In the terminal, type:
 ' gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 '
-' curl -sSL https://get.rvm.io | bash -s stable --ruby '
-(3) Install bundler by typing, ' gem install bundler ' into the terminal
-(4) Install Sinatra by typing, ' gem sinatra ' into the terminal
+' curl -sSL https://get.rvm.io | bash -s stable --ruby '<br />
+(3) Install bundler by typing, ' gem install bundler ' into the terminal<br />
+(4) Install Sinatra by typing, ' gem sinatra ' into the terminal<br />
 
-(5) Download or clone this repository
-(6) Navigate to the 'aam_event_task_manager' directory on your machine using the terminal
-(7) Next, type 'bundle install ' . This should install all of the gems it requires.
-(8) Type ' rails s ' into the terminal
-(9) Open your browser and navigate to 'http://localhost:3000' (press ctrl-C or control-C while in the terminal to exit.)
-(10) Alternatively, if you wish to experiment with the app locally, you can do so by typing ' rails c ''
+(5) Download or clone this repository<br />
+(6) Navigate to the 'aam_event_task_manager' directory on your machine using the terminal<br />
+(7) Next, type 'bundle install '. This should install all of the gems it requires.<br />
+(8) Type ' rails s ' into the terminal<br />
+(9) Open your browser and navigate to 'http://localhost:3000' (press ctrl-C or control-C while in the terminal to exit.)<br />
+(10) Alternatively, if you wish to experiment with the app locally, you can do so by typing ' rails c ''<br />
 
 ## Development
 
