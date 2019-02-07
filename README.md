@@ -1,7 +1,7 @@
 
 # AAM Event Task Manager (AAM ETM)
 
-## [ NOTE ]: I will be returning to this app to clean up the code and add more features as soon as I finish the Flatiron School curriculum.
+## [ NOTE ]: I will return to this app to clean up the code and add more features as soon as I finish the Flatiron School curriculum.
 
 ## Background
 
