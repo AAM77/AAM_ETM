@@ -1,6 +1,8 @@
 
 # AAM Event Task Manager (AAM ETM)
 
+## [ NOTE ]: I will be returning to this app to clean up the code and add more features as soon as I finish the Flatiron School curriculum.
+
 ## Background
 
 The inspiration for this app came during an attempt to plan a board game night with friends. In the end we did it over text message, but I wanted to see if I could build an app on Rails that could help us with THIS.
