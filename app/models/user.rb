@@ -16,7 +16,7 @@ class User < ApplicationRecord
   validates :password, presence: true, presence: { message: "Password cannot be blank." }, on: :create, unless: :other_provider?
   validates_uniqueness_of :username, case_sensitive: false, message: "That username is invalid."
   validates_uniqueness_of :email, case_sensitive: false, message: "That email is invalid.", on: :create
-  validates :username, length: { in: 5..20, message: "The length of the username must be between 5 and 20 characters long." }
+  validates :username, length: { in: 5..20, message: "The length of the username must be between 5 and 20 characters long.", unless: :other_provider? }
   validates :password, length: { in: 5..30, message: "The length of the password must be between 5 and 30 characters long." }, unless: :other_provider?
   validates :username, format: { without: /[\?\<\>\'\,\?\[\]\}\{\=\-\)\(\*\&\^\%\$\#\`\~\{\}\@]/, message: "The username can contain only letters, digits, periods, and underscores" }, unless: :other_provider?
   validates :email, format: { without: /[\?\<\>\'\,\?\[\]\}\{\=\-\)\(\*\&\^\%\$\#\`\~\{\}]/, message: "The email can contain only letters, digits, periods, underscores, & the @ symbol." }, unless: :other_provider?
