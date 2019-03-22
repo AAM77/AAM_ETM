@@ -35,7 +35,7 @@ gem 'omniauth-github', '~> 1.3'
 gem 'omniauth-google-oauth2', '~> 0.4.1'
 
 #use bootstrap & associated javascript
-gem 'bootstrap', '~> 4.1.3'
+gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem 'sprockets-rails', :require => 'sprockets/railtie'
 gem 'popper_js', '~> 1.14.3'
@@ -48,6 +48,7 @@ gem 'popper_js', '~> 1.14.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'active_model_serializers'
 
 
 
