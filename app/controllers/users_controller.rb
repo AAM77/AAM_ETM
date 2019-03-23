@@ -8,6 +8,10 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all.order(:username)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @users }
+    end
   end
 
   def new
@@ -37,6 +41,10 @@ class UsersController < ApplicationController
   # handles routing to the user's account details #
   #################################################
   def profile
+    respond_to do |format|
+      format.html { render :profile }
+      format.json { render json: @user }
+    end
   end
 
   ###########################################
@@ -45,6 +53,10 @@ class UsersController < ApplicationController
   def show
     @friends_events = Event.not_admin(@user)
     @adminned_events = Event.admin(@user)
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render json: { adminned_events: @adminned_events, friends_events: @friends_events } }
+    end
   end
 
   ###################################################
