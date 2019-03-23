@@ -63,6 +63,10 @@ class UsersController < ApplicationController
   # handles routing to the user's account edit page #
   ###################################################
   def edit
+    respond_to do |format|
+      format.html { render :edit }
+      format.json { render json: @user.to_json(only: [:email, :username, :first_name, :last_name, :address, :telephone_num]) }
+    end
   end
 
   #######################################
