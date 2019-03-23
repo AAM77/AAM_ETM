@@ -8,8 +8,8 @@ ruby '2.3.3'
 
 gem 'activerecord', '~> 5.0', '>= 5.0.0.1'
 # Use postgres as the database for Active Record
-# gem 'sqlite3'
 gem 'pg', '~> 1.1', '>= 1.1.4'
+# gem 'sqlite3'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
@@ -52,6 +52,8 @@ gem 'popper_js', '~> 1.14.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
+
+# Serializing model table data to appear as json
 gem 'active_model_serializers'
 
 
