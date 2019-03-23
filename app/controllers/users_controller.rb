@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @users = User.all.order(:username)
     respond_to do |format|
       format.html { render :index }
-      format.json { render json: @users }
+      format.json { render json: @users.to_json(only: [:id, :username, :friendships]) }
     end
   end
 
