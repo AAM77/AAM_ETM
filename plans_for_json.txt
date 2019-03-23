@@ -1,0 +1,2 @@
+# add a serializer for user
+# add attributes for the user's serializer
