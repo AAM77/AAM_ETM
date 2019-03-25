@@ -7,6 +7,7 @@ function display_users() {
         "USER 1"
       </li>
     </ol>
+
     `
     );
 }
