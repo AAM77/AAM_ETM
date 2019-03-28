@@ -17,4 +17,4 @@
 //= require activestorage
 //= require turbolinks
 //= require cable
-//= require user_index
+//= require events_index
