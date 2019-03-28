@@ -8,6 +8,10 @@ class EventsController < ApplicationController
   ###########################################
   def index
     @events = Event.all.order(:name)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @events.as_json }
+    end
   end
 
   ##############################################
