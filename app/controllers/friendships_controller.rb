@@ -1,6 +1,16 @@
 class FriendshipsController < ApplicationController
   before_action :redirect_if_not_logged_in
 
+
+  #########################
+  # Lists all friendships #
+  #########################
+  # 
+  # def index
+  #   friendships = Friendship.all
+  #   render json: friendships
+  # end
+
   ######################################
   # Creates a Friendship between users #
   ######################################

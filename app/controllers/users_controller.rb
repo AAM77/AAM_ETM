@@ -6,10 +6,9 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all.order(:username)
-    @friendships = Friendship.all
     respond_to do |format|
       format.html { render :index }
-      format.json { render json: { current_user: current_user.as_json(only: [:id, :username]), users: @users.as_json(only: [:id, :username]), friendships: @friendships } }
+      format.json { render json: { current_user: current_user.as_json(only: [:id, :username]), users: @users.as_json(only: [:id, :username]) } }
     end
   end
 
