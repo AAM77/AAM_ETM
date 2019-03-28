@@ -15,7 +15,17 @@ function display_all_events() {
     method: 'GET'
   })
   .done(function(events) {
-    debugger;
+    events.forEach(event => {
+      debugger;
+      $('#all_events ol').append(
+        `
+        <li>
+          <a href="/events/${event['id']}">${event['name']}</a>, by:
+          <a href="#">someone</a>
+        </li>
+        `
+      )
+    })
   })
   $('#all_events')
 }
