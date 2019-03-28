@@ -16,7 +16,6 @@ function display_all_events() {
   })
   .done(function(events) {
     events.forEach(event => {
-      debugger;
       $('#all_events ol').append(
         `
         <li>
