@@ -1,10 +1,6 @@
 <h1>INDEX of Events</h1>
 
-<ol>
-  <% @events.each do |event| %>
-    <li>
-      <%= link_to event.name, event_path(event) %>, by:
-      <%= link_to User.find(event.admin_id).username, user_path(event.admin_id) %>
-    </li>
-  <% end %>
-</ol>
+<div id="all-events">
+  <ol>
+  </ol>
+</div>
