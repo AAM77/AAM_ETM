@@ -10,7 +10,7 @@ class EventsController < ApplicationController
     @events = Event.all.order(:name)
     respond_to do |format|
       format.html { render :index }
-      format.json { render json: @events.as_json }
+      format.json { render json: @events }
     end
   end
 
