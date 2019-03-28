@@ -1,13 +1,3 @@
-// <div id="all_events">
-//   <ol>
-//     <% @events.each do |event| %>
-//       <li>
-//         <%= link_to event.name, event_path(event) %>, by:
-//         <%= link_to User.find(event.admin_id).username, user_path(event.admin_id) %>
-//       </li>
-//     <% end %>
-//   </ol>
-// </div>
 
 class Event {
   constructor(object) {
@@ -30,24 +20,22 @@ Event.prototype.insertHTML = function() {
 }
 
 function displayAllEvents() {
-  let eventsList = ''
   $.ajax({
     url: '/events.json',
     method: 'GET'
   })
   .done(function(events) {
+    $('#all-events ol').empty()
     events.forEach(event => {
       let newEvent = new Event(event)
       let eventHTML = newEvent.insertHTML()
-      eventsList += eventHTML
+      $('#all-events ol').append(eventHTML)
     })
-    $('#all-events ol').empty().append(eventsList);
   })
 }
 
 function clickShowAllEvents() {
-  $('#dd-all-events').on('click', displayAllEvents())
-  return false;
+  $('a#dd-all-events').on('click', displayAllEvents());
 }
 
 $(function() {

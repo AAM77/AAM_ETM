@@ -15,6 +15,5 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require activestorage
-//= require turbolinks
 //= require cable
 //= require events_index
