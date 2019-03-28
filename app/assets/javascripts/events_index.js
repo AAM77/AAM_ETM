@@ -9,26 +9,47 @@
 //   </ol>
 // </div>
 
-function display_all_events() {
+class Event {
+  constructor(object) {
+    this.id = object.id
+    this.name = object.name
+    this.adminUserId = object.admin_user.id
+    this.adminUsername = object.admin_user.username
+  }
+}
+
+Event.prototype.insertHTML = function() {
+  return (
+    `
+    <li>
+      <a href="/events/${this.id}" target="_blank">${this.name}</a>, by:
+      <a href="/events/${this.adminUserId}" target="_blank">${this.adminUsername}</a>
+    </li>
+    `
+  )
+}
+
+function displayAllEvents() {
+  let eventsList = ''
   $.ajax({
     url: '/events.json',
     method: 'GET'
   })
   .done(function(events) {
     events.forEach(event => {
-      $('#all_events ol').append(
-        `
-        <li>
-          <a href="/events/${event['id']}">${event['name']}</a>, by:
-          <a href="#">someone</a>
-        </li>
-        `
-      )
+      let newEvent = new Event(event)
+      let eventHTML = newEvent.insertHTML()
+      eventsList += eventHTML
     })
+    $('#all-events ol').empty().append(eventsList);
   })
-  $('#all_events')
+}
+
+function clickShowAllEvents() {
+  $('#dd-all-events').on('click', displayAllEvents())
+  return false;
 }
 
 $(function() {
-  display_all_events();
+  clickShowAllEvents()
 });
