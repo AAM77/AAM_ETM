@@ -1,0 +1,93 @@
+<h1 class="main-header"><%= "#{@user.username}'s Homepage" %></h1>
+<br>
+<h3><%= "#{@user.username}'s Points: #{@user.display_points}" %></h3>
+
+<br>
+<br>
+
+<div class="container">
+  <div class="row">
+
+    <!-- If the user is friends with the current user -->
+    <% if @user == current_user || @user.friend_ids_list.include?(current_user.id) %>
+
+      <!-- Events the User Created -->
+      <%= render partial: "adminned_events_card", locals: { adminned_events: @adminned_events, user: @user } %>
+
+      <!--Solo Tasks the User is Participating in -->
+      <%= render layout: "card" do %>
+        Solo-Tasks <%= @user.username %> is Participating in
+        </div>
+        <ul class="list-group list-group-flush">
+          <% users_incomplete_solo_tasks.each do |solo_task| %>
+            <li class="list-group-item">
+              <%= task_participating_in solo_task, @user %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <div class="w-100"></div>
+
+      <!-- Events that the User's friends created and that the user is participating in -->
+      <%= render layout: "card" do %>
+        Friends' Events <%= @user.username %> is Participating In
+      </div>
+      <ul class="list-group list-group-flush">
+        <% @friends_events.with_tasks.each do |event| %>
+          <% if event.user_ids.include?(@user.id) %>
+            <li class="list-group-item">
+              <%= friend_event_participating_in(event, @user) %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+      <% end %>
+
+      <!-- List the Group Tasks the User is Participating in -->
+      <%= render layout: "card" do %>
+        Group Tasks <%= @user.username %> is Participating in
+      </div>
+      <ul class="list-group list-group-flush">
+        <% users_incomplete_group_tasks.each do |group_task| %>
+          <li class="list-group-item">
+            <%= task_participating_in group_task, @user %>
+          </li>
+        <% end %>
+      </ul>
+      <% end %>
+
+    <% else %>
+      <!-- If the user is NOT friends with the current user -->
+      <!-- List the Events the User Created -->
+      <%= render partial: "adminned_events_card", locals: { adminned_events: @adminned_events, user: @user } %>
+    <% end %>
+  </div>
+
+    <br>
+    <br>
+
+  <!-- when visiting a user's homepage: -->
+  <!-- if it is the current user's page or the current user is friends with the user page's owner -->
+  <% friends_dropdown @user do %>
+    <div class="btn-group">
+      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Friends List
+      </button>
+      <div class="dropdown-menu scrollable-menu">
+        <% @user.friendships_list.each do |friendship| %>
+          <p class="dropdown-item"><%= link_to_friend(friendship, @user) %></p>
+          <div class="dropdown-divider"></div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <br>
+  <br>
+
+  <!-- An add/remove friend link on a different user's page -->
+  <!-- is this necessary? -->
+  <%= add_remove_friend_button @user %>
+
+</div>

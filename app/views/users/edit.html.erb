@@ -1,0 +1,31 @@
+<h1>Edit Account Info</h1>
+
+<label>Email: <%= @user.email %></label>
+<br>
+<br>
+<%= form_for @user do |f| %>
+
+  <%= f.label :username, "Display Name: " %>
+  <%= f.text_field :username %>
+  <br>
+  <br>
+  <%= f.label :first_name, "First Name: " %>
+  <%= f.text_field :first_name %>
+  <br>
+  <br>
+  <%= f.label :last_name, "Last Name: " %>
+  <%= f.text_field :last_name %>
+  <br>
+  <br>
+  <%= f.label :address, "Address: " %>
+  <%= f.text_field :address %>
+  <br>
+  <br>
+  <%= f.label :telephone_num, "Telephone: " %>
+  <%= f.text_field :telephone_num %>
+  <br>
+  <br>
+
+  <%= f.submit "Update Account Details", data: { confirm: "Are you sure you want to submit these changes?" }, class: "btn btn-info" %>
+
+<% end %>

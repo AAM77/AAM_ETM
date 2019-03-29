@@ -1,0 +1,36 @@
+<%= render partial: 'show_heading', locals: { event: @event, admin: @admin } %>
+
+<h2>INCOMPLETE TASKS</h2>
+
+<p>Sort by: Name | Task Type | Points Awarded | Max Participants | Join Status </p>
+
+<div class="table-responsive dark">
+  <%= form_tag user_complete_users_tasks_path, method: :patch do %>
+    <table class="table border border-info">
+      <thead class="thead bg-info text-white">
+        <tr>
+          <%= render partial: 'table_headers', locals: { event_instance: @event } %>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @incomplete_ordered_tasks.each do |task| %>
+          <tr>
+            <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= submit_tag "Mark as Complete", class: "btn btn-info" %>
+    <% if user_is_event_admin(@event) %>
+      <%= link_to "View as Admin", show_admin_event_path(@event), class: "btn btn-outline-primary" %>
+    <% end %>
+  <% end %>
+</div>
+
+<br>
+<br>
+<br>
+
+<!-- Completed Tasks -->
+<%= render partial: 'completed_tasks', locals: { completed_tasks: @complete_ordered_tasks, event: @event } %>
