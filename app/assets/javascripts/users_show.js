@@ -28,11 +28,23 @@ UserEvent.prototype.listItemLink = function() {
   )
 }
 
-function pageTitle() {
+function displayPageTitle() {
   $.get(`${window.location.href}.json`, function(data) {
     const user = new User(data)
     $('#user-homepage-header').append(`${user.username}'s Homepage`)
+  })
+}
+
+function displayUserPoints() {
+  $.get(`${window.location.href}.json`, function(data) {
+    const user = new User(data)
     $('#users-total-points').append(`${user.username}'s Points: ${user.total_points}`)
+  })
+}
+
+function displayAdminnedEventsCard() {
+  $.get(`${window.location.href}.json`, function(data) {
+    const user = new User(data)
     $('#adminned-events-title').append(`Events ${user.username} Created`)
     $('#adminned-events-list').empty()
 
@@ -48,5 +60,7 @@ function pageTitle() {
 
 // DOCUMENT.READY Function
 $(function() {
-  pageTitle();
+  displayPageTitle();
+  displayUserPoints()
+  displayAdminnedEventsCard()
 })
