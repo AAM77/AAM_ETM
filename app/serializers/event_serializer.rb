@@ -3,11 +3,12 @@ class EventSerializer < ActiveModel::Serializer
 
   has_many :user_events, dependent: :destroy
   has_many :users, through: :user_events, serializer: EventUserSerializer
+  has_many :tasks, dependent: :destroy
 
 
   def admin_user
     u = User.find(object.admin_id)
     { id: u.id, username: u.username }
   end
-  
+
 end
