@@ -17,3 +17,4 @@
 //= require activestorage
 //= require cable
 //= require events_index
+//= require users_show
