@@ -53,7 +53,8 @@ class UsersController < ApplicationController
     @adminned_events = Event.admin(@user)
     respond_to do |format|
       format.html { render :show }
-      format.json { render json: { adminned_events: @adminned_events, friends_events: @friends_events } }
+      format.json { render json: @user }
+      #{ user: @user, adminned_events: @adminned_events, friends_events: @friends_events }
     end
   end
 
