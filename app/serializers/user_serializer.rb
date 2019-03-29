@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :first_name, :last_name, :telephone_num,
+  attributes :crnt_user, :id, :first_name, :last_name, :telephone_num,
              :address, :email, :username, :total_points,
              :all_friends, :solo_tasks, :group_tasks
 
@@ -8,6 +8,10 @@ class UserSerializer < ActiveModel::Serializer
   # has_many :friends, through: :friendships, dependent: :destroy
   # has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy
   # has_many :inverse_friends, through: :inverse_friendships, source: :user, dependent: :destroy
+
+  def crnt_user
+    { id: current_user.id, username: current_user.username }
+  end
 
   def all_friends
     (object.friends + object.inverse_friends).map do |friend|
