@@ -42,13 +42,7 @@
       <%= render layout: "card" do %>
         <div id="group-tasks-title"></div>
       </div>
-      <ul class="list-group list-group-flush">
-        <% users_incomplete_group_tasks.each do |group_task| %>
-          <li class="list-group-item">
-            <%= task_participating_in group_task, @user %>
-          </li>
-        <% end %>
-      </ul>
+      <ul id="group-tasks-list" class="list-group list-group-flush"></ul>
       <% end %>
 
     <% else %>

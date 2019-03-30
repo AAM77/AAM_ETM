@@ -5,6 +5,13 @@
 // // <% end %>
 
 
+// // <% users_incomplete_group_tasks.each do |group_task| %>
+// //   <li class="list-group-item">
+// //     <%= task_participating_in group_task, @user %>
+// //   </li>
+// // <% end %>
+
+
 
 class User {
   constructor(object) {
@@ -110,6 +117,12 @@ function displayGroupTasksCard() {
   $.get(`${window.location.href}.json`, function(data) {
     const user = new User(data)
     $('#group-tasks-title').append(`Group-Tasks ${user.username} is Participating In`)
+
+    user.group_tasks.forEach( task => {
+      let newTask = new Task(task)
+      let taskHTML = newTask.listItemLink()
+      $('#group-tasks-list').append(taskHTML)
+    })
   })
 }
 
