@@ -16,7 +16,7 @@
 
       <!--Solo Tasks the User is Participating in -->
       <%= render layout: "card" do %>
-        Solo-Tasks <%= @user.username %> is Participating in
+        <div id="solo-tasks-title"></div>
         </div>
         <ul class="list-group list-group-flush">
           <% users_incomplete_solo_tasks.each do |solo_task| %>
@@ -31,7 +31,7 @@
 
       <!-- Events that the User's friends created and that the user is participating in -->
       <%= render layout: "card" do %>
-        Friends' Events <%= @user.username %> is Participating In
+        <div id="friend-events-title"></div>
       </div>
       <ul class="list-group list-group-flush">
         <% @friends_events.with_tasks.each do |event| %>
@@ -46,7 +46,7 @@
 
       <!-- List the Group Tasks the User is Participating in -->
       <%= render layout: "card" do %>
-        Group Tasks <%= @user.username %> is Participating in
+        <div id="group-tasks-title"></div>
       </div>
       <ul class="list-group list-group-flush">
         <% users_incomplete_group_tasks.each do |group_task| %>

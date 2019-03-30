@@ -56,11 +56,33 @@ function displayAdminnedEventsCard() {
   })
 }
 
+function displayFriendsEventsCard() {
+  $.get(`${window.location.href}.json`, function(data) {
+    const user = new User(data)
+    $('#friend-events-title').append(`Friends' Events ${user.username} is Participating In`)
+  })
+}
 
+function displaySoloTasksCard() {
+  $.get(`${window.location.href}.json`, function(data) {
+    const user = new User(data)
+    $('#solo-tasks-title').append(`Solo-Tasks ${user.username} is Participating In`)
+  })
+}
+
+function displayGroupTasksCard() {
+  $.get(`${window.location.href}.json`, function(data) {
+    const user = new User(data)
+    $('#group-tasks-title').append(`Group-Tasks ${user.username} is Participating In`)
+  })
+}
 
 // DOCUMENT.READY Function
 $(function() {
   displayPageTitle();
   displayUserPoints()
   displayAdminnedEventsCard()
+  displayFriendsEventsCard()
+  displaySoloTasksCard()
+  displayGroupTasksCard()
 })
