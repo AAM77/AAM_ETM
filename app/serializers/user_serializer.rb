@@ -24,10 +24,10 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def solo_tasks
-    object.tasks.map { |task| { id: task.id, name: task.name, admin_id: task.admin_id, group_task: task.group_task } if task.group_task == false }.compact
+    object.tasks.map { |task| { id: task.id, name: task.name, event_id: task.event_id, admin_id: task.admin_id, event_name: Event.find(task.event_id).name, admin_user: User.find(task.admin_id).username } if task.group_task == false }.compact
   end
 
   def group_tasks
-    object.tasks.map { |task| { id: task.id, name: task.name, admin_id: task.admin_id, group_task: task.group_task } if task.group_task == true }.compact
+    object.tasks.map { |task| { id: task.id, name: task.name, event_id: task.event_id, admin_id: task.admin_id, event_name: Event.find(task.event_id).name, admin_user: User.find(task.admin_id).username } if task.group_task == true }.compact
   end
 end

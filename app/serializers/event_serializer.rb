@@ -3,7 +3,6 @@ class EventSerializer < ActiveModel::Serializer
 
   has_many :user_events, dependent: :destroy
   has_many :users, through: :user_events, serializer: EventUserSerializer
-  has_many :tasks, dependent: :destroy
 
 
   def admin_user
