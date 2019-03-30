@@ -112,7 +112,7 @@ function displaySoloTasksCard() {
     })
   })
 }
-
+//
 function displayGroupTasksCard() {
   $.get(`${window.location.href}.json`, function(data) {
     const user = new User(data)
