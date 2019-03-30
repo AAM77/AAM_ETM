@@ -161,7 +161,13 @@ function displayFriendsList() {
   })
 }
 
-
+function endFriendship() {
+  $('#homepage-unfriend-link').on('click', function() {
+    $.ajax({
+      url: '/friendships/'
+    })
+  })
+}
 
 // DOCUMENT.READY Function
 $(function() {
