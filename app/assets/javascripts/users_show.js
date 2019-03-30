@@ -126,6 +126,13 @@ function displayGroupTasksCard() {
   })
 }
 
+function displayFriendsList() {
+  $.get(`${window.location.href}.json`, function(data) {
+    const user = new User(data)
+    $('#friends-list-button').append('Friends List')
+  })
+}
+
 // DOCUMENT.READY Function
 $(function() {
   displayPageTitle();
@@ -134,4 +141,5 @@ $(function() {
   displayFriendsEventsCard()
   displaySoloTasksCard()
   displayGroupTasksCard()
+  displayFriendsList()
 })
