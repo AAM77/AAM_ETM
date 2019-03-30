@@ -23,6 +23,7 @@ class User {
     this.solo_tasks = object.solo_tasks
     this.group_tasks = object.group_tasks
     this.friends = object.all_friends
+    this.all_friendships = object.all_friendships
   }
 }
 
@@ -31,6 +32,7 @@ class Friend {
     this.id = object.id
     this.username = object.username
     this.events = object.events
+    this.friendships = object.friendships[0]
   }
 }
 
@@ -57,7 +59,7 @@ Friend.prototype.listItemLink = function() {
     `
     <p class="dropdown-item">
       <a href="/users/${this.id}" target="_blank">${this.username}</a> -
-      <a id="show-page-unfriend-link" href="/friendships/${this.friendships_id}">( Unfriend )</a>
+      <a id="show-page-unfriend-link" href="#" data-friendship-id="${this.friendships}">( Unfriend )</a>
       w
     </p>
     <div class="dropdown-divider"></div>
@@ -155,17 +157,16 @@ function displayFriendsList() {
 
     user.friends.forEach( friend => {
       let newFriend = new Friend(friend)
+      debugger;
       let friendHTML = newFriend.listItemLink()
       $('#scrollable-friends-list').append(friendHTML)
     })
   })
 }
 
-function endFriendship() {
-  $('#homepage-unfriend-link').on('click', function() {
-    $.ajax({
-      url: '/friendships/'
-    })
+function endFriendshipListener() {
+  $('#show-page-unfriend-link').on('click', function() {
+
   })
 }
 
@@ -178,4 +179,5 @@ $(function() {
   displaySoloTasksCard()
   displayGroupTasksCard()
   displayFriendsList()
+  endFriendshipListener()
 })

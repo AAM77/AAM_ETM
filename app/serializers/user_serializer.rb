@@ -18,7 +18,8 @@ class UserSerializer < ActiveModel::Serializer
       {
         id: friend.id,
         username: friend.username,
-        events: friend.events.map { |event| { id: event.id, name: event.name, admin_id: event.admin_id } }
+        events: friend.events.map { |event| { id: event.id, name: event.name, admin_id: event.admin_id } },
+        friendships: friend.friendships.map { |friendship| { id: friendship.id, user_id: friendship.user_id, friend_id: friendship.friend_id } if friendship.user_id == current_user.id || friendship.friend_id == current_user.id }.compact
       }
     end
   end
