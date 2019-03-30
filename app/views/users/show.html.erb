@@ -18,13 +18,7 @@
       <%= render layout: "card" do %>
         <div id="solo-tasks-title"></div>
         </div>
-        <ul class="list-group list-group-flush">
-          <% users_incomplete_solo_tasks.each do |solo_task| %>
-            <li class="list-group-item">
-              <%= task_participating_in solo_task, @user %>
-            </li>
-          <% end %>
-        </ul>
+        <ul id="solo-tasks-list" class="list-group list-group-flush"></ul>
       <% end %>
 
       <div class="w-100"></div>

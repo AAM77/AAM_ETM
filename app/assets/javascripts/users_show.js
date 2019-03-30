@@ -1,3 +1,10 @@
+// // <% users_incomplete_solo_tasks.each do |solo_task| %>
+// //   <li class="list-group-item">
+// //     <%= task_participating_in solo_task, @user %>
+// //   </li>
+// // <% end %>
+
+
 
 class User {
   constructor(object) {
@@ -18,11 +25,34 @@ class UserEvent {
   }
 }
 
+class Task {
+  constructor(object) {
+    this.id = object.id
+    this.name = object.name
+    this.event_id = object.event_id
+    this.admin_id = object.admin_id
+    this.event_name = object.event_name
+    this.admin_user = object.admin_user
+  }
+}
+
 UserEvent.prototype.listItemLink = function() {
   return (
     `
     <li class="list-group-item">
       <a href="/events/${this.id}" target="_blank">${this.name}</a>
+    </li>
+    `
+  )
+}
+
+Task.prototype.listItemLink = function() {
+  return (
+    `
+    <li class="list-group-item">
+      <a href="/tasks/${this.id}" target="_blank">${this.name}</a>,
+      in Event: <a href="/events/${this.event_id}" target="_blank">${this.event_name}</a>,
+      by: <a href="/users/${this.admin_id}" target="_blank">${this.admin_user}</a>
     </li>
     `
   )
@@ -67,6 +97,12 @@ function displaySoloTasksCard() {
   $.get(`${window.location.href}.json`, function(data) {
     const user = new User(data)
     $('#solo-tasks-title').append(`Solo-Tasks ${user.username} is Participating In`)
+
+    user.solo_tasks.forEach( task => {
+      let newTask = new Task(task)
+      let taskHTML = newTask.listItemLink()
+      $('#solo-tasks-list').append(taskHTML)
+    })
   })
 }
 
