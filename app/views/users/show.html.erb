@@ -60,9 +60,9 @@
   <% friends_dropdown @user do %>
     <div class="btn-group">
       <button id='friends-list-button' type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        
+
       </button>
-      <div class="dropdown-menu scrollable-menu">
+      <div id="scrollable-friends-list" class="dropdown-menu scrollable-menu">
         <% @user.friendships_list.each do |friendship| %>
           <p class="dropdown-item"><%= link_to_friend(friendship, @user) %></p>
           <div class="dropdown-divider"></div>

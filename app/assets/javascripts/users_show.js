@@ -25,6 +25,14 @@ class User {
   }
 }
 
+class Friend {
+  constructor(object) {
+    this.id = object.id
+    this.username = object.username
+    this.events = object.events
+  }
+}
+
 class UserEvent {
   constructor(object) {
     this.id = object.id
@@ -41,6 +49,17 @@ class Task {
     this.event_name = object.event_name
     this.admin_user = object.admin_user
   }
+}
+
+Friend.prototype.listItemLink = function() {
+  return (
+    `
+    <p class="dropdown-item">
+      <a href="/users/${this.id}" target="_blank">${this.username}</a>
+    </p>
+    <div class="dropdown-divider"></div>
+    `
+  )
 }
 
 UserEvent.prototype.listItemLink = function() {
@@ -130,6 +149,12 @@ function displayFriendsList() {
   $.get(`${window.location.href}.json`, function(data) {
     const user = new User(data)
     $('#friends-list-button').append('Friends List')
+
+    user.friends.forEach( friend => {
+      let newFriend = new Friend(friend)
+      let friendHTML = newFriend.listItemLink()
+      $('#scrollable-friends-list').append(friendHTML)
+    })
   })
 }
 
