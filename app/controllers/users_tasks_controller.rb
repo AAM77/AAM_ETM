@@ -67,7 +67,7 @@ class UsersTasksController < ApplicationController
       task.remove_participant(current_user)
       flash[:success] = "You have left the task: #{task.name}."
     else
-      flash[:warnings] = [ "You cannot leave a task you are nt participating in!" ]
+      flash[:warnings] = [ "You cannot leave a task you are not participating in!" ]
     end
 
     redirect_to event_path(task.event_id)

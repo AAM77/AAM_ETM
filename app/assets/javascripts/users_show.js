@@ -11,7 +11,8 @@
 // //   </li>
 // // <% end %>
 
-
+// // friendships POST   /friendships(.:format)        friendships#create
+// // friendship DELETE /friendships/:id               friendships#destroy
 
 class User {
   constructor(object) {
@@ -55,7 +56,9 @@ Friend.prototype.listItemLink = function() {
   return (
     `
     <p class="dropdown-item">
-      <a href="/users/${this.id}" target="_blank">${this.username}</a>
+      <a href="/users/${this.id}" target="_blank">${this.username}</a> -
+      <a id="show-page-unfriend-link" href="/friendships/${this.friendships_id}">( Unfriend )</a>
+      w
     </p>
     <div class="dropdown-divider"></div>
     `
@@ -157,6 +160,8 @@ function displayFriendsList() {
     })
   })
 }
+
+
 
 // DOCUMENT.READY Function
 $(function() {
