@@ -32,7 +32,7 @@ class Friend {
     this.id = object.id
     this.username = object.username
     this.events = object.events
-    this.friendships = object.friendships[0]
+    this.friendships = object.friendships
   }
 }
 
@@ -59,7 +59,7 @@ Friend.prototype.listItemLink = function() {
     `
     <p class="dropdown-item">
       <a href="/users/${this.id}" target="_blank">${this.username}</a> -
-      <a id="show-page-unfriend-link" href="#" data-friendship-id="${this.friendships}">( Unfriend )</a>
+      <a id="show-page-unfriend-link" href="" data-friendship-id="">( Unfriend )</a>
       w
     </p>
     <div class="dropdown-divider"></div>
@@ -157,7 +157,6 @@ function displayFriendsList() {
 
     user.friends.forEach( friend => {
       let newFriend = new Friend(friend)
-      debugger;
       let friendHTML = newFriend.listItemLink()
       $('#scrollable-friends-list').append(friendHTML)
     })
@@ -165,8 +164,9 @@ function displayFriendsList() {
 }
 
 function endFriendshipListener() {
-  $('#show-page-unfriend-link').on('click', function() {
-
+  $('#show-page-unfriend-link').on('click', function(event) {
+    event.preventDefault();
+    debugger;
   })
 }
 
