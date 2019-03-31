@@ -59,8 +59,7 @@ Friend.prototype.listItemLink = function() {
     `
     <p class="dropdown-item">
       <a href="/users/${this.id}" target="_blank">${this.username}</a> -
-      <a id="show-page-unfriend-link" href="" data-friendship-id="">( Unfriend )</a>
-      w
+      <a class="show-page-unfriend-link" href="#">( Unfriend )</a>
     </p>
     <div class="dropdown-divider"></div>
     `
@@ -164,14 +163,14 @@ function displayFriendsList() {
 }
 
 function endFriendshipListener() {
-  $('#show-page-unfriend-link').on('click', function(event) {
-    event.preventDefault();
+  $('.show-page-unfriend-link').on('click', function() {
     debugger;
   })
 }
 
 // DOCUMENT.READY Function
 $(function() {
+  endFriendshipListener()
   displayPageTitle();
   displayUserPoints()
   displayAdminnedEventsCard()
@@ -179,5 +178,4 @@ $(function() {
   displaySoloTasksCard()
   displayGroupTasksCard()
   displayFriendsList()
-  endFriendshipListener()
 })
