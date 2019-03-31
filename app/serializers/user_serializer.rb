@@ -22,7 +22,8 @@ class UserSerializer < ActiveModel::Serializer
         id: friend.id,
         username: friend.username,
         events: friend.events.map { |event| { id: event.id, name: event.name, admin_id: event.admin_id } },
-        friendship_id: total_friendships[0]
+        friendship_id: total_friendships[0],
+        current_user_id: current_user.id
       }
     end
   end
