@@ -32,7 +32,7 @@ class Friend {
     this.id = object.id
     this.username = object.username
     this.events = object.events
-    this.friendships = object.friendships
+    this.friendship_id = object.friendship_id.id
   }
 }
 
@@ -59,7 +59,7 @@ Friend.prototype.listItemLink = function() {
     `
     <p class="dropdown-item">
       <a href="/users/${this.id}" target="_blank">${this.username}</a> -
-      <a class="show-page-unfriend-link" href="#">( Unfriend )</a>
+      <button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}">Unfriend</button>
     </p>
     <div class="dropdown-divider"></div>
     `
@@ -159,18 +159,18 @@ function displayFriendsList() {
       let friendHTML = newFriend.listItemLink()
       $('#scrollable-friends-list').append(friendHTML)
     })
+    endFriendshipListener()
   })
 }
 
 function endFriendshipListener() {
-  $('.show-page-unfriend-link').on('click', function() {
+  $('.dropdown-menu .unfriend-button').on('click', function() {
     debugger;
   })
 }
 
 // DOCUMENT.READY Function
 $(function() {
-  endFriendshipListener()
   displayPageTitle();
   displayUserPoints()
   displayAdminnedEventsCard()
