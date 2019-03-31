@@ -5,7 +5,7 @@ class FriendshipsController < ApplicationController
   #########################
   # Lists all friendships #
   #########################
-  # 
+  #
   # def index
   #   friendships = Friendship.all
   #   render json: friendships
@@ -33,8 +33,10 @@ class FriendshipsController < ApplicationController
     friendship = Friendship.find(params[:id])
     friendship.destroy
 
+    respond_to do |format|
+      format.js
+    end
     flash[:warnings] = [ "You ended the friendship." ]
-    redirect_to user_path(current_user)
   end
 
 end

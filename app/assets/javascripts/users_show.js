@@ -57,11 +57,11 @@ class Task {
 Friend.prototype.listItemLink = function() {
   return (
     `
-    <p class="dropdown-item">
+    <p class="dropdown-item user-${this.id}">
       <a href="/users/${this.id}" target="_blank">${this.username}</a> -
-      <button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}">Unfriend</button>
+      <button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}" data-user-id="${this.id}">Unfriend</button>
     </p>
-    <div class="dropdown-divider"></div>
+    <div class="dropdown-divider user-${this.id}"></div>
     `
   )
 }
@@ -165,7 +165,15 @@ function displayFriendsList() {
 
 function endFriendshipListener() {
   $('.dropdown-menu .unfriend-button').on('click', function() {
-    debugger;
+    friendship_id = parseInt($(this).attr('data-friendship-id'))
+    user_id = $(this).attr('data-user-id')
+    $.ajax({
+      url: `/friendships/${friendship_id}`,
+      method: 'DELETE'
+    })
+    .done(function(data) {
+      $(`.user-${user_id}`).remove()
+    });
   })
 }
 
