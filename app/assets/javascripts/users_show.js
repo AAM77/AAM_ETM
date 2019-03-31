@@ -24,6 +24,7 @@ class User {
     this.group_tasks = object.group_tasks
     this.friends = object.all_friends
     this.all_friendships = object.all_friendships
+    this.current_user_id = object.crnt_user['id']
   }
 }
 
@@ -33,6 +34,7 @@ class Friend {
     this.username = object.username
     this.events = object.events
     this.friendship_id = object.friendship_id.id
+    this.current_user_id = object.current_user_id
   }
 }
 
@@ -54,17 +56,28 @@ class Task {
   }
 }
 
-Friend.prototype.listItemLink = function() {
+Friend.prototype.addFriendForCurrentUser = function() {
   return (
     `
     <p class="dropdown-item user-${this.id}">
-      <a href="/users/${this.id}" target="_blank">${this.username}</a> -
-      <button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}" data-user-id="${this.id}">Unfriend</button>
+      <a href="/users/${this.id}" target="_blank">${this.username}</a> - <button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}" data-user-id="${this.id}">Unfriend</button>
     </p>
     <div class="dropdown-divider user-${this.id}"></div>
     `
   )
 }
+
+Friend.prototype.addFriendForOtherUser = function() {
+  return (
+    `
+    <p class="dropdown-item user-${this.id}">
+      <a href="/users/${this.id}" target="_blank">${this.username}</a>
+    </p>
+    <div class="dropdown-divider user-${this.id}"></div>
+    `
+  )
+}
+
 
 UserEvent.prototype.listItemLink = function() {
   return (
@@ -77,6 +90,7 @@ UserEvent.prototype.listItemLink = function() {
 }
 
 Task.prototype.listItemLink = function() {
+
   return (
     `
     <li class="list-group-item">
@@ -154,11 +168,20 @@ function displayFriendsList() {
     const user = new User(data)
     $('#friends-list-button').append('Friends List')
 
-    user.friends.forEach( friend => {
-      let newFriend = new Friend(friend)
-      let friendHTML = newFriend.listItemLink()
-      $('#scrollable-friends-list').append(friendHTML)
-    })
+    if (user.id === user.current_user_id) {
+      user.friends.forEach( friend => {
+        let newFriend = new Friend(friend)
+        let friendHTML = newFriend.addFriendForCurrentUser()
+        $('#scrollable-friends-list').append(friendHTML)
+      })
+    } else {
+      user.friends.forEach( friend => {
+        let newFriend = new Friend(friend)
+        let friendHTML = newFriend.addFriendForOtherUser()
+        $('#scrollable-friends-list').append(friendHTML)
+      })
+    }
+
     endFriendshipListener()
   })
 }
