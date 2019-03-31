@@ -165,15 +165,18 @@ function displayFriendsList() {
 
 function endFriendshipListener() {
   $('.dropdown-menu .unfriend-button').on('click', function() {
-    friendship_id = parseInt($(this).attr('data-friendship-id'))
-    user_id = $(this).attr('data-user-id')
-    $.ajax({
-      url: `/friendships/${friendship_id}`,
-      method: 'DELETE'
-    })
-    .done(function(data) {
-      $(`.user-${user_id}`).remove()
-    });
+    if (confirm("Are you sure you want to end this friendship?")) {
+      friendship_id = parseInt($(this).attr('data-friendship-id'))
+      user_id = $(this).attr('data-user-id')
+      $.ajax({
+        url: `/friendships/${friendship_id}`,
+        method: 'DELETE'
+      })
+      .done(function() {
+        $(`.user-${user_id}`).remove()
+      });
+    }
+
   })
 }
 
