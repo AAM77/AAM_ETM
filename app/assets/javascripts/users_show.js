@@ -181,9 +181,14 @@ function displayFriendsList() {
         $('#scrollable-friends-list').append(friendHTML)
       })
     }
-
     endFriendshipListener()
   })
+}
+
+function addUnfriendButton(user) {
+  if (user.id !== user.current_user_id) && //(is a friend) {
+    $('#friend-unfriend-button').append()
+  }
 }
 
 function endFriendshipListener() {
@@ -199,7 +204,6 @@ function endFriendshipListener() {
         $(`.user-${user_id}`).remove()
       });
     }
-
   })
 }
 
