@@ -67,6 +67,12 @@ Friend.prototype.addFriendForCurrentUser = function() {
   )
 }
 
+Friend.prototype.displayUnfriendButton = function() {
+  return (
+    `<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}" data-user-id="${this.id}">Unfriend</button>`
+  )
+}
+
 Friend.prototype.addFriendForOtherUser = function() {
   return (
     `
@@ -175,24 +181,43 @@ function displayFriendsList() {
         $('#scrollable-friends-list').append(friendHTML)
       })
     } else {
-      user.friends.forEach( friend => {
-        let newFriend = new Friend(friend)
-        let friendHTML = newFriend.addFriendForOtherUser()
-        $('#scrollable-friends-list').append(friendHTML)
-      })
+
+      if (isFriend()) {
+        user.friends.forEach( friend => {
+          let newFriend = new Friend(friend)
+          let friendHTML = newFriend.addFriendForOtherUser()
+          $('#scrollable-friends-list').append(friendHTML)
+        })
+        displayUnfriendButton()
+      }
     }
     endFriendshipListener()
   })
 }
 
-function addUnfriendButton(user) {
-  if (user.id !== user.current_user_id) && //(is a friend) {
-    $('#friend-unfriend-button').append()
+function isFriend() {
+  let userFriend;
+  $.get(`${window.location.href}.json`, function(data) {
+    const user = new User(data)
+    userFriend = user.friends.filter(function(friend, key) {
+      return friend.id === user.current_user_id
+    })[0];
+  })
+    return userFriend
+}
+
+function displayUnfriendButton() {
+  const userFriend = isFriend()
+
+  if ((userFriend)) {
+    const friendId = userFriend.id
+    const friendshipId = userFriend.friendship_id.id
+    $('#friend-unfriend-button').append(`<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${friendshipId}" data-user-id="${friendId}">Unfriend</button>`)
   }
 }
 
 function endFriendshipListener() {
-  $('.dropdown-menu .unfriend-button').on('click', function() {
+  $('.unfriend-button').on('click', function() {
     if (confirm("Are you sure you want to end this friendship?")) {
       friendship_id = parseInt($(this).attr('data-friendship-id'))
       user_id = $(this).attr('data-user-id')
@@ -216,4 +241,5 @@ $(function() {
   displaySoloTasksCard()
   displayGroupTasksCard()
   displayFriendsList()
+  displayUnfriendButton()
 })
