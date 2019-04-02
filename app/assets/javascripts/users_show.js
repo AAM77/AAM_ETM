@@ -182,13 +182,18 @@ function displayFriendsList() {
       })
     } else {
 
-      if (isFriend()) {
+      const user = new User(data)
+      userFriend = user.friends.filter(function(friend, key) {
+        return friend.id === user.current_user_id
+      })[0];
+
+      if (userFriend) {
         user.friends.forEach( friend => {
           let newFriend = new Friend(friend)
           let friendHTML = newFriend.addFriendForOtherUser()
           $('#scrollable-friends-list').append(friendHTML)
         })
-        displayUnfriendButton()
+        displayUnfriendButton(userFriend)
       }
     }
     endFriendshipListener()
@@ -198,17 +203,12 @@ function displayFriendsList() {
 function isFriend() {
   let userFriend;
   $.get(`${window.location.href}.json`, function(data) {
-    const user = new User(data)
-    userFriend = user.friends.filter(function(friend, key) {
-      return friend.id === user.current_user_id
-    })[0];
+
   })
     return userFriend
 }
 
-function displayUnfriendButton() {
-  const userFriend = isFriend()
-
+function displayUnfriendButton(userFriend) {
   if ((userFriend)) {
     const friendId = userFriend.id
     const friendshipId = userFriend.friendship_id.id
