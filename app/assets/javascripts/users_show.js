@@ -60,7 +60,7 @@ Friend.prototype.addFriendForCurrentUser = function() {
   return (
     `
     <p class="dropdown-item user-${this.id}">
-      <a href="/users/${this.id}" target="_blank">${this.username}</a> - <button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}" data-user-id="${this.id}">Unfriend</button>
+      <a href="/users/${this.id}" target="_blank">${this.username}</a> - <button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}" data-user-id="${this.id} data-current-user="${this.current_user_id}"">Unfriend</button>
     </p>
     <div class="dropdown-divider user-${this.id}"></div>
     `
@@ -212,7 +212,8 @@ function displayUnfriendButton(userFriend) {
   if ((userFriend)) {
     const friendId = userFriend.id
     const friendshipId = userFriend.friendship_id.id
-    $('#friend-unfriend-button').append(`<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${friendshipId}" data-user-id="${friendId}">Unfriend</button>`)
+    const currentUser = userFriend.current_user_id
+    $('#friend-unfriend-button').append(`<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${friendshipId}" data-user-id="${friendId} data-current-user="${currentUser}">Unfriend</button>`)
   }
 }
 
@@ -221,12 +222,19 @@ function endFriendshipListener() {
     if (confirm("Are you sure you want to end this friendship?")) {
       friendship_id = parseInt($(this).attr('data-friendship-id'))
       user_id = $(this).attr('data-user-id')
+      current_user_id = $(this).attr('data-current-user')
       $.ajax({
         url: `/friendships/${friendship_id}`,
         method: 'DELETE'
       })
       .done(function() {
-        $(`.user-${user_id}`).remove()
+        if (user_id === current_user_id) {
+          $(`.user-${user_id}`).remove()
+        } else {
+          $('.friends-only').remove()
+          $('#friends-list-button').remove()
+          $('.unfriend-button').remove()
+        }
       });
     }
   })
