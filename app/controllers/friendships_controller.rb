@@ -19,7 +19,11 @@ class FriendshipsController < ApplicationController
 
     if friendship.save
       flash[:success] = "Added friend successfully."
-      render json: friendship
+      respond_to do |format|
+        format.html { redirect_to user_path(params[:friend_id])}
+        format.js { render friendship }
+      end
+
     else
       flash[:warnings] = [ "Unable to add friend." ]
       redirect_to users_path
