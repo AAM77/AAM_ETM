@@ -1,7 +1,7 @@
 class UserSerializer < ActiveModel::Serializer
   attributes :crnt_user, :id, :first_name, :last_name, :telephone_num,
              :address, :email, :username, :total_points,
-             :all_friends, :solo_tasks, :group_tasks
+             :all_friends, :solo_tasks, :group_tasks, :friendship_id
 
   has_many :events, through: :user_events, dependent: :destroy
   # has_many :friendships, dependent: :destroy
@@ -27,16 +27,14 @@ class UserSerializer < ActiveModel::Serializer
       }
     end
   end
-  #
-  # def all_friendships
-  #   (object.friendships + object.inverse_friendships).map do |friendship|
-  #     {
-  #       id: friendship.id,
-  #       user_id: friendship.user_id,
-  #       friend_id: friendship.friend_id
-  #     }
-  #   end
-  # end
+
+  def friendship_id
+
+    if object.id != current_user.id
+      Friendship.where(["user_id = ? AND friend_id = ?", current_user.id, object.id]) ||
+      Friendship.where(["user_id = ? AND friend_id = ?", object.id, current_user.id])
+    end
+  end
 
   def solo_tasks
     object.tasks.map { |task| {
