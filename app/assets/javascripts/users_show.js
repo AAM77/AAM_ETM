@@ -202,7 +202,7 @@ function displayGroupTasksCard() {
 function displayFriendsList() {
   $.get(`${window.location.href}.json`, function(data) {
     const user = new User(data)
-    $('#friends-list-button').append('Friends List')
+    $('#friends-list-button').text('Friends List')
 
     // add friend to the dropdown friends list
     if (user.id === user.current_user_id) {
@@ -265,11 +265,14 @@ function createFriendshipListener() {
     })
     .done(function(newUser) {
       if (confirm("Are you sure you want to add this person as a friend?")) {
-        debugger;
         $.ajax({
-          url: '/friendships',
-          method: 'POST',
-          data: parseInt(newUser.id)
+          url: `/friendships?friend_id=${newUser.id}`,
+          method: 'POST'
+        }).done(function() {
+          $('.friends-only').show();
+          $('#friends-list-button').show();
+          displayUnfriendButton(newUser);
+          $('.friend-button').hide();
         })
       }
     })
@@ -294,8 +297,8 @@ function endFriendshipListener() {
         if (user_id === current_user_id) {
           $(`.user-${user_id}`).remove();
         } else {
-          $('.friends-only').remove();
-          $('#friends-list-button').remove();
+          $('.friends-only').hide();
+          $('#friends-list-button').hide();
           $('.unfriend-button').remove();
           displayFriendsList();
         }
