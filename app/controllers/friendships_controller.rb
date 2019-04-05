@@ -19,7 +19,7 @@ class FriendshipsController < ApplicationController
 
     if friendship.save
       flash[:success] = "Added friend successfully."
-      redirect_to user_path(params[:friend_id])
+      render json: friendship
     else
       flash[:warnings] = [ "Unable to add friend." ]
       redirect_to users_path
