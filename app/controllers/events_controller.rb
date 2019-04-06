@@ -75,7 +75,7 @@ class EventsController < ApplicationController
   # handles routing to the admin's show page #
   ############################################
   def show_admin
-    @admin = @admin = User.find(@event.admin_id)
+    @admin = User.find(@event.admin_id)
 
     if @event.admin_id != current_user.id
       redirect_to event_path(@event)

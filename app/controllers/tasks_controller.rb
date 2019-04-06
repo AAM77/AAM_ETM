@@ -19,14 +19,13 @@ class TasksController < ApplicationController
     @task.event = Event.find(params[:event_id])
 
     if @task.save
-      flash[:success] = "Successfully create task: #{@task.name}"
+      flash[:success] = "Successfully created task: #{@task.name}"
     else
       flash[:warnings] = []
       @task.errors.messages.each { |error| flash[:warnings] << error.second.first }
     end
 
     respond_to do |format|
-      format.html { redirect_to show_admin_event_path(params[:event_id]) }
       format.json { render json: @task }
     end
 
