@@ -27,7 +27,7 @@
       <%= render layout: "card" do %>
         <div id="friend-events-title"></div>
       </div>
-      <ul class="list-group list-group-flush">
+      <ul id="friends-events-list" class="list-group list-group-flush">
         <% @friends_events.with_tasks.each do |event| %>
           <% if event.user_ids.include?(@user.id) %>
             <li class="list-group-item">
