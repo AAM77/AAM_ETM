@@ -1,7 +1,8 @@
 class UserSerializer < ActiveModel::Serializer
   attributes :crnt_user, :id, :first_name, :last_name, :telephone_num,
              :address, :email, :username, :total_points,
-             :all_friends, :solo_tasks, :group_tasks, :friendship_id
+             :all_friends, :solo_tasks, :group_tasks, :friendship_id,
+             :friends_events
 
   has_many :events, through: :user_events, dependent: :destroy
   # has_many :friendships, dependent: :destroy
@@ -29,10 +30,22 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def friendship_id
-
     if object.id != current_user.id
       Friendship.where(["user_id = ? AND friend_id = ?", current_user.id, object.id]) ||
       Friendship.where(["user_id = ? AND friend_id = ?", object.id, current_user.id])
+    end
+  end
+
+  def friends_events
+    Event.not_admin(object).with_tasks.map do |event|
+      if event.user_ids.include?(object.id)
+        {
+          id: event.id,
+          name: event.name,
+          admin_id: event.admin_id,
+          admin_user: User.find(event.admin_id).username
+        }
+      end
     end
   end
 

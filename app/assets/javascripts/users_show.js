@@ -67,7 +67,7 @@ Friend.prototype.addFriendForCurrentUser = function() {
   return (
     `
     <p class="dropdown-item user-${this.id}">
-      <a href="/users/${this.id}" target="_blank">${this.username}</a> - <button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}" data-user-id="${this.id} data-current-user="${this.current_user_id}"">Unfriend</button>
+      <a href="/users/${this.id}" target="_blank">${this.username}</a> - <button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}" data-user-id="${this.id}" data-current-user="${this.current_user_id}">Unfriend</button>
     </p>
     <div class="dropdown-divider user-${this.id}"></div>
     `
@@ -241,7 +241,7 @@ function displayUnfriendButton(userFriend) {
     const friendId = userFriend.id
     const friendshipId = userFriend.friendship_id.id
     const currentUser = userFriend.current_user_id
-    $('#friend-unfriend-button').append(`<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${friendshipId}" data-user-id="${friendId} data-current-user="${currentUser}">Unfriend</button>`)
+    $('#friend-unfriend-button').append(`<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${friendshipId}" data-user-id="${friendId}" data-current-user="${currentUser}">Unfriend</button>`)
   }
 }
 
@@ -252,7 +252,9 @@ function displayUnfriendButton(userFriend) {
 function displayFriendButton(user) {
   $.get(`${window.location.href}.json`, function(data) {
     const user = new User(data)
-    $('#friend-unfriend-button').append(`<a class="btn btn-info" rel="nofollow" data-method="post" href="/friendships?friend_id=${user.id}">Add Friend</a>`)
+    if (user.id !== user.current_user_id) {
+      $('#friend-unfriend-button').append(`<a class="btn btn-info" rel="nofollow" data-method="post" href="/friendships?friend_id=${user.id}">Add Friend</a>`)
+    }
   })
 }
 
@@ -276,7 +278,6 @@ function endFriendshipListener() {
           $('.friends-only').remove()
           $('#friends-list-button').remove()
           $('.unfriend-button').remove()
-          displayFriendButton();
         }
       });
     }
