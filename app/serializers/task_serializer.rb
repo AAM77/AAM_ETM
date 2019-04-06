@@ -1,5 +1,6 @@
 class TaskSerializer < ActiveModel::Serializer
-  attributes :id, :name, :in_event
+  attributes :id, :name, :admin_id, :event_id, :in_event, :points_awarded, :max_participants,
+             :deadline_date, :group_task, :completed
 
   belongs_to :event
   has_many :user_tasks, dependent: :destroy
