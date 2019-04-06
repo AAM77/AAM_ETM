@@ -23,7 +23,7 @@ class User {
     this.id = object.id
     this.username = object.username
     this.total_points = object.total_points
-    this.adminned_events = object.events
+    this.adminned_events = object.adminned_events
     this.friends_events = object.friends_events
     this.solo_tasks = object.solo_tasks
     this.group_tasks = object.group_tasks
