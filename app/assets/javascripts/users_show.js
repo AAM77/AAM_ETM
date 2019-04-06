@@ -24,6 +24,7 @@ class User {
     this.username = object.username
     this.total_points = object.total_points
     this.adminned_events = object.events
+    this.friends_events = object.friends_events
     this.solo_tasks = object.solo_tasks
     this.group_tasks = object.group_tasks
     this.friends = object.all_friends
@@ -46,6 +47,8 @@ class UserEvent {
   constructor(object) {
     this.id = object.id
     this.name = object.name
+    this.admin_id = object.admin_id
+    this.admin_user = object.admin_user
   }
 }
 
@@ -91,7 +94,7 @@ Friend.prototype.addFriendForOtherUser = function() {
   )
 }
 
-UserEvent.prototype.listItemLink = function() {
+UserEvent.prototype.listCreatedEvent = function() {
   return (
     `
     <li class="list-group-item">
@@ -101,7 +104,18 @@ UserEvent.prototype.listItemLink = function() {
   )
 }
 
-Task.prototype.listItemLink = function() {
+UserEvent.prototype.listFriendEvent = function() {
+  return (
+    `
+    <li class="list-group-item">
+      <a href="/events/${this.id}" target="_blank">${this.name}</a>,
+      by: <a href="/users/${this.admin_id}" tasrget="_blank">${this.admin_user}</a>
+    </li>
+    `
+  )
+}
+
+Task.prototype.listTask = function() {
 
   return (
     `
@@ -147,7 +161,7 @@ function displayAdminnedEventsCard() {
 
     user.adminned_events.forEach( event => {
       let newEvent = new UserEvent(event)
-      let eventHTML = newEvent.listItemLink()
+      let eventHTML = newEvent.listCreatedEvent()
       $('#adminned-events-list').append(eventHTML)
     })
   })
@@ -160,6 +174,13 @@ function displayFriendsEventsCard() {
   $.get(`${window.location.href}.json`, function(data) {
     const user = new User(data)
     $('#friend-events-title').append(`Friends' Events ${user.username} is Participating In`)
+    $('#friends-events-list').empty()
+
+    user.friends_events.forEach( event => {
+      let friendEvent = new UserEvent(event)
+      let eventHTML = friendEvent.listFriendEvent()
+      $('#friends-events-list').append(eventHTML);
+    })
   })
 }
 
@@ -174,7 +195,7 @@ function displaySoloTasksCard() {
 
     user.solo_tasks.forEach( task => {
       let newTask = new Task(task)
-      let taskHTML = newTask.listItemLink()
+      let taskHTML = newTask.listTask()
       $('#solo-tasks-list').append(taskHTML)
     })
   })
@@ -190,7 +211,7 @@ function displayGroupTasksCard() {
 
     user.group_tasks.forEach( task => {
       let newTask = new Task(task)
-      let taskHTML = newTask.listItemLink()
+      let taskHTML = newTask.listTask()
       $('#group-tasks-list').append(taskHTML)
     })
   })
