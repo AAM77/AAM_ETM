@@ -17,7 +17,7 @@
         </tr>
       </thead>
 
-      <tbody>
+      <tbody id='incomplete_tasks_list'>
         <% @incomplete_ordered_tasks.not_complete.each do |task| %>
           <tr>
             <%= render partial: 'table_rows', locals: { event_instance: @event, task_instance: task } %>
