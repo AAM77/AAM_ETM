@@ -18,3 +18,4 @@
 //= require cable
 //= require events_index
 //= require users_show
+//= require events_show_admin

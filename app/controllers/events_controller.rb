@@ -84,6 +84,10 @@ class EventsController < ApplicationController
       @incomplete_ordered_tasks = @event.order_tasks.not_complete
       @complete_ordered_tasks = @event.order_tasks.admin_marked_complete
       @task = Task.new
+      respond_to do |format|
+        format.html { render :show_admin }
+        format.json { render json: @event }
+      end
     end
   end
 
