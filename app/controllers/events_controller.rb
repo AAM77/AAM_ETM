@@ -45,6 +45,10 @@ class EventsController < ApplicationController
     @complete_ordered_tasks = @event.order_tasks.admin_marked_complete
     @task = Task.new
     @admin = User.find(@event.admin_id)
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render json: @event }
+    end
   end
 
   ############################################
