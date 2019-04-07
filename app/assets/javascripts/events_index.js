@@ -12,8 +12,8 @@ Event.prototype.insertHTML = function() {
   return (
     `
     <li>
-      <a href="/events/${this.id}" target="_blank">${this.name}</a>, by:
-      <a href="/events/${this.adminUserId}" target="_blank">${this.adminUsername}</a>
+      <a href="/events/${this.id}">${this.name}</a>, by:
+      <a href="/events/${this.adminUserId}">${this.adminUsername}</a>
     </li>
     `
   )

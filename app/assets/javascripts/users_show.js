@@ -70,7 +70,7 @@ Friend.prototype.addFriendForCurrentUser = function() {
   return (
     `
     <p class="dropdown-item user-${this.id}">
-      <a href="/users/${this.id}" target="_blank">${this.username}</a> - <button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}" data-user-id="${this.id}" data-current-user="${this.current_user_id}">Unfriend</button>
+      <a href="/users/${this.id}">${this.username}</a> - <button class="btn-sm btn-danger unfriend-button" data-friendship-id="${this.friendship_id}" data-user-id="${this.id}" data-current-user="${this.current_user_id}">Unfriend</button>
     </p>
     <div class="dropdown-divider user-${this.id}"></div>
     `
@@ -87,7 +87,7 @@ Friend.prototype.addFriendForOtherUser = function() {
   return (
     `
     <p class="dropdown-item user-${this.id}">
-      <a href="/users/${this.id}" target="_blank">${this.username}</a>
+      <a href="/users/${this.id}" >${this.username}</a>
     </p>
     <div class="dropdown-divider user-${this.id}"></div>
     `
@@ -98,7 +98,7 @@ UserEvent.prototype.listCreatedEvent = function() {
   return (
     `
     <li class="list-group-item">
-      <a href="/events/${this.id}" target="_blank">${this.name}</a>
+      <a href="/events/${this.id}" >${this.name}</a>
     </li>
     `
   )
@@ -108,7 +108,7 @@ UserEvent.prototype.listFriendEvent = function() {
   return (
     `
     <li class="list-group-item">
-      <a href="/events/${this.id}" target="_blank">${this.name}</a>,
+      <a href="/events/${this.id}" >${this.name}</a>,
       by: <a href="/users/${this.admin_id}" tasrget="_blank">${this.admin_user}</a>
     </li>
     `
@@ -120,9 +120,9 @@ Task.prototype.listTask = function() {
   return (
     `
     <li class="list-group-item">
-      <a href="/tasks/${this.id}" target="_blank">${this.name}</a>,
-      in Event: <a href="/events/${this.event_id}" target="_blank">${this.event_name}</a>,
-      by: <a href="/users/${this.admin_id}" target="_blank">${this.admin_user}</a>
+      <a href="/tasks/${this.id}" >${this.name}</a>,
+      in Event: <a href="/events/${this.event_id}" >${this.event_name}</a>,
+      by: <a href="/users/${this.admin_id}" >${this.admin_user}</a>
     </li>
     `
   )
