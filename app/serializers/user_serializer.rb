@@ -30,9 +30,14 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def friendship_id
+    f_id = nil;
     if object.id != current_user.id
-      Friendship.where(["user_id = ? AND friend_id = ?", current_user.id, object.id]) ||
+      f_id = Friendship.where(["user_id = ? AND friend_id = ?", current_user.id, object.id]) ||
       Friendship.where(["user_id = ? AND friend_id = ?", object.id, current_user.id])
+    end
+
+    unless f_id.nil? || f_id.first.nil?
+      f_id.first.id
     end
   end
 
