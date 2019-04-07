@@ -10,10 +10,13 @@ class EventTask {
     this.is_group_task = object.group_task
     this.deadline_date = object.deadline_date
     this.participants = object.users
+    this.task_availability = object.task_availability
+    this.friendship_status = object.friendship_status
+    this.join_permission = object.join_permission
   }
 }
 
-Task.prototype.addTask = function() {
+EventTask.prototype.addTask = function() {
 
   return (
     `
@@ -27,8 +30,6 @@ Task.prototype.addTask = function() {
       <td>${this.participants}</td>
       <td><%= permission_to_join?(task_instance) { (check_task_availability task_instance) } %></td>
       <td><%= permission_to_join?(task_instance) { (display_user_checkbox task_instance) } %></td>
-      <td><%= display_admin_checkbox task %></td>
-      <td><%= link_to "Delete Task", task_path(task), method: :delete, data: { confirm: "Are you sure you want to delete this task?" } %></td>
       <td><%= display_admin_checkbox task %></td>
       <td><%= link_to "Delete Task", task_path(task), method: :delete, data: { confirm: "Are you sure you want to delete this task?" } %></td>
     </tr>
@@ -47,7 +48,7 @@ function createTask() {
 
       response.done(function(data){
         const newTask = new EventTask(data);
-        const taskHTML = newTask.addTask
+        const taskHTML = newTask.addTask()
         $('#incomplete_tasks_list').append(taskHTML)
         debugger;
       });
