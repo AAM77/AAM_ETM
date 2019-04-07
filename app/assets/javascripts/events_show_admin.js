@@ -4,34 +4,31 @@ class EventTask {
     this.name = object.name
     this.admin_id = object.admin_id
     this.event_id = object.event_id
-    this.points_awarded = object.points_awarded
     this.event_name = object.event.name
     this.admin_user = object.admin_user
+    this.points_awarded = object.points_awarded
+    this.max_participants = object.max_participants
     this.is_group_task = object.group_task
     this.deadline_date = object.deadline_date
     this.participants = object.users
-    this.task_availability = object.task_availability
-    this.friendship_status = object.friendship_status
-    this.join_permission = object.join_permission
+    this.permission_to_join = object.permission_to_join
   }
 }
 
 EventTask.prototype.addTask = function() {
-
   return (
     `
     <tr>
-      <th scope="row"><%= event_instance.tasks.index(task_instance) + 1 %></th>
       <td><a href="/events/${this.event_id}/tasks/${this.id}">${this.name}</a></td>
       <td>${this.is_group_task ? 'Group Task' : 'Solo Task'}</td>
       <td>${this.points_awarded}</td>
       <td>${this.max_participants}</td>
       <td>${this.deadline_date}</td>
       <td>${this.participants}</td>
-      <td><%= permission_to_join?(task_instance) { (check_task_availability task_instance) } %></td>
-      <td><%= permission_to_join?(task_instance) { (display_user_checkbox task_instance) } %></td>
-      <td><%= display_admin_checkbox task %></td>
-      <td><%= link_to "Delete Task", task_path(task), method: :delete, data: { confirm: "Are you sure you want to delete this task?" } %></td>
+      <td>${this.permission_to_join}</td>
+      <td><input type="checkbox" name="user_task_ids[]" id="user_task_ids_" value="${this.id}"></td>
+      <td><input type="checkbox" name="admin_task_ids[]" id="admin_task_ids_" value="${this.id}"></td>
+      <td><a data-confirm="Are you sure you want to delete this task?" rel="nofollow" data-method="delete" href="/tasks/${this.id}">Delete Task</a></td>
     </tr>
     `
   )
@@ -50,7 +47,6 @@ function createTask() {
         const newTask = new EventTask(data);
         const taskHTML = newTask.addTask()
         $('#incomplete_tasks_list').append(taskHTML)
-        debugger;
       });
     });
   })
