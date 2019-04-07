@@ -36,7 +36,7 @@ EventTask.prototype.addTask = function() {
 
 function createTask() {
   $.get(`${window.location.href}.json`, function(data) {
-    $('form').submit(function(event) {
+    $('#create_event_task form').submit(function(event) {
       event.preventDefault();
 
       let values = $(this).serialize();
