@@ -1,4 +1,3 @@
-<th scope="row"><%= event_instance.tasks.index(task_instance) + 1 %></th>
 <td id='task-link'><%= link_to task_instance.name, event_task_path(task_instance.event_id, task_instance) %></td>
 <td id='task-type'><%= task_instance.task_type %></td>
 <td id='task-points-awarded'><%= task_instance.points_awarded %></td>
