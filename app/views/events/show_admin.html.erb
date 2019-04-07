@@ -48,12 +48,14 @@
 <% if @event.admin_id == current_user.id %>
   <h1>Create a New Task</h1>
 
-  <%= form_for [@event, @task] do |f| %>
+  <div id="create_event_task">
+    <%= form_for [@event, @task] do |f| %>
 
-    <%= render partial: "tasks/form", locals: { f: f } %>
-    <%= f.submit "Create Task", class: "btn btn-info" %>
+      <%= render partial: "tasks/form", locals: { f: f } %>
+      <%= f.submit "Create Task", class: "btn btn-info" %>
 
-  <% end %>
+    <% end %>
+  </div>
 
   <br>
   <%= link_to "Edit Event Details", edit_event_path, class: "btn btn-outline-primary" %>
