@@ -1,7 +1,6 @@
 class TaskSerializer < ActiveModel::Serializer
   attributes :id, :name, :admin_id, :event_id, :in_event, :points_awarded, :max_participants,
-             :deadline_date, :group_task, :completed, :task_availability, :friendship_status,
-             :join_permission
+             :deadline_date, :group_task, :completed, :permission_to_join
 
   belongs_to :event
   has_many :user_tasks, dependent: :destroy
@@ -23,9 +22,9 @@ end
 ####################################################
 # Determines if the visting user can join the task #
 ####################################################
-def join_permission
+def permission_to_join
   if friendship_status || object.admin_id == current_user.id
-    true
+    task_availability
   else
     "Cannot Join"
   end
@@ -41,14 +40,14 @@ def task_availability
   unless object.completed
     if object.user_ids.include?(current_user.id)
       if object.users.size <= object.max_participants
-        'Leavable'
+        "<a data-confirm='Are you sure you wish to leave task: #{object.name}?' rel='nofollow' data-method='delete' href='/users_tasks/#{object.id}'>Leave Task</a>"
         # link_to "Leave Task", users_task_path(task), method: :delete, data: { confirm: "Are you sure you wish to leave task: #{task.name}?"}
       end
 
     elsif object.users.size < object.max_participants
       unless object.user_completed_at
         if object.user_ids.exclude?(current_user.id)
-          'Joinable'
+          "<a rel='nofollow' data-method='post' href='/users_tasks.#{object.id}?id=#{object.id}'>Join Task</a>"
           # link_to "Join Task", users_tasks_path(object, id: object.id), method: :post
         end
       end
