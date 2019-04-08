@@ -79,12 +79,6 @@ Friend.prototype.addFriendForCurrentUser = function() {
   )
 }
 
-Friend.prototype.displayUnfriendButton = function() {
-  return (
-    `<button class="btn-sm btn-danger unfriend-button" data-test="y" data-friendship-id="${this.friendship_id}" data-user-id="${this.id}">Unfriend</button>`
-  )
-}
-
 Friend.prototype.addFriendForOtherUser = function() {
   return (
     `
@@ -289,22 +283,23 @@ function endFriendshipListener() {
     if (confirm("Are you sure you want to end this friendship?")) {
       const friendship_id = parseInt($(this).attr('data-friendship-id'))
       const user_id = $(this).attr('data-user-id')
-      const current_user_id = $(this).attr('data-current-user')
-      debugger;
       $.ajax({
         url: `/friendships/${friendship_id}`,
         method: 'DELETE'
       })
       .done(function() {
-        debugger;
-        if (user_id === current_user_id) {
-          $(`.user-${user_id}`).remove()
-        } else {
-          $('.friends-only').remove()
-          $('#friends-list-button').remove()
-          $('.unfriend-button').remove()
-          displayFriendButton()
-        }
+        $.get(`${window.location.href}.json`, function(data) {
+          const currentPagesUser = new User(data)
+          if (currentPagesUser.id === currentPagesUser.current_user_id) {
+            $(`.user-${user_id}`).remove()
+          } else {
+            $('.friends-only').remove()
+            $('#friends-list-button').remove()
+            $('.unfriend-button').remove()
+            displayFriendButton()
+          }
+        })
+
       });
     }
   })
