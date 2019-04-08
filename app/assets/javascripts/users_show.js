@@ -1,19 +1,3 @@
-// // <% users_incomplete_solo_tasks.each do |solo_task| %>
-// //   <li class="list-group-item">
-// //     <%= task_participating_in solo_task, @user %>
-// //   </li>
-// // <% end %>
-
-
-// // <% users_incomplete_group_tasks.each do |group_task| %>
-// //   <li class="list-group-item">
-// //     <%= task_participating_in group_task, @user %>
-// //   </li>
-// // <% end %>
-
-// // friendships POST   /friendships(.:format)        friendships#create
-// // friendship DELETE /friendships/:id               friendships#destroy
-
 /////////////
 // CLASSES //
 /////////////
