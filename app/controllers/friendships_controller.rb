@@ -21,7 +21,7 @@ class FriendshipsController < ApplicationController
       flash[:success] = "Added friend successfully."
       respond_to do |format|
         format.html { redirect_to user_path(params[:friend_id])}
-        format.js { render friendship }
+        format.json { render friendship }
       end
 
     else
