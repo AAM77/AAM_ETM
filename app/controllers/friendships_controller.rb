@@ -38,9 +38,8 @@ class FriendshipsController < ApplicationController
     friendship.destroy
 
     respond_to do |format|
-      format.js
+      format.json
     end
-    flash[:warnings] = [ "You ended the friendship." ]
   end
 
 end
