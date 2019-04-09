@@ -16,14 +16,11 @@ class UserSerializer < ActiveModel::Serializer
 
   def all_friends
     (object.friends + object.inverse_friends).map do |friend|
-      sent_friendships = friend.friendships.map { |friendship| { id: friendship.id } if friendship.user_id == current_user.id || friendship.friend_id == current_user.id }.compact
-      received_friendships = friend.inverse_friendships.map { |friendship| { id: friendship.id } if friendship.user_id == current_user.id || friendship.friend_id == current_user.id }.compact
-      total_friendships = sent_friendships + received_friendships
       {
         id: friend.id,
         username: friend.username,
         events: friend.events.map { |event| { id: event.id, name: event.name, admin_id: event.admin_id } },
-        friendship_id: total_friendships[0],
+        friendship_id: Friendship.find_friendship_for(object, friend).id,
         current_user_id: current_user.id
       }
     end
