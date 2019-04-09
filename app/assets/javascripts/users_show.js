@@ -24,7 +24,7 @@ class Friend {
     this.username = object.username
     this.friends = object.all_friends
     this.events = object.events
-    this.friendship_id = object.friendship_id.id
+    this.friendship_id = object.friendship_id
     this.current_user_id = object.current_user_id
   }
 }
