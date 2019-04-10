@@ -5,10 +5,6 @@ class UserSerializer < ActiveModel::Serializer
              :adminned_events, :friends_events, :friends_with_current_user
 
   has_many :events, through: :user_events, dependent: :destroy
-  # has_many :friendships, dependent: :destroy
-  # has_many :friends, through: :friendships, dependent: :destroy
-  # has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy
-  # has_many :inverse_friends, through: :inverse_friendships, source: :user, dependent: :destroy
 
   def crnt_user
     { id: current_user.id, username: current_user.username }
@@ -84,8 +80,5 @@ class UserSerializer < ActiveModel::Serializer
 
   def friends_with_current_user
     true if all_friends.select { |friend| friend[:id] == current_user.id }[0]
-    # const currentUser = currentPagesUser.friends.filter(function(friend, key) {
-    #   return friend.id === currentPagesUser.current_user_id
-    # })[0];
   end
 end
