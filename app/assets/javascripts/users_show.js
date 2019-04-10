@@ -15,6 +15,7 @@ class User {
     this.friendship_id = object.friendship_id
     this.all_friendships = object.all_friendships
     this.current_user_id = object.crnt_user.id
+    this.friendsWithCurrentUser = object.friends_with_current_user
   }
 }
 
@@ -52,6 +53,9 @@ class Task {
 ///////////////////
 // CLASS METHODS //
 ///////////////////
+
+
+// Adds the friended user and an unfriend button to the current user's friends list //
 Friend.prototype.addFriendForCurrentUser = function() {
   return (
     `
@@ -63,6 +67,7 @@ Friend.prototype.addFriendForCurrentUser = function() {
   )
 }
 
+// Adds the friended user to the friends list of anyone who is friends with the current user //
 Friend.prototype.addFriendForOtherUser = function() {
   return (
     `
@@ -74,6 +79,7 @@ Friend.prototype.addFriendForOtherUser = function() {
   )
 }
 
+// Adds an event to the list of events a user created //
 UserEvent.prototype.listCreatedEvent = function() {
   return (
     `
@@ -84,6 +90,7 @@ UserEvent.prototype.listCreatedEvent = function() {
   )
 }
 
+// Adds a user's friends' events that he/she is participating in //
 UserEvent.prototype.listFriendEvent = function() {
   return (
     `
@@ -95,6 +102,7 @@ UserEvent.prototype.listFriendEvent = function() {
   )
 }
 
+// Adds a task to the list(s) of solo and/or group tasks that the user is participating in //
 Task.prototype.listTask = function() {
 
   return (
@@ -200,11 +208,11 @@ function displayGroupTasksCard() {
 //////////////////////////////////
 // DISPLAYS THE UNFRIEND BUTTON //
 //////////////////////////////////
-function displayUnfriendButton(currentPagesUser) {
-  if ((currentPagesUser)) {
-    const friendId = currentPagesUser.id
-    const friendshipId = currentPagesUser.friendship_id
-    const currentUser = currentPagesUser.current_user_id
+function displayUnfriendButton(currentPageUser) {
+  if ((currentPageUser)) {
+    const friendId = currentPageUser.id
+    const friendshipId = currentPageUser.friendship_id
+    const currentUser = currentPageUser.current_user_id
 
     $('#friend-unfriend-button').html(`<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${friendshipId}" data-user-id="${friendId}" data-current-user="${currentUser}">Unfriend</button>`)
   }
@@ -228,26 +236,26 @@ function displayFriendButton() {
 ///////////////////////////////
 function displayFriendsList() {
   $.get(`${window.location.href}.json`, function(data) {
-    const currentPagesUser = new User(data)
+    const currentPageUser = new User(data)
     $('#friends-list-button').append('Friends List')
     // add friend to the dropdown friends list
-    if (currentPagesUser.id === currentPagesUser.current_user_id) {
-      currentPagesUser.friends.forEach( friend => {
+    if (currentPageUser.id === currentPageUser.current_user_id) {
+      currentPageUser.friends.forEach( friend => {
         let newFriend = new Friend(friend)
         let friendHTML = newFriend.addFriendForCurrentUser()
         $('#scrollable-friends-list').append(friendHTML)
       })
     } else {
-      const currentUser = currentPagesUser.friends.filter(function(friend, key) {
-        return friend.id === currentPagesUser.current_user_id
-      })[0];
-      if (currentUser) {
-        currentPagesUser.friends.forEach( friend => {
+      // const currentUser = currentPageUser.friends.filter(function(friend, key) {
+      //   return friend.id === currentPageUser.current_user_id
+      // })[0];
+      if (currentPageUser.friendsWithCurrentUser) {
+        currentPageUser.friends.forEach( friend => {
           let newFriend = new Friend(friend)
           let friendHTML = newFriend.addFriendForOtherUser()
           $('#scrollable-friends-list').append(friendHTML)
         })
-        displayUnfriendButton(currentPagesUser)
+        displayUnfriendButton(currentPageUser)
       } else {
         displayFriendButton()
       }
@@ -265,7 +273,7 @@ function endFriendshipListener() {
   $('.unfriend-button').on('click', function() {
     if (confirm("Are you sure you want to end this friendship?")) {
       const friendship_id = parseInt($(this).attr('data-friendship-id'))
-      const user_id = $(this).attr('data-user-id')
+      const friend_id = $(this).attr('data-user-id')
       const username = $(this).attr('data-friend-name')
       $.ajax({
         url: `/friendships/${friendship_id}`,
@@ -273,22 +281,33 @@ function endFriendshipListener() {
       })
       .done(function() {
         $.get(`${window.location.href}.json`, function(data) {
-          const currentPagesUser = new User(data)
-          if (currentPagesUser.id === currentPagesUser.current_user_id) {
-            $(`.user-${user_id}`).remove()
-            $('#flash-success-danger-message').append(`<div class="alert alert-danger">You have unfriended ${username}</div>`)
+          const currentPageUser = new User(data)
+          if (currentPageUser.id === currentPageUser.current_user_id) {
+            removeFromFriendsList(friend_id)
+            flashWarningMessage(username)
           } else {
-            $('.friends-only').remove()
-            $('#friends-list-button').remove()
-            $('.unfriend-button').remove()
-            $('#flash-success-danger-message').html(`<div class="alert alert-danger">You have unfriended ${currentPagesUser.username}</div>`)
+            removeFriendElements()
+            flashWarningMessage(currentPageUser.username)
             displayFriendButton()
           }
         })
-
       });
     }
   })
+}
+
+function removeFromFriendsList(id) {
+  $(`.user-${id}`).remove()
+}
+
+function flashWarningMessage(currentPageUsername) {
+  $('#flash-success-danger-message').append(`<div class="alert alert-danger">You have unfriended ${currentPageUsername}</div>`)
+}
+
+function removeFriendElements() {
+  $('.friends-only').remove()
+  $('#friends-list-button').remove()
+  $('.unfriend-button').remove()
 }
 
 // DOCUMENT.READY Function
