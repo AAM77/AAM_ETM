@@ -246,9 +246,6 @@ function displayFriendsList() {
         $('#scrollable-friends-list').append(friendHTML)
       })
     } else {
-      // const currentUser = currentPageUser.friends.filter(function(friend, key) {
-      //   return friend.id === currentPageUser.current_user_id
-      // })[0];
       if (currentPageUser.friendsWithCurrentUser) {
         currentPageUser.friends.forEach( friend => {
           let newFriend = new Friend(friend)
@@ -291,7 +288,7 @@ function endFriendshipListener() {
             displayFriendButton()
           }
         })
-      });
+      })
     }
   })
 }
