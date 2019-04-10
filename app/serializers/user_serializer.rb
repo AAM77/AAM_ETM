@@ -2,7 +2,7 @@ class UserSerializer < ActiveModel::Serializer
   attributes :crnt_user, :id, :first_name, :last_name, :telephone_num,
              :address, :email, :username, :total_points,
              :all_friends, :solo_tasks, :group_tasks, :friendship_id,
-             :adminned_events, :friends_events
+             :adminned_events, :friends_events, :friends_with_current_user
 
   has_many :events, through: :user_events, dependent: :destroy
   # has_many :friendships, dependent: :destroy
@@ -80,5 +80,12 @@ class UserSerializer < ActiveModel::Serializer
       admin_id: task.admin_id,
       event_name: Event.find(task.event_id).name,
       admin_user: User.find(task.admin_id).username } if task.group_task == true }.compact
+  end
+
+  def friends_with_current_user
+    true if all_friends.select { |friend| friend[:id] == current_user.id }[0]
+    # const currentUser = currentPagesUser.friends.filter(function(friend, key) {
+    #   return friend.id === currentPagesUser.current_user_id
+    # })[0];
   end
 end
