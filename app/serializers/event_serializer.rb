@@ -45,7 +45,6 @@ class EventSerializer < ActiveModel::Serializer
         max_participants: task.max_participants,
         group_task: task.group_task,
         user_completed_at: task.user_completed_at,
-        admin_confirmed_completion_at: task.admin_confirmed_completion_at,
         completed: task.completed,
         users: task.users.map { |user| { id: user.id, username: user.username } }
       }
