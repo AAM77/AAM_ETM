@@ -54,6 +54,6 @@ function createTask() {
 
 
 // DOCUMENT.READY Function
-$(function() {
+$(document).on('turbolinks:load',function() {
   createTask()
 });
