@@ -308,7 +308,7 @@ function removeFriendElements() {
 }
 
 // DOCUMENT.READY Function
-$(function() {
+$(document).on('turbolinks:load',function() {
   displayPageTitle();
   displayUserPoints()
   displayAdminnedEventsCard()
