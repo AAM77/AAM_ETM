@@ -38,6 +38,6 @@ function clickShowAllEvents() {
   $('a#dd-all-events').on('click', displayAllEvents());
 }
 
-$(function() {
+$(document).on('turbolinks:load',function() {
   clickShowAllEvents()
 });
