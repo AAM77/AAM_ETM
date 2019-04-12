@@ -6,15 +6,14 @@ class User {
   constructor(object) {
     this.id = object.id
     this.username = object.username
-    this.total_points = object.total_points
-    this.adminned_events = object.adminned_events
-    this.friends_events = object.friends_events
-    this.solo_tasks = object.solo_tasks
-    this.group_tasks = object.group_tasks
+    this.totalPoints = object.total_points
+    this.adminnedEvents = object.adminned_events
+    this.friendsEvents = object.friends_events
+    this.soloTasks = object.solo_tasks
+    this.groupTasks = object.group_tasks
     this.friends = object.all_friends
-    this.friendship_id = object.friendship_id
-    this.all_friendships = object.all_friendships
-    this.current_user_id = object.crnt_user.id
+    this.friendshipId = object.friendship_id
+    this.currentUserId = object.crnt_user.id
     this.friendsWithCurrentUser = object.friends_with_current_user
   }
 }
@@ -25,8 +24,8 @@ class Friend {
     this.username = object.username
     this.friends = object.all_friends
     this.events = object.events
-    this.friendship_id = object.friendship_id
-    this.current_user_id = object.current_user_id
+    this.friendshipId = object.friendship_id
+    this.currentUserId = object.current_user_id
   }
 }
 
@@ -34,8 +33,8 @@ class UserEvent {
   constructor(object) {
     this.id = object.id
     this.name = object.name
-    this.admin_id = object.admin_id
-    this.admin_user = object.admin_user
+    this.adminId = object.admin_id
+    this.adminUser = object.admin_user
   }
 }
 
@@ -43,10 +42,23 @@ class Task {
   constructor(object) {
     this.id = object.id
     this.name = object.name
-    this.event_id = object.event_id
-    this.admin_id = object.admin_id
-    this.event_name = object.event_name
-    this.admin_user = object.admin_user
+    this.eventId = object.event_id
+    this.adminId = object.admin_id
+    this.eventName = object.event_name
+    this.adminUser = object.admin_user
+  }
+
+  // Adds a task to the list(s) of solo and/or group tasks that the user is participating in //
+  listTask() {
+    return (
+      `
+      <li class="list-group-item">
+        <a href="/tasks/${this.id}" >${this.name}</a>,
+        in Event: <a href="/events/${this.eventId}" >${this.eventName}</a>,
+        by: <a href="/users/${this.adminId}" >${this.adminUser}</a>
+      </li>
+      `
+    )
   }
 }
 
@@ -60,7 +72,7 @@ Friend.prototype.addFriendForCurrentUser = function() {
   return (
     `
     <p class="dropdown-item user-${this.id}">
-      <a href="/users/${this.id}">${this.username}</a> - <button class="btn-sm btn-danger unfriend-button" data-friend-name="${this.username}" data-friendship-id="${this.friendship_id}" data-user-id="${this.id}" data-current-user="${this.current_user_id}">Unfriend</button>
+      <a href="/users/${this.id}">${this.username}</a> - <button class="btn-sm btn-danger unfriend-button" data-friend-name="${this.username}" data-friendship-id="${this.friendshipId}" data-user-id="${this.id}" data-current-user="${this.currentUserId}">Unfriend</button>
     </p>
     <div class="dropdown-divider user-${this.id}"></div>
     `
@@ -96,25 +108,25 @@ UserEvent.prototype.listFriendEvent = function() {
     `
     <li class="list-group-item">
       <a href="/events/${this.id}" >${this.name}</a>,
-      by: <a href="/users/${this.admin_id}" tasrget="_blank">${this.admin_user}</a>
+      by: <a href="/users/${this.adminId}" tasrget="_blank">${this.adminUser}</a>
     </li>
     `
   )
 }
 
-// Adds a task to the list(s) of solo and/or group tasks that the user is participating in //
-Task.prototype.listTask = function() {
-
-  return (
-    `
-    <li class="list-group-item">
-      <a href="/tasks/${this.id}" >${this.name}</a>,
-      in Event: <a href="/events/${this.event_id}" >${this.event_name}</a>,
-      by: <a href="/users/${this.admin_id}" >${this.admin_user}</a>
-    </li>
-    `
-  )
-}
+// // Adds a task to the list(s) of solo and/or group tasks that the user is participating in //
+// Task.prototype.listTask = function() {
+//
+//   return (
+//     `
+//     <li class="list-group-item">
+//       <a href="/tasks/${this.id}" >${this.name}</a>,
+//       in Event: <a href="/events/${this.eventId}" >${this.eventName}</a>,
+//       by: <a href="/users/${this.adminId}" >${this.adminUser}</a>
+//     </li>
+//     `
+//   )
+// }
 
 /////////////////////////////
 // DISPLAYS THE PAGE TITLE //
@@ -133,7 +145,7 @@ function displayPageTitle() {
 function displayUserPoints() {
   $.get(`${window.location.href}.json`, function(data) {
     const user = new User(data)
-    $('#users-total-points').append(`${user.username}'s Points: ${user.total_points}`)
+    $('#users-total-points').append(`${user.username}'s Points: ${user.totalPoints}`)
   })
 }
 
@@ -147,7 +159,7 @@ function displayAdminnedEventsCard() {
     $('#adminned-events-title').append(`Events ${user.username} Created`)
     $('#adminned-events-list').empty()
 
-    user.adminned_events.forEach( event => {
+    user.adminnedEvents.forEach( event => {
       let newEvent = new UserEvent(event)
       let eventHTML = newEvent.listCreatedEvent()
       $('#adminned-events-list').append(eventHTML)
@@ -164,7 +176,7 @@ function displayFriendsEventsCard() {
     $('#friend-events-title').append(`Friends' Events ${user.username} is Participating In`)
     $('#friends-events-list').empty()
 
-    user.friends_events.forEach( event => {
+    user.friendsEvents.forEach( event => {
       let friendEvent = new UserEvent(event)
       let eventHTML = friendEvent.listFriendEvent()
       $('#friends-events-list').append(eventHTML);
@@ -181,7 +193,7 @@ function displaySoloTasksCard() {
     const user = new User(data)
     $('#solo-tasks-title').append(`Solo-Tasks ${user.username} is Participating In`)
 
-    user.solo_tasks.forEach( task => {
+    user.soloTasks.forEach( task => {
       let newTask = new Task(task)
       let taskHTML = newTask.listTask()
       $('#solo-tasks-list').append(taskHTML)
@@ -197,7 +209,7 @@ function displayGroupTasksCard() {
     const user = new User(data)
     $('#group-tasks-title').append(`Group-Tasks ${user.username} is Participating In`)
 
-    user.group_tasks.forEach( task => {
+    user.groupTasks.forEach( task => {
       let newTask = new Task(task)
       let taskHTML = newTask.listTask()
       $('#group-tasks-list').append(taskHTML)
@@ -211,8 +223,8 @@ function displayGroupTasksCard() {
 function displayUnfriendButton(currentPageUser) {
   if ((currentPageUser)) {
     const friendId = currentPageUser.id
-    const friendshipId = currentPageUser.friendship_id
-    const currentUser = currentPageUser.current_user_id
+    const friendshipId = currentPageUser.friendshipId
+    const currentUser = currentPageUser.currentUserId
 
     $('#friend-unfriend-button').html(`<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${friendshipId}" data-user-id="${friendId}" data-current-user="${currentUser}">Unfriend</button>`)
   }
@@ -225,7 +237,7 @@ function displayUnfriendButton(currentPageUser) {
 function displayFriendButton() {
   $.get(`${window.location.href}.json`, function(data) {
     const user = new User(data)
-    if (user.id !== user.current_user_id) {
+    if (user.id !== user.currentUserId) {
       $('#friend-unfriend-button').append(`<a class="btn btn-info" rel="nofollow" data-method="post" href="/friendships?friend_id=${user.id}">Add Friend</a>`)
     }
   })
@@ -239,7 +251,7 @@ function displayFriendsList() {
     const currentPageUser = new User(data)
     $('#friends-list-button').append('Friends List')
     // add friend to the dropdown friends list
-    if (currentPageUser.id === currentPageUser.current_user_id) {
+    if (currentPageUser.id === currentPageUser.currentUserId) {
       currentPageUser.friends.forEach( friend => {
         let newFriend = new Friend(friend)
         let friendHTML = newFriend.addFriendForCurrentUser()
@@ -269,18 +281,18 @@ function displayFriendsList() {
 function endFriendshipListener() {
   $('.unfriend-button').on('click', function() {
     if (confirm("Are you sure you want to end this friendship?")) {
-      const friendship_id = parseInt($(this).attr('data-friendship-id'))
-      const friend_id = $(this).attr('data-user-id')
+      const friendshipId = parseInt($(this).attr('data-friendship-id'))
+      const friendId = $(this).attr('data-user-id')
       const username = $(this).attr('data-friend-name')
       $.ajax({
-        url: `/friendships/${friendship_id}`,
+        url: `/friendships/${friendshipId}`,
         method: 'DELETE'
       })
       .done(function() {
         $.get(`${window.location.href}.json`, function(data) {
           const currentPageUser = new User(data)
-          if (currentPageUser.id === currentPageUser.current_user_id) {
-            removeFromFriendsList(friend_id)
+          if (currentPageUser.id === currentPageUser.currentUserId) {
+            removeFromFriendsList(friendId)
             flashWarningMessage(username)
           } else {
             removeFriendElements()
