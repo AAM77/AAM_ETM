@@ -125,17 +125,25 @@ UserEvent.prototype.listFriendEvent = function() {
 //////////////////////////////////////////////////////////////
 
 
-
+/////////////////////////////
+// DISPLAYS THE PAGE TITLE //
+/////////////////////////////
 function displayPageTitle(data) {
   const user = new User(data)
   $('#user-homepage-header').text(`${user.username}'s Homepage`)
 }
 
+////////////////////////////////////
+// DISPLAYS THE POINTS A USER HAS //
+////////////////////////////////////
 function displayUserPoints(data) {
   const user = new User(data)
   $('#users-total-points').text(`${user.username}'s Points: ${user.totalPoints}`)
 }
 
+/////////////////////////////////////////////////
+// DISPLAY THE LIST OF EVENTS THE USER CREATED //
+/////////////////////////////////////////////////
 function displayAdminnedEventsCard(data) {
   const user = new User(data)
   $('#adminned-events-title').append(`Events ${user.username} Created`)
@@ -148,6 +156,9 @@ function displayAdminnedEventsCard(data) {
   })
 }
 
+//////////////////////////////////////////////////////
+// DISPLAY FRIENDS' EVENTS USER IS PARTICIPATING IN //
+//////////////////////////////////////////////////////
 function displayFriendsEventsCard(data) {
   const user = new User(data)
   $('#friend-events-title').append(`Friends' Events ${user.username} is Participating In`)
@@ -162,6 +173,9 @@ function displayFriendsEventsCard(data) {
   })
 }
 
+//////////////////////////////////////////////////////////////
+// DISPLAYS THE LIST OF SOLO TASKS USER IS PARTICIPATING IN //
+//////////////////////////////////////////////////////////////
 function displaySoloTasksCard(data) {
   const user = new User(data)
   $('#solo-tasks-title').append(`Solo-Tasks ${user.username} is Participating In`)
@@ -173,6 +187,10 @@ function displaySoloTasksCard(data) {
   })
 }
 
+
+///////////////////////////////////////////////////////////////
+// DISPLAYS THE LIST OF GROUP TASKS USER IS PARTICIPATING IN //
+///////////////////////////////////////////////////////////////
 function displayGroupTasksCard(data) {
   const user = new User(data)
   $('#group-tasks-title').append(`Group-Tasks ${user.username} is Participating In`)
@@ -184,6 +202,9 @@ function displayGroupTasksCard(data) {
   })
 }
 
+//////////////////////////////////
+// DISPLAYS THE UNFRIEND BUTTON //
+//////////////////////////////////
 function displayUnfriendButton(currentPageUser) {
   if ((currentPageUser)) {
     const friendId = currentPageUser.id
@@ -194,6 +215,9 @@ function displayUnfriendButton(currentPageUser) {
   }
 }
 
+////////////////////////////////
+// DISPLAYS THE FRIEND BUTTON //
+////////////////////////////////
 function displayFriendButton(data) {
   const user = new User(data)
   if (user.id !== user.currentUserId) {
@@ -201,6 +225,9 @@ function displayFriendButton(data) {
   }
 }
 
+///////////////////////////////
+// DISPLAYS THE FRIENDS LIST //
+///////////////////////////////
 function displayFriendsList(data) {
   const currentPageUser = new User(data)
   $('#friends-list-button').append('Friends List')
@@ -226,7 +253,9 @@ function displayFriendsList(data) {
   endFriendshipListener(data)
 }
 
-
+/////////////////////////////////////////////////////////////////////
+// ENDS / DELETES A FRIENDSHIP WITH THE UNFRIEND BUTTON IS CLICKED //
+/////////////////////////////////////////////////////////////////////
 function endFriendshipListener(data) {
   $('.unfriend-button').on('click', function() {
     if (confirm("Are you sure you want to end this friendship?")) {
@@ -253,6 +282,9 @@ function endFriendshipListener(data) {
   })
 }
 
+//////////////////////////////////////////
+//
+//////////////////////////////////////////
 function passCurrentPageData(data) {
   displayPageTitle(data)
   displayUserPoints(data)
@@ -262,7 +294,6 @@ function passCurrentPageData(data) {
   displayGroupTasksCard(data)
   displayFriendsList(data)
 }
-
 
 
 
@@ -282,13 +313,6 @@ function removeFriendElements() {
 
 // DOCUMENT.READY Function
 $(document).on('turbolinks:load',function() {
-  // displayPageTitle();
-  // displayUserPoints()
-  // displayAdminnedEventsCard()
-  // displayFriendsEventsCard()
-  // displaySoloTasksCard()
-  // displayGroupTasksCard()
-  // displayFriendsList()
   $.get(`${window.location.href}.json`, function(data) {
     passCurrentPageData(data)
   })
