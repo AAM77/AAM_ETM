@@ -1,13 +1,12 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :crnt_user, :id, :first_name, :last_name, :telephone_num,
-             :address, :email, :username, :total_points,
+  attributes :current_user_id, :id, :username, :total_points,
              :all_friends, :solo_tasks, :group_tasks, :friendship_id,
              :adminned_events, :friends_events, :friends_with_current_user
 
-  has_many :events, through: :user_events, dependent: :destroy
+#  has_many :events, through: :user_events, dependent: :destroy
 
-  def crnt_user
-    { id: current_user.id, username: current_user.username }
+  def current_user_id
+    current_user.id
   end
 
   def all_friends
@@ -15,7 +14,7 @@ class UserSerializer < ActiveModel::Serializer
       {
         id: friend.id,
         username: friend.username,
-        events: friend.events.map { |event| { id: event.id, name: event.name, admin_id: event.admin_id } },
+        #events: friend.events.map { |event| { id: event.id, name: event.name, admin_id: event.admin_id } if event.admin_id == friend.id }.compact,
         friendship_id: Friendship.find_friendship_for(object, friend).id,
         current_user_id: current_user.id
       }
@@ -44,7 +43,7 @@ class UserSerializer < ActiveModel::Serializer
           admin_user: User.find(event.admin_id).username
         }
       end
-    end
+    end.compact
   end
 
   def adminned_events
@@ -55,17 +54,20 @@ class UserSerializer < ActiveModel::Serializer
           admin_id: event.admin_id,
           admin_user: User.find(event.admin_id).username
         }
-    end
+    end.compact
   end
 
   def solo_tasks
-    object.tasks.map { |task| {
-      id: task.id,
-      name: task.name,
-      event_id: task.event_id,
-      admin_id: task.admin_id,
-      event_name: Event.find(task.event_id).name,
-      admin_user: User.find(task.admin_id).username } if task.group_task == false }.compact
+    object.tasks.map { |task|
+      {
+        id: task.id,
+        name: task.name,
+        event_id: task.event_id,
+        admin_id: task.admin_id,
+        event_name: Event.find(task.event_id).name,
+        admin_user: User.find(task.admin_id).username
+      } if task.group_task == false
+    }.compact
   end
 
   def group_tasks
