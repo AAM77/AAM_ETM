@@ -1,4 +1,3 @@
-
 ///////////
 // Class //
 ///////////
@@ -24,6 +23,7 @@ Event.prototype.createEventListItem = function() {
   )
 }
 
+// accepts callbacks and passes data to it
 function getEvents(callback) {
   $.ajax({
     url: '/events.json',
@@ -34,6 +34,8 @@ function getEvents(callback) {
   })
 }
 
+// Accepts events as a parameter
+// Empties the events div and adds the new (passed) events to it
 function addEventsToOrderedList(events) {
   $('#all-events ol').empty()
   events.forEach(event => {
@@ -43,11 +45,13 @@ function addEventsToOrderedList(events) {
   })
 }
 
+// Displays the events in ascending order
 function displayAllEvents() {
   getEvents(addEventsToOrderedList)
   return false;
 }
 
+// Accepts events as a parameter and sorts them in descending order
 function sortDescending(events) {
   events.sort(function(event1, event2) {
     const eventName1 = event1.name.toUpperCase(); // ignore upper and lowercase
@@ -65,14 +69,18 @@ function sortDescending(events) {
   addEventsToOrderedList(events)
 }
 
+// Gets the events, passes them to the sorter,
+// sorts them, and adds them to the events div
 function sortDescendingNames() {
   getEvents(sortDescending)
 }
 
+// Displays the events in ascending order when the 'All Events' button is clicked
 function showAllEventsOnClick() {
   $('#add-all-events').on('click', displayAllEvents);
 }
 
+// Displays the events in descending order when the 'Title Descending' button is clicked
 function descendingEventNamesOnClick() {
   $('#sort-events-button').on('click', sortDescendingNames)
 }
