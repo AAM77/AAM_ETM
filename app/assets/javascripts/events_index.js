@@ -19,6 +19,16 @@ Event.prototype.insertHTML = function() {
   )
 }
 
+function getEvents(callback) {
+  $.ajax({
+    url: '/events.json',
+    method: 'GET',
+    success: function(data) {
+      callback(data)
+    }
+  })
+}
+
 function addEventsToOrderedList(events) {
   $('#all-events ol').empty()
   events.forEach(event => {
@@ -29,47 +39,42 @@ function addEventsToOrderedList(events) {
 }
 
 function displayAllEvents() {
-  $.ajax({
-    url: '/events.json',
-    method: 'GET'
-  })
-  .done(function(events) {
-    addEventsToOrderedList(events)
-  })
+  getEvents(addEventsToOrderedList)
   return false;
+}
+
+function sortDescending(events) {
+  debugger;
+  events.sort(function(event1, event2) {
+    const eventName1 = event1.name.toUpperCase(); // ignore upper and lowercase
+    const eventName2 = event2.name.toUpperCase(); // ignore upper and lowercase
+
+    if (eventName1 < eventName2) {
+      return 1;
+    }
+    if (eventName1 > eventName2) {
+      return -1;
+    }
+    // names must be equal
+    return 0;
+  })
+  addEventsToOrderedList(events)
+}
+
+function sortDescendingNames() {
+  getEvents(sortDescending)
 }
 
 function showAllEventsOnClick() {
   $('#add-all-events').on('click', displayAllEvents);
 }
 
-function sortEventsByName() {
-  $('#sort-events-button').on('click', function() {
-    $.ajax({
-      url: '/events.json',
-      method: 'GET'
-    })
-    .done(function(events) {
-      events.sort(function(event1, event2) {
-        const eventName1 = event1.name.toUpperCase(); // ignore upper and lowercase
-        const eventName2 = event2.name.toUpperCase(); // ignore upper and lowercase
-
-        if (eventName1 < eventName2) {
-          return 1;
-        }
-        if (eventName1 > eventName2) {
-          return -1;
-        }
-        // names must be equal
-        return 0;
-      })
-      debugger;
-      addEventsToOrderedList(events)
-    })
-  })
+function descendingEventNamesOnClick() {
+  $('#sort-events-button').on('click', sortDescendingNames)
 }
+
 
 $(document).on('turbolinks:load',function() {
   showAllEventsOnClick()
-  sortEventsByName()
+  descendingEventNamesOnClick()
 });
