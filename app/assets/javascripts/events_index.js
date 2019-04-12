@@ -35,9 +35,35 @@ function displayAllEvents() {
 }
 
 function clickShowAllEvents() {
-  $('a#dd-all-events').on('click', displayAllEvents());
+  $('#add-all-events').on('click', displayAllEvents());
+}
+
+function sortEventsByName() {
+  $('#sort-events-button').on('click', function() {
+    $.ajax({
+      url: '/events.json',
+      method: 'GET'
+    })
+    .done(function(events) {
+      debugger;
+      events.sort(function(event1, event2) {
+        const eventName1 = event1.name.toUpperCase(); // ignore upper and lowercase
+        const eventName2 = event2.name.toUpperCase(); // ignore upper and lowercase
+
+        if (eventName1 < eventName2) {
+          return 1;
+        }
+        if (eventName1 > eventName2) {
+          return -1;
+        }
+        // names must be equal
+        return 0;
+      })
+    })
+  })
 }
 
 $(document).on('turbolinks:load',function() {
   clickShowAllEvents()
+  sortEventsByName()
 });
