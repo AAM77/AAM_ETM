@@ -13,7 +13,7 @@ class User {
     this.groupTasks = object.group_tasks
     this.friends = object.all_friends
     this.friendshipId = object.friendship_id
-    this.currentUserId = object.crnt_user.id
+    this.currentUserId = object.current_user_id
     this.friendsWithCurrentUser = object.friends_with_current_user
   }
 }
@@ -23,7 +23,6 @@ class Friend {
     this.id = object.id
     this.username = object.username
     this.friends = object.all_friends
-    this.events = object.events
     this.friendshipId = object.friendship_id
     this.currentUserId = object.current_user_id
   }
@@ -128,98 +127,77 @@ UserEvent.prototype.listFriendEvent = function() {
 //   )
 // }
 
-/////////////////////////////
-// DISPLAYS THE PAGE TITLE //
-/////////////////////////////
-function displayPageTitle() {
-  $.get(`${window.location.href}.json`, function(data) {
-    const user = new User(data)
-    $('#user-homepage-header').append(`${user.username}'s Homepage`)
+
+///
+//////
+////////////
+//////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+
+
+function displayPageTitle(data) {
+  const user = new User(data)
+  $('#user-homepage-header').text(`${user.username}'s Homepage`)
+}
+
+function displayUserPoints(data) {
+  const user = new User(data)
+  $('#users-total-points').text(`${user.username}'s Points: ${user.totalPoints}`)
+}
+
+function displayAdminnedEventsCard(data) {
+  const user = new User(data)
+  $('#adminned-events-title').append(`Events ${user.username} Created`)
+  $('#adminned-events-list').empty()
+
+  user.adminnedEvents.forEach( event => {
+    let newEvent = new UserEvent(event)
+    let eventHTML = newEvent.listCreatedEvent()
+    $('#adminned-events-list').append(eventHTML)
   })
 }
 
+function displayFriendsEventsCard(data) {
+  const user = new User(data)
+  $('#friend-events-title').append(`Friends' Events ${user.username} is Participating In`)
+  $('#friends-events-list').empty()
 
-////////////////////////////////////
-// DISPLAYS THE POINTS A USER HAS //
-////////////////////////////////////
-function displayUserPoints() {
-  $.get(`${window.location.href}.json`, function(data) {
-    const user = new User(data)
-    $('#users-total-points').append(`${user.username}'s Points: ${user.totalPoints}`)
-  })
-}
-
-
-/////////////////////////////////////////////////
-// DISPLAY THE LIST OF EVENTS THE USER CREATED //
-/////////////////////////////////////////////////
-function displayAdminnedEventsCard() {
-  $.get(`${window.location.href}.json`, function(data) {
-    const user = new User(data)
-    $('#adminned-events-title').append(`Events ${user.username} Created`)
-    $('#adminned-events-list').empty()
-
-    user.adminnedEvents.forEach( event => {
-      let newEvent = new UserEvent(event)
-      let eventHTML = newEvent.listCreatedEvent()
-      $('#adminned-events-list').append(eventHTML)
-    })
-  })
-}
-
-//////////////////////////////////////////////////////
-// DISPLAY FRIENDS' EVENTS USER IS PARTICIPATING IN //
-//////////////////////////////////////////////////////
-function displayFriendsEventsCard() {
-  $.get(`${window.location.href}.json`, function(data) {
-    const user = new User(data)
-    $('#friend-events-title').append(`Friends' Events ${user.username} is Participating In`)
-    $('#friends-events-list').empty()
-
-    user.friendsEvents.forEach( event => {
+  user.friendsEvents.forEach( event => {
+    if (event !== null) {
       let friendEvent = new UserEvent(event)
       let eventHTML = friendEvent.listFriendEvent()
       $('#friends-events-list').append(eventHTML);
-    })
+    }
   })
 }
 
+function displaySoloTasksCard(data) {
+  const user = new User(data)
+  $('#solo-tasks-title').append(`Solo-Tasks ${user.username} is Participating In`)
 
-//////////////////////////////////////////////////////////////
-// DISPLAYS THE LIST OF SOLO TASKS USER IS PARTICIPATING IN //
-//////////////////////////////////////////////////////////////
-function displaySoloTasksCard() {
-  $.get(`${window.location.href}.json`, function(data) {
-    const user = new User(data)
-    $('#solo-tasks-title').append(`Solo-Tasks ${user.username} is Participating In`)
-
-    user.soloTasks.forEach( task => {
-      let newTask = new Task(task)
-      let taskHTML = newTask.listTask()
-      $('#solo-tasks-list').append(taskHTML)
-    })
+  user.soloTasks.forEach( task => {
+    let newTask = new Task(task)
+    let taskHTML = newTask.listTask()
+    $('#solo-tasks-list').append(taskHTML)
   })
 }
 
-///////////////////////////////////////////////////////////////
-// DISPLAYS THE LIST OF GROUP TASKS USER IS PARTICIPATING IN //
-///////////////////////////////////////////////////////////////
-function displayGroupTasksCard() {
-  $.get(`${window.location.href}.json`, function(data) {
-    const user = new User(data)
-    $('#group-tasks-title').append(`Group-Tasks ${user.username} is Participating In`)
+function displayGroupTasksCard(data) {
+  const user = new User(data)
+  $('#group-tasks-title').append(`Group-Tasks ${user.username} is Participating In`)
 
-    user.groupTasks.forEach( task => {
-      let newTask = new Task(task)
-      let taskHTML = newTask.listTask()
-      $('#group-tasks-list').append(taskHTML)
-    })
+  user.groupTasks.forEach( task => {
+    let newTask = new Task(task)
+    let taskHTML = newTask.listTask()
+    $('#group-tasks-list').append(taskHTML)
   })
 }
 
-//////////////////////////////////
-// DISPLAYS THE UNFRIEND BUTTON //
-//////////////////////////////////
 function displayUnfriendButton(currentPageUser) {
   if ((currentPageUser)) {
     const friendId = currentPageUser.id
@@ -230,57 +208,43 @@ function displayUnfriendButton(currentPageUser) {
   }
 }
 
-////////////////////////////////
-// DISPLAYS THE FRIEND BUTTON //
-////////////////////////////////
-
-function displayFriendButton() {
-  $.get(`${window.location.href}.json`, function(data) {
-    const user = new User(data)
-    if (user.id !== user.currentUserId) {
-      $('#friend-unfriend-button').append(`<a class="btn btn-info" rel="nofollow" data-method="post" href="/friendships?friend_id=${user.id}">Add Friend</a>`)
-    }
-  })
+function displayFriendButton(data) {
+  const user = new User(data)
+  if (user.id !== user.currentUserId) {
+    $('#friend-unfriend-button').append(`<a class="btn btn-info" rel="nofollow" data-method="post" href="/friendships?friend_id=${user.id}">Add Friend</a>`)
+  }
 }
 
-///////////////////////////////
-// DISPLAYS THE FRIENDS LIST //
-///////////////////////////////
-function displayFriendsList() {
-  $.get(`${window.location.href}.json`, function(data) {
-    const currentPageUser = new User(data)
-    $('#friends-list-button').append('Friends List')
-    // add friend to the dropdown friends list
-    if (currentPageUser.id === currentPageUser.currentUserId) {
+function displayFriendsList(data) {
+  const currentPageUser = new User(data)
+  $('#friends-list-button').append('Friends List')
+  // add friend to the dropdown friends list
+  if (currentPageUser.id === currentPageUser.currentUserId) {
+    currentPageUser.friends.forEach( friend => {
+      let newFriend = new Friend(friend)
+      let friendHTML = newFriend.addFriendForCurrentUser()
+      $('#scrollable-friends-list').append(friendHTML)
+    })
+  } else {
+    if (currentPageUser.friendsWithCurrentUser) {
       currentPageUser.friends.forEach( friend => {
         let newFriend = new Friend(friend)
-        let friendHTML = newFriend.addFriendForCurrentUser()
+        let friendHTML = newFriend.addFriendForOtherUser()
         $('#scrollable-friends-list').append(friendHTML)
       })
+      displayUnfriendButton(currentPageUser)
     } else {
-      if (currentPageUser.friendsWithCurrentUser) {
-        currentPageUser.friends.forEach( friend => {
-          let newFriend = new Friend(friend)
-          let friendHTML = newFriend.addFriendForOtherUser()
-          $('#scrollable-friends-list').append(friendHTML)
-        })
-        displayUnfriendButton(currentPageUser)
-      } else {
-        displayFriendButton()
-      }
+      displayFriendButton(data)
     }
-    endFriendshipListener()
-  })
+  }
+  endFriendshipListener(data)
 }
 
 
-
-/////////////////////////////////////////////////////////////////////
-// ENDS / DELETES A FRIENDSHIP WITH THE UNFRIEND BUTTON IS CLICKED //
-/////////////////////////////////////////////////////////////////////
-function endFriendshipListener() {
+function endFriendshipListener(data) {
   $('.unfriend-button').on('click', function() {
     if (confirm("Are you sure you want to end this friendship?")) {
+      const currentPageUserData = data;
       const friendshipId = parseInt($(this).attr('data-friendship-id'))
       const friendId = $(this).attr('data-user-id')
       const username = $(this).attr('data-friend-name')
@@ -289,21 +253,216 @@ function endFriendshipListener() {
         method: 'DELETE'
       })
       .done(function() {
-        $.get(`${window.location.href}.json`, function(data) {
-          const currentPageUser = new User(data)
-          if (currentPageUser.id === currentPageUser.currentUserId) {
-            removeFromFriendsList(friendId)
-            flashWarningMessage(username)
-          } else {
-            removeFriendElements()
-            flashWarningMessage(currentPageUser.username)
-            displayFriendButton()
-          }
-        })
+        const currentPageUser = new User(currentPageUserData)
+        if (currentPageUser.id === currentPageUser.currentUserId) {
+          removeFromFriendsList(friendId)
+          flashWarningMessage(username)
+        } else {
+          removeFriendElements()
+          flashWarningMessage(currentPageUser.username)
+          displayFriendButton()
+        }
       })
     }
   })
 }
+
+function passCurrentPageData(data) {
+  displayPageTitle(data)
+  displayUserPoints(data)
+  displayAdminnedEventsCard(data)
+  displayFriendsEventsCard(data)
+  displaySoloTasksCard(data)
+  displayGroupTasksCard(data)
+  displayFriendsList(data)
+}
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
+//////////////////////
+////////////
+//////
+///
+
+
+// /////////////////////////////
+// // DISPLAYS THE PAGE TITLE //
+// /////////////////////////////
+// function displayPageTitle() {
+//   $.get(`${window.location.href}.json`, function(data) {
+//     const user = new User(data)
+//     $('#user-homepage-header').append(`${user.username}'s Homepage`)
+//   })
+// }
+
+
+// ////////////////////////////////////
+// // DISPLAYS THE POINTS A USER HAS //
+// ////////////////////////////////////
+// function displayUserPoints() {
+//   $.get(`${window.location.href}.json`, function(data) {
+//     const user = new User(data)
+//     $('#users-total-points').append(`${user.username}'s Points: ${user.totalPoints}`)
+//   })
+// }
+
+
+// /////////////////////////////////////////////////
+// // DISPLAY THE LIST OF EVENTS THE USER CREATED //
+// /////////////////////////////////////////////////
+// function displayAdminnedEventsCard() {
+//   $.get(`${window.location.href}.json`, function(data) {
+//     const user = new User(data)
+//     $('#adminned-events-title').append(`Events ${user.username} Created`)
+//     $('#adminned-events-list').empty()
+//
+//     user.adminnedEvents.forEach( event => {
+//       let newEvent = new UserEvent(event)
+//       let eventHTML = newEvent.listCreatedEvent()
+//       $('#adminned-events-list').append(eventHTML)
+//     })
+//   })
+// }
+
+// //////////////////////////////////////////////////////
+// // DISPLAY FRIENDS' EVENTS USER IS PARTICIPATING IN //
+// //////////////////////////////////////////////////////
+// function displayFriendsEventsCard() {
+//   $.get(`${window.location.href}.json`, function(data) {
+//     const user = new User(data)
+//     $('#friend-events-title').append(`Friends' Events ${user.username} is Participating In`)
+//     $('#friends-events-list').empty()
+//
+//     user.friendsEvents.forEach( event => {
+//       let friendEvent = new UserEvent(event)
+//       let eventHTML = friendEvent.listFriendEvent()
+//       $('#friends-events-list').append(eventHTML);
+//     })
+//   })
+// }
+
+
+// //////////////////////////////////////////////////////////////
+// // DISPLAYS THE LIST OF SOLO TASKS USER IS PARTICIPATING IN //
+// //////////////////////////////////////////////////////////////
+// function displaySoloTasksCard() {
+//   $.get(`${window.location.href}.json`, function(data) {
+//     const user = new User(data)
+//     $('#solo-tasks-title').append(`Solo-Tasks ${user.username} is Participating In`)
+//
+//     user.soloTasks.forEach( task => {
+//       let newTask = new Task(task)
+//       let taskHTML = newTask.listTask()
+//       $('#solo-tasks-list').append(taskHTML)
+//     })
+//   })
+// }
+
+// ///////////////////////////////////////////////////////////////
+// // DISPLAYS THE LIST OF GROUP TASKS USER IS PARTICIPATING IN //
+// ///////////////////////////////////////////////////////////////
+// function displayGroupTasksCard() {
+//   $.get(`${window.location.href}.json`, function(data) {
+//     const user = new User(data)
+//     $('#group-tasks-title').append(`Group-Tasks ${user.username} is Participating In`)
+//
+//     user.groupTasks.forEach( task => {
+//       let newTask = new Task(task)
+//       let taskHTML = newTask.listTask()
+//       $('#group-tasks-list').append(taskHTML)
+//     })
+//   })
+// }
+
+// //////////////////////////////////
+// // DISPLAYS THE UNFRIEND BUTTON //
+// //////////////////////////////////
+// function displayUnfriendButton(currentPageUser) {
+//   if ((currentPageUser)) {
+//     const friendId = currentPageUser.id
+//     const friendshipId = currentPageUser.friendshipId
+//     const currentUser = currentPageUser.currentUserId
+//
+//     $('#friend-unfriend-button').html(`<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${friendshipId}" data-user-id="${friendId}" data-current-user="${currentUser}">Unfriend</button>`)
+//   }
+// }
+
+// ////////////////////////////////
+// // DISPLAYS THE FRIEND BUTTON //
+// ////////////////////////////////
+//
+// function displayFriendButton() {
+//   $.get(`${window.location.href}.json`, function(data) {
+//     const user = new User(data)
+//     if (user.id !== user.currentUserId) {
+//       $('#friend-unfriend-button').append(`<a class="btn btn-info" rel="nofollow" data-method="post" href="/friendships?friend_id=${user.id}">Add Friend</a>`)
+//     }
+//   })
+// }
+
+// ///////////////////////////////
+// // DISPLAYS THE FRIENDS LIST //
+// ///////////////////////////////
+// function displayFriendsList() {
+//   $.get(`${window.location.href}.json`, function(data) {
+//     const currentPageUser = new User(data)
+//     $('#friends-list-button').append('Friends List')
+//     // add friend to the dropdown friends list
+//     if (currentPageUser.id === currentPageUser.currentUserId) {
+//       currentPageUser.friends.forEach( friend => {
+//         let newFriend = new Friend(friend)
+//         let friendHTML = newFriend.addFriendForCurrentUser()
+//         $('#scrollable-friends-list').append(friendHTML)
+//       })
+//     } else {
+//       if (currentPageUser.friendsWithCurrentUser) {
+//         currentPageUser.friends.forEach( friend => {
+//           let newFriend = new Friend(friend)
+//           let friendHTML = newFriend.addFriendForOtherUser()
+//           $('#scrollable-friends-list').append(friendHTML)
+//         })
+//         displayUnfriendButton(currentPageUser)
+//       } else {
+//         displayFriendButton()
+//       }
+//     }
+//     endFriendshipListener()
+//   })
+// }
+
+
+// /////////////////////////////////////////////////////////////////////
+// // ENDS / DELETES A FRIENDSHIP WITH THE UNFRIEND BUTTON IS CLICKED //
+// /////////////////////////////////////////////////////////////////////
+// function endFriendshipListener() {
+//   $('.unfriend-button').on('click', function() {
+//     if (confirm("Are you sure you want to end this friendship?")) {
+//       const friendshipId = parseInt($(this).attr('data-friendship-id'))
+//       const friendId = $(this).attr('data-user-id')
+//       const username = $(this).attr('data-friend-name')
+//       $.ajax({
+//         url: `/friendships/${friendshipId}`,
+//         method: 'DELETE'
+//       })
+//       .done(function() {
+//         $.get(`${window.location.href}.json`, function(data) {
+//           const currentPageUser = new User(data)
+//           if (currentPageUser.id === currentPageUser.currentUserId) {
+//             removeFromFriendsList(friendId)
+//             flashWarningMessage(username)
+//           } else {
+//             removeFriendElements()
+//             flashWarningMessage(currentPageUser.username)
+//             displayFriendButton()
+//           }
+//         })
+//       })
+//     }
+//   })
+// }
 
 function removeFromFriendsList(id) {
   $(`.user-${id}`).remove()
@@ -321,11 +480,14 @@ function removeFriendElements() {
 
 // DOCUMENT.READY Function
 $(document).on('turbolinks:load',function() {
-  displayPageTitle();
-  displayUserPoints()
-  displayAdminnedEventsCard()
-  displayFriendsEventsCard()
-  displaySoloTasksCard()
-  displayGroupTasksCard()
-  displayFriendsList()
+  // displayPageTitle();
+  // displayUserPoints()
+  // displayAdminnedEventsCard()
+  // displayFriendsEventsCard()
+  // displaySoloTasksCard()
+  // displayGroupTasksCard()
+  // displayFriendsList()
+  $.get(`${window.location.href}.json`, function(data) {
+    passCurrentPageData(data)
+  })
 })
