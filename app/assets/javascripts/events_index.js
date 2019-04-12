@@ -19,23 +19,28 @@ Event.prototype.insertHTML = function() {
   )
 }
 
+function addEventsToOrderedList(events) {
+  $('#all-events ol').empty()
+  events.forEach(event => {
+    let newEvent = new Event(event)
+    let eventHTML = newEvent.insertHTML()
+    $('#all-events ol').append(eventHTML)
+  })
+}
+
 function displayAllEvents() {
   $.ajax({
     url: '/events.json',
     method: 'GET'
   })
   .done(function(events) {
-    $('#all-events ol').empty()
-    events.forEach(event => {
-      let newEvent = new Event(event)
-      let eventHTML = newEvent.insertHTML()
-      $('#all-events ol').append(eventHTML)
-    })
+    addEventsToOrderedList(events)
   })
+  return false;
 }
 
-function clickShowAllEvents() {
-  $('#add-all-events').on('click', displayAllEvents());
+function showAllEventsOnClick() {
+  $('#add-all-events').on('click', displayAllEvents);
 }
 
 function sortEventsByName() {
@@ -45,7 +50,6 @@ function sortEventsByName() {
       method: 'GET'
     })
     .done(function(events) {
-      debugger;
       events.sort(function(event1, event2) {
         const eventName1 = event1.name.toUpperCase(); // ignore upper and lowercase
         const eventName2 = event2.name.toUpperCase(); // ignore upper and lowercase
@@ -59,11 +63,13 @@ function sortEventsByName() {
         // names must be equal
         return 0;
       })
+      debugger;
+      addEventsToOrderedList(events)
     })
   })
 }
 
 $(document).on('turbolinks:load',function() {
-  clickShowAllEvents()
+  showAllEventsOnClick()
   sortEventsByName()
 });
