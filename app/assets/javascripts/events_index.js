@@ -1,4 +1,8 @@
 
+///////////
+// Class //
+///////////
+
 class Event {
   constructor(object) {
     this.id = object.id
@@ -8,7 +12,8 @@ class Event {
   }
 }
 
-Event.prototype.insertHTML = function() {
+// Generates the HTML for a list item.
+Event.prototype.createEventListItem = function() {
   return (
     `
     <li>
@@ -33,7 +38,7 @@ function addEventsToOrderedList(events) {
   $('#all-events ol').empty()
   events.forEach(event => {
     let newEvent = new Event(event)
-    let eventHTML = newEvent.insertHTML()
+    let eventHTML = newEvent.createEventListItem()
     $('#all-events ol').append(eventHTML)
   })
 }
@@ -44,7 +49,6 @@ function displayAllEvents() {
 }
 
 function sortDescending(events) {
-  debugger;
   events.sort(function(event1, event2) {
     const eventName1 = event1.name.toUpperCase(); // ignore upper and lowercase
     const eventName2 = event2.name.toUpperCase(); // ignore upper and lowercase
