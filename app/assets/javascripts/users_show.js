@@ -343,3 +343,22 @@ $(document).on('turbolinks:load',function() {
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////
+// TESTING ADD FRIEND //
+////////////////////////
+
+// What do I need to accomplish this?
+// 1. I need a click event listener for the add friend button
+      // When Clicked:
+        // a. make a POST ajax request to friendships
+        // b. provide the current user's id
+        // c. provide the potential friend's id
+        // d. create the friendship
+        // e. remove the 'Add Friend Button'
+        // f. add a success flash message at the top of the page
+        // g. display all of the .friend-elements
+        // h. display the friends list
+        // i. display the unfriend button
