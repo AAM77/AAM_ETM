@@ -1,7 +1,13 @@
-/////////////
-// CLASSES //
-/////////////
+/////////////////////////////////
+/////////////////////////////////
+//// CLASSES / MODEL OBJECTS ////
+/////////////////////////////////
+/////////////////////////////////
 
+
+/////////////////////////////////////
+// USER MODEL OBJECT & ITs METHODS //
+/////////////////////////////////////
 class User {
   constructor(object) {
     this.id = object.id
@@ -18,6 +24,10 @@ class User {
   }
 }
 
+///////////////////////////////////////
+// FRIEND MODEL OBJECT & ITs METHODS //
+///////////////////////////////////////
+
 class Friend {
   constructor(object) {
     this.id = object.id
@@ -27,44 +37,6 @@ class Friend {
     this.currentUserId = object.current_user_id
   }
 }
-
-class UserEvent {
-  constructor(object) {
-    this.id = object.id
-    this.name = object.name
-    this.adminId = object.admin_id
-    this.adminUser = object.admin_user
-  }
-}
-
-class Task {
-  constructor(object) {
-    this.id = object.id
-    this.name = object.name
-    this.eventId = object.event_id
-    this.adminId = object.admin_id
-    this.eventName = object.event_name
-    this.adminUser = object.admin_user
-  }
-
-  // Adds a task to the list(s) of solo and/or group tasks that the user is participating in //
-  listTask() {
-    return (
-      `
-      <li class="list-group-item">
-        <a href="/tasks/${this.id}" >${this.name}</a>,
-        in Event: <a href="/events/${this.eventId}" >${this.eventName}</a>,
-        by: <a href="/users/${this.adminId}" >${this.adminUser}</a>
-      </li>
-      `
-    )
-  }
-}
-
-///////////////////
-// CLASS METHODS //
-///////////////////
-
 
 // Adds the friended user and an unfriend button to the current user's friends list //
 Friend.prototype.addFriendForCurrentUser = function() {
@@ -90,6 +62,19 @@ Friend.prototype.addFriendForOtherUser = function() {
   )
 }
 
+//////////////////////////////////////
+// EVENT MODEL OBJECT & ITs METHODS //
+//////////////////////////////////////
+
+class UserEvent {
+  constructor(object) {
+    this.id = object.id
+    this.name = object.name
+    this.adminId = object.admin_id
+    this.adminUser = object.admin_user
+  }
+}
+
 // Adds an event to the list of events a user created //
 UserEvent.prototype.listCreatedEvent = function() {
   return (
@@ -113,16 +98,39 @@ UserEvent.prototype.listFriendEvent = function() {
   )
 }
 
+/////////////////////////////////////
+// TASK MODEL OBJECT & ITs METHODS //
+/////////////////////////////////////
+class Task {
+  constructor(object) {
+    this.id = object.id
+    this.name = object.name
+    this.eventId = object.event_id
+    this.adminId = object.admin_id
+    this.eventName = object.event_name
+    this.adminUser = object.admin_user
+  }
 
-///
-//////
-////////////
-//////////////////////
-////////////////////////////////////////
-////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
+  // Adds a task to the list(s) of solo and/or group tasks that the user is participating in //
+  listTask() {
+    return (
+      `
+      <li class="list-group-item">
+        <a href="/tasks/${this.id}" >${this.name}</a>,
+        in Event: <a href="/events/${this.eventId}" >${this.eventName}</a>,
+        by: <a href="/users/${this.adminId}" >${this.adminUser}</a>
+      </li>
+      `
+    )
+  }
+}
+
+
+////////////////////////
+////////////////////////
+//// PAGE FUNCTIONS ////
+////////////////////////
+////////////////////////
 
 
 /////////////////////////////
@@ -202,6 +210,18 @@ function displayGroupTasksCard(data) {
   })
 }
 
+
+
+////////////////////////////////
+// DISPLAYS THE FRIEND BUTTON //
+////////////////////////////////
+function displayFriendButton(data) {
+  const user = new User(data)
+  if (user.id !== user.currentUserId) {
+    $('#friend-unfriend-button').append(`<a class="btn btn-info" rel="nofollow" data-method="post" href="/friendships?friend_id=${user.id}">Add Friend</a>`)
+  }
+}
+
 //////////////////////////////////
 // DISPLAYS THE UNFRIEND BUTTON //
 //////////////////////////////////
@@ -212,16 +232,6 @@ function displayUnfriendButton(currentPageUser) {
     const currentUser = currentPageUser.currentUserId
 
     $('#friend-unfriend-button').html(`<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${friendshipId}" data-user-id="${friendId}" data-current-user="${currentUser}">Unfriend</button>`)
-  }
-}
-
-////////////////////////////////
-// DISPLAYS THE FRIEND BUTTON //
-////////////////////////////////
-function displayFriendButton(data) {
-  const user = new User(data)
-  if (user.id !== user.currentUserId) {
-    $('#friend-unfriend-button').append(`<a class="btn btn-info" rel="nofollow" data-method="post" href="/friendships?friend_id=${user.id}">Add Friend</a>`)
   }
 }
 
@@ -253,6 +263,29 @@ function displayFriendsList(data) {
   endFriendshipListener(data)
 }
 
+////////////////////////////////////////////////////////
+// Removes a user the the current user's friends list //
+////////////////////////////////////////////////////////
+function removeFromFriendsList(id) {
+  $(`.user-${id}`).remove()
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+// Flashes a warning at the top of a page when the current user unfriends someone //
+////////////////////////////////////////////////////////////////////////////////////
+function flashWarningMessage(currentPageUsername) {
+  $('#flash-success-danger-message').append(`<div class="alert alert-danger">You have unfriended ${currentPageUsername}</div>`)
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Removes the friends list, the unfriend button, the tasks lists, and the friends' events list //
+//////////////////////////////////////////////////////////////////////////////////////////////////
+function removeFriendElements() {
+  $('.friends-only').remove()
+  $('#friends-list-button').remove()
+  $('.unfriend-button').remove()
+}
+
 /////////////////////////////////////////////////////////////////////
 // ENDS / DELETES A FRIENDSHIP WITH THE UNFRIEND BUTTON IS CLICKED //
 /////////////////////////////////////////////////////////////////////
@@ -282,9 +315,9 @@ function endFriendshipListener(data) {
   })
 }
 
-//////////////////////////////////////////
-//
-//////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+// Passes the data it receives to the methods it calls inside it //
+///////////////////////////////////////////////////////////////////
 function passCurrentPageData(data) {
   displayPageTitle(data)
   displayUserPoints(data)
@@ -295,25 +328,18 @@ function passCurrentPageData(data) {
   displayFriendsList(data)
 }
 
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////////
+//// DOCUMENT.READY Function ////
+/////////////////////////////////
 
-function removeFromFriendsList(id) {
-  $(`.user-${id}`).remove()
-}
-
-function flashWarningMessage(currentPageUsername) {
-  $('#flash-success-danger-message').append(`<div class="alert alert-danger">You have unfriended ${currentPageUsername}</div>`)
-}
-
-function removeFriendElements() {
-  $('.friends-only').remove()
-  $('#friends-list-button').remove()
-  $('.unfriend-button').remove()
-}
-
-// DOCUMENT.READY Function
 $(document).on('turbolinks:load',function() {
   $.get(`${window.location.href}.json`, function(data) {
     passCurrentPageData(data)
   })
 })
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
