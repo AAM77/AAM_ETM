@@ -246,6 +246,22 @@ function displayUnfriendButton(currentPageUser) {
   }
 }
 
+function populateCurrentUsersFriendsList(currentPageUser) {
+  currentPageUser.friends.forEach( friend => {
+    let newFriend = new Friend(friend)
+    let friendHTML = newFriend.addFriendForCurrentUser()
+    $('#scrollable-friends-list').append(friendHTML)
+  })
+}
+
+function populateOtherUsersFriendsList(currentPageUser) {
+  currentPageUser.friends.forEach( friend => {
+    let newFriend = new Friend(friend)
+    let friendHTML = newFriend.addFriendForOtherUser()
+    $('#scrollable-friends-list').append(friendHTML)
+  })
+}
+
 ///////////////////////////////
 // DISPLAYS THE FRIENDS LIST //
 ///////////////////////////////
@@ -254,18 +270,10 @@ function displayFriendsList(data) {
   $('#friends-list-button').append('Friends List')
   // add friend to the dropdown friends list
   if (currentPageUser.id === currentPageUser.currentUserId) {
-    currentPageUser.friends.forEach( friend => {
-      let newFriend = new Friend(friend)
-      let friendHTML = newFriend.addFriendForCurrentUser()
-      $('#scrollable-friends-list').append(friendHTML)
-    })
+    populateCurrentUsersFriendsList(currentPageUser)
   } else {
     if (currentPageUser.friendsWithCurrentUser) {
-      currentPageUser.friends.forEach( friend => {
-        let newFriend = new Friend(friend)
-        let friendHTML = newFriend.addFriendForOtherUser()
-        $('#scrollable-friends-list').append(friendHTML)
-      })
+      populateOtherUsersFriendsList(currentPageUser)
       displayUnfriendButton(currentPageUser)
     } else {
       displayFriendButton(data)
