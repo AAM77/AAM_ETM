@@ -16,9 +16,8 @@ class FriendshipsController < ApplicationController
   ######################################
   def create
     friendship = current_user.friendships.build(friend_id: params[:friend_id])
-    # format.html { redirect_to user_path(params[:friend_id])}
+    # format.html { redirect_to user_path(params[:friend_id]) }
     if friendship.save
-      flash[:success] = "Added friend successfully."
       respond_to do |format|
         format.json { render json: friendship }
       end
