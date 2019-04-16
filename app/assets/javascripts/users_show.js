@@ -274,8 +274,6 @@ function displayFriendsList(data) {
   } else if (currentPageUser.friendsWithCurrentUser) {
     populateOtherUsersFriendsList(currentPageUser)
   }
-  endFriendshipListener(data)
-  addFriendshipListener(data)
 }
 
 // DISPLAYS ELEMENTS DEPENDING ON FRIENDSHIP STATUS WITH THE CURRENT USER //
@@ -292,6 +290,15 @@ function determineFriendshipDisplayElements(data) {
     }
   } else {
     displayFriendButton(data)
+  }
+}
+
+// Attaches the appropriate Listeners
+function attachFriendshipListener(data) {
+  if (data.id === data.current_user_id || data.friends_with_current_user) {
+    endFriendshipListener(data)
+  } else {
+    addFriendshipListener(data)
   }
 }
 
