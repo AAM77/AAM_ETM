@@ -231,7 +231,7 @@ function displayGroupTasksCard(data) {
 function displayFriendButton(data) {
   const user = new User(data)
   if (user.id !== user.currentUserId) {
-    $('#friend-unfriend-button').append(`<button class="btn btn-info" id="add-friend-button" rel="nofollow" data-method="post">Add Friend</button>`)
+    $('#friend-unfriend-button').append(`<button class="btn btn-info" id="add-friend-button">Add Friend</button>`)
   }
 }
 
@@ -433,5 +433,5 @@ function addFriendshipListener(data) {
 }
 
 // CURRENT ISSUE:
-// Friendship gets created, but nothing else happens.
-// Need to  do something about the card divs.
+// Fix the issue with the redirect in the controller so that it is no longer necessary
+// Have the users index page handles the friendships asynchronously as well
