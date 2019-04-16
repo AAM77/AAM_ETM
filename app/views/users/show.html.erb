@@ -8,8 +8,6 @@
 <div class="container">
   <div class="row">
 
-    <!-- If the user is friends with the current user -->
-    <% if @user == current_user || @user.friend_ids_list.include?(current_user.id) %>
 
       <!-- Events the User Created -->
       <%= render partial: "adminned_events_card", locals: { adminned_events: @adminned_events, user: @user } %>
@@ -45,11 +43,7 @@
       <ul id="group-tasks-list" class="list-group list-group-flush"></ul>
       <% end %>
 
-    <% else %>
-      <!-- If the user is NOT friends with the current user -->
-      <!-- List the Events the User Created -->
-      <%= render partial: "adminned_events_card", locals: { adminned_events: @adminned_events, user: @user } %>
-    <% end %>
+
   </div>
 
     <br>
@@ -57,12 +51,10 @@
 
   <!-- when visiting a user's homepage: -->
   <!-- if it is the current user's page or the current user is friends with the user page's owner -->
-  <% friends_dropdown @user do %>
-    <div class="btn-group">
-      <button id='friends-list-button' type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-      <div id="scrollable-friends-list" class="dropdown-menu scrollable-menu"></div>
-    </div>
-  <% end %>
+  <div class="btn-group">
+    <button id='friends-list-button' type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+    <div id="scrollable-friends-list" class="dropdown-menu scrollable-menu"></div>
+  </div>
 
   <br>
   <br>
