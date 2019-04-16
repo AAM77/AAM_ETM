@@ -7,7 +7,7 @@ module UsersHelper
   #############################################################
   def add_friend_link(user)
     if user != current_user
-      link_to "Add Friend", friendships_path(friend_id: user), method: :post, class: yield
+      ("<span>" + (button_tag "Add Friend", class: "btn btn-info btn-sm index-add-friend-button", data: { crnt_user_id: "#{current_user.id}", friend_id: "#{user.id}" }) + "</span>").html_safe
     end
   end
 
@@ -45,7 +45,7 @@ module UsersHelper
 
   def link_to_user(user)
     (link_to user.username, user_path(user)) + (user == current_user ? "" : " || ") +
-    (friends?(user) ? "Your Friend" : add_friend_link(user) { "" })
+    (friends?(user) ? "<span>Your Friend</span>".html_safe : add_friend_link(user) { "" })
   end
 
   #####################################
