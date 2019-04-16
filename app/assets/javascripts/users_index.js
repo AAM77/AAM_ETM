@@ -36,7 +36,7 @@
 // }
 //
 //
-// 
+//
 // function display_users() {
 //   $.ajax({
 //     url: `/users.json`,
@@ -66,3 +66,39 @@
 // $(function() {
 //   add_friend_link();
 // });
+
+// ////////////////////////////////
+// // DISPLAYS THE FRIEND BUTTON //
+// ////////////////////////////////
+// function displayFriendButton(data) {
+//   const user = new User(data)
+//   if (user.id !== user.currentUserId) {
+//     $('#friend-unfriend-button').append(`<button class="btn btn-info" id="add-friend-button">Add Friend</button>`)
+//   }
+// }
+//
+function indexFriendshipListener() {
+  $('.index-add-friend-button').on('click', function() {
+    debugger;
+    if (confirm("Are you sure you want to friend this person?")) {
+      const currentUserId = parseInt($(this).attr('data-crnt-user-id'))
+      const friendId = parseInt($(this).attr('data-friend-id'))
+      debugger;
+      $.ajax({
+        url: '/friendships',
+        method: 'POST',
+        data: {
+          user_id: currentUserId,
+          friend_id: friendId
+        }
+      })
+      .done(function(postedData) {
+        $(`#user-${friendId} span`).text('Your Friend')
+      })
+    }
+  })
+}
+
+$(document).on('turbolinks:load',function() {
+  indexFriendshipListener()
+})
