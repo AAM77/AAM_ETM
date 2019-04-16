@@ -271,16 +271,28 @@ function displayFriendsList(data) {
   // add friend to the dropdown friends list
   if (currentPageUser.id === currentPageUser.currentUserId) {
     populateCurrentUsersFriendsList(currentPageUser)
-  } else {
-    if (currentPageUser.friendsWithCurrentUser) {
-      populateOtherUsersFriendsList(currentPageUser)
-      displayUnfriendButton(currentPageUser)
-    } else {
-      displayFriendButton(data)
-    }
+  } else if (currentPageUser.friendsWithCurrentUser) {
+    populateOtherUsersFriendsList(currentPageUser)
   }
   endFriendshipListener(data)
   addFriendshipListener(data)
+}
+
+// DISPLAYS ELEMENTS DEPENDING ON FRIENDSHIP STATUS WITH THE CURRENT USER //
+function determineFriendshipDisplayElements(data) {
+  //debugger;
+  const currentPageUser = new User(data)
+  //debugger;
+  if (currentPageUser.id === currentPageUser.currentUserId || currentPageUser.friendsWithCurrentUser) {
+    //debugger;
+    displayFriendsList(currentPageUser)
+    if (currentPageUser.friendsWithCurrentUser) {
+      //debugger;
+      displayUnfriendButton(currentPageUser)
+    }
+  } else {
+    displayFriendButton(data)
+  }
 }
 
 ////////////////////////////////////////////////////////
