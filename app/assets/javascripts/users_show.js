@@ -132,6 +132,17 @@ class Task {
 ////////////////////////
 ////////////////////////
 
+function currentUserOrFriendsWithCurrentUser(data) {
+  const currentPageUser = data
+  const currentUserId = data.current_user_id
+
+  if (currentPageUser.id === currentUserId || currentPageUser.friends_with_current_user) {
+    $('.friends-only').show()
+  } else {
+    $('.friends-only').hide()
+  }
+}
+
 
 /////////////////////////////
 // DISPLAYS THE PAGE TITLE //
@@ -327,6 +338,7 @@ function passCurrentPageData(data) {
   displaySoloTasksCard(data)
   displayGroupTasksCard(data)
   displayFriendsList(data)
+  currentUserOrFriendsWithCurrentUser(data)
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -382,7 +394,6 @@ function addFriendshipListener(data) {
       .done(function() {
         $('#add-friend-button').remove()
         displayFriendsEventsCard(currentPageUserData)
-        debugger;
         displaySoloTasksCard(currentPageUserData)
         displayGroupTasksCard(currentPageUserData)
         displayFriendsList(currentPageUserData)
