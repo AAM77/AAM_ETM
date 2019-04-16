@@ -55,7 +55,7 @@ Friend.prototype.addFriendForOtherUser = function() {
   return (
     `
     <p class="dropdown-item user-${this.id}">
-      <a href="/users/${this.id}" >${this.username}</a>
+      <a href="/users/${this.id}">${this.username}</a>
     </p>
     <div class="dropdown-divider user-${this.id}"></div>
     `
@@ -140,6 +140,8 @@ function currentUserOrFriendsWithCurrentUser(data) {
     $('.friends-only').show()
   } else {
     $('.friends-only').hide()
+    $('#scrollable-friends-list').empty()
+    $('#friends-list-button').hide()
   }
 }
 
@@ -265,10 +267,9 @@ function populateOtherUsersFriendsList(currentPageUser) {
 ///////////////////////////////
 // DISPLAYS THE FRIENDS LIST //
 ///////////////////////////////
-function displayFriendsList(data) {
-  const currentPageUser = new User(data)
-  $('#friends-list-button').append('Friends List')
-  // add friend to the dropdown friends list
+function displayFriendsList(currentPageUser) {
+  $('#friends-list-button').text('Friends List')
+  $('#scrollable-friends-list').empty();
   if (currentPageUser.id === currentPageUser.currentUserId) {
     populateCurrentUsersFriendsList(currentPageUser)
   } else if (currentPageUser.friendsWithCurrentUser) {
@@ -320,18 +321,20 @@ function flashWarningMessage(currentPageUsername) {
 // Removes the friends list, the unfriend button, the tasks lists, and the friends' events list //
 //////////////////////////////////////////////////////////////////////////////////////////////////
 function removeFriendElements() {
-  $('.friends-only').remove()
-  $('#friends-list-button').remove()
-  $('.unfriend-button').remove()
+  $('#scrollable-friends-list').empty()
+  $('#friends-list-button').hide()
+  $('.unfriend-button').hide()
+  $('.friends-only').hide()
 }
 
 /////////////////////////////////////////////////////////////////////
 // ENDS / DELETES A FRIENDSHIP WITH THE UNFRIEND BUTTON IS CLICKED //
 /////////////////////////////////////////////////////////////////////
-function endFriendshipListener(data) {
+function endFriendshipListener(currentPageUserData) {
+  //debugger;
   $('.unfriend-button').on('click', function() {
     if (confirm("Are you sure you want to end this friendship?")) {
-      const currentPageUserData = data;
+      //const currentPageUserData = data;
       const friendshipId = parseInt($(this).attr('data-friendship-id'))
       const friendId = $(this).attr('data-user-id')
       const username = $(this).attr('data-friend-name')
@@ -348,6 +351,7 @@ function endFriendshipListener(data) {
           removeFriendElements()
           flashWarningMessage(currentPageUser.username)
           displayFriendButton(currentPageUserData)
+          addFriendshipListener(currentPageUserData)
         }
       })
     }
@@ -364,7 +368,8 @@ function passCurrentPageData(data) {
   displayFriendsEventsCard(data)
   displaySoloTasksCard(data)
   displayGroupTasksCard(data)
-  displayFriendsList(data)
+  determineFriendshipDisplayElements(data)
+  attachFriendshipListener(data)
   currentUserOrFriendsWithCurrentUser(data)
 }
 
@@ -383,7 +388,6 @@ $(document).on('turbolinks:load',function() {
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-
 
 
 ////////////////////////
@@ -409,21 +413,20 @@ function addFriendshipListener(data) {
       const currentPageUserData = data;
       const potentialFriendId = currentPageUserData.id;
       const currentUserId = currentPageUserData.current_user_id;
-
       $.ajax({
         url: '/friendships',
         method: 'POST',
-        dataType: 'json',
         data: {
           friend_id: potentialFriendId
         }
       })
-      .done(function() {
-        $('#add-friend-button').remove()
-        displayFriendsEventsCard(currentPageUserData)
-        displaySoloTasksCard(currentPageUserData)
-        displayGroupTasksCard(currentPageUserData)
-        displayFriendsList(currentPageUserData)
+      .done(function(postedData) {
+        const currPgUsr = new User(postedData.friend)
+        $('#add-friend-button').hide()
+        $('.friends-only').show()
+        determineFriendshipDisplayElements(postedData.friend)
+        attachFriendshipListener(postedData.friend)
+        $('#friends-list-button').show()
       })
     }
   })
