@@ -79,11 +79,11 @@
 //
 function indexFriendshipListener() {
   $('.index-add-friend-button').on('click', function() {
-    debugger;
+    // debugger;
     if (confirm("Are you sure you want to friend this person?")) {
       const currentUserId = parseInt($(this).attr('data-crnt-user-id'))
       const friendId = parseInt($(this).attr('data-friend-id'))
-      debugger;
+      // debugger;
       $.ajax({
         url: '/friendships',
         method: 'POST',
