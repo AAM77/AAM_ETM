@@ -248,6 +248,10 @@ function displayUnfriendButton(currentPageUser) {
   }
 }
 
+
+/////////////////////////////////////////////////////////////
+// ADDS FRIENDS TO A LIST WHEN ON CURRENT USER'S HOME PAGE //
+/////////////////////////////////////////////////////////////
 function populateCurrentUsersFriendsList(currentPageUser) {
   currentPageUser.friends.forEach( friend => {
     let newFriend = new Friend(friend)
@@ -256,6 +260,9 @@ function populateCurrentUsersFriendsList(currentPageUser) {
   })
 }
 
+//////////////////////////////////////////////////////////////
+// ADDS FRIENDS TO A LIST WHEN VISITING ANOTHER USER'S PAGE //
+//////////////////////////////////////////////////////////////
 function populateOtherUsersFriendsList(currentPageUser) {
   currentPageUser.friends.forEach( friend => {
     let newFriend = new Friend(friend)
@@ -277,7 +284,9 @@ function displayFriendsList(currentPageUser) {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////
 // DISPLAYS ELEMENTS DEPENDING ON FRIENDSHIP STATUS WITH THE CURRENT USER //
+////////////////////////////////////////////////////////////////////////////
 function determineFriendshipDisplayElements(data) {
   //debugger;
   const currentPageUser = new User(data)
@@ -291,15 +300,6 @@ function determineFriendshipDisplayElements(data) {
     }
   } else {
     displayFriendButton(data)
-  }
-}
-
-// Attaches the appropriate Listeners
-function attachFriendshipListener(data) {
-  if (data.id === data.current_user_id || data.friends_with_current_user) {
-    endFriendshipListener(data)
-  } else {
-    addFriendshipListener(data)
   }
 }
 
@@ -325,6 +325,34 @@ function removeFriendElements() {
   $('#friends-list-button').hide()
   $('.unfriend-button').hide()
   $('.friends-only').hide()
+}
+
+//////////////////////////////////////////////////////////////
+// CREATES A FRIENDSHIP WITH THE UNFRIEND BUTTON IS CLICKED //
+//////////////////////////////////////////////////////////////
+function addFriendshipListener(data) {
+  $('#add-friend-button').on('click', function() {
+    if (confirm("Are you sure you want to friend this person?")) {
+      const currentPageUserData = data;
+      const potentialFriendId = currentPageUserData.id;
+      const currentUserId = currentPageUserData.current_user_id;
+      $.ajax({
+        url: '/friendships',
+        method: 'POST',
+        data: {
+          friend_id: potentialFriendId
+        }
+      })
+      .done(function(postedData) {
+        const currPgUsr = new User(postedData.friend)
+        $('#add-friend-button').hide()
+        $('.friends-only').show()
+        determineFriendshipDisplayElements(postedData.friend)
+        attachFriendshipListener(postedData.friend)
+        $('#friends-list-button').show()
+      })
+    }
+  })
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -356,6 +384,18 @@ function endFriendshipListener(currentPageUserData) {
       })
     }
   })
+}
+
+////////////////////////////////////////
+// Attaches the appropriate Listeners //
+////////////////////////////////////////
+
+function attachFriendshipListener(data) {
+  if (data.id === data.current_user_id || data.friends_with_current_user) {
+    endFriendshipListener(data)
+  } else {
+    addFriendshipListener(data)
+  }
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -407,30 +447,7 @@ $(document).on('turbolinks:load',function() {
         // h. display the friends list
         // i. display the unfriend button
 
-function addFriendshipListener(data) {
-  $('#add-friend-button').on('click', function() {
-    if (confirm("Are you sure you want to friend this person?")) {
-      const currentPageUserData = data;
-      const potentialFriendId = currentPageUserData.id;
-      const currentUserId = currentPageUserData.current_user_id;
-      $.ajax({
-        url: '/friendships',
-        method: 'POST',
-        data: {
-          friend_id: potentialFriendId
-        }
-      })
-      .done(function(postedData) {
-        const currPgUsr = new User(postedData.friend)
-        $('#add-friend-button').hide()
-        $('.friends-only').show()
-        determineFriendshipDisplayElements(postedData.friend)
-        attachFriendshipListener(postedData.friend)
-        $('#friends-list-button').show()
-      })
-    }
-  })
-}
+
 
 // CURRENT ISSUE:
 // Fix the issue with the redirect in the controller so that it is no longer necessary
