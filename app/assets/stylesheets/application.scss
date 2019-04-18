@@ -52,8 +52,15 @@
     overflow-x: hidden;
 }
 
-.main-header, .sub-header{
+.main-header, .sub-header {
   font-weight: bold;
   text-decoration: underline;
   text-decoration-color: rgb(36,162,182);
+}
+
+.btn-xs.index-add-friend-button {
+  padding: .3rem .4rem;
+  font-size: .675rem;
+  line-height: .5;
+  border-radius: .2rem;
 }
