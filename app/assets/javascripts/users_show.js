@@ -425,10 +425,13 @@ function passCurrentPageData(data) {
 /////////////////////////////////
 
 $(document).on('turbolinks:load',function() {
-  $.get(`${window.location.href}.json`, function(data) {
-    passCurrentPageData(data)
-  })
-})
+  if ($(".users.show").length > 0) {
+    $.get(`${window.location.href}.json`, function(data) {
+      passCurrentPageData(data)
+    })
+  }
+});
+
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
