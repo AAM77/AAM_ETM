@@ -77,6 +77,14 @@
 //   }
 // }
 //
+
+////////////////////////////////////////////////////////////////////////////////////
+// Flashes a warning at the top of a page when the current user unfriends someone //
+////////////////////////////////////////////////////////////////////////////////////
+function flashSuccessMessage(currentPageUsername) {
+  $('#flash-success-danger-message').append(`<div class="alert alert-success">You are now friends with ${currentPageUsername}</div>`)
+}
+
 function indexFriendshipListener() {
   $('.index-add-friend-button').on('click', function() {
     // debugger;
@@ -92,8 +100,9 @@ function indexFriendshipListener() {
           friend_id: friendId
         }
       })
-      .done(function(postedData) {
+      .done(function(friendshipData) {
         $(`#user-${friendId} span`).text('Your Friend')
+        flashSuccessMessage(friendshipData.friend.username)
       })
     }
   })
