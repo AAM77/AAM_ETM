@@ -166,8 +166,8 @@ function displayUserPoints(user) {
 /////////////////////////////////////////////////
 // DISPLAY THE LIST OF EVENTS THE USER CREATED //
 /////////////////////////////////////////////////
-function displayAdminnedEventsCard(data) {
-  const user = new User(data)
+function displayAdminnedEventsCard(user) {
+  // const user = new User(data)
   $('#adminned-events-title').append(`Events ${user.username} Created`)
   $('#adminned-events-list').empty()
 
@@ -408,7 +408,7 @@ function passCurrentPageData(data) {
   // debugger;
   displayPageTitle(user)
   displayUserPoints(user)
-  displayAdminnedEventsCard(data)
+  displayAdminnedEventsCard(user)
   displayFriendsEventsCard(data)
   displaySoloTasksCard(data)
   displayGroupTasksCard(data)
