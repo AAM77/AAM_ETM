@@ -55,5 +55,7 @@ function createTask() {
 
 // DOCUMENT.READY Function
 $(document).on('turbolinks:load',function() {
-  createTask()
+  if ($('.events.show_admin').length > 0) {
+    createTask()
+  }
 });
