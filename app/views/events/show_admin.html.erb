@@ -4,7 +4,18 @@
 <br>
 <h2>INCOMPLETE TASKS</h2>
 
-<p>Sort by: Name | Task Type | Points Awarded | Max Participants | Join Status </p>
+<br />
+
+<div id="task-sorting-buttons">
+  <strong>Sort By:</strong>
+  <button id="sort-tasks-name" type="button" class="btn btn-xs btn-outline-primary">Name</button>
+  <button id="sort-tasks-task-type" type="button" class="btn btn-xs btn-outline-primary">Type</button>
+  <button id="sort-tasks-points-awarded" type="button" class="btn btn-xs btn-outline-primary">Points Awarded</button>
+  <button id="sort-tasks-max-participants" type="button" class="btn btn-xs btn-outline-primary">Max Participants</button>
+  <button id="sort-tasks-join-status" type="button" class="btn btn-xs btn-outline-primary">Join Status</button>
+</div>
+
+<br />
 
 <div class="table-responsive">
   <%= form_tag admin_complete_users_tasks_path, method: :patch do %>
