@@ -80,7 +80,7 @@ UserEvent.prototype.listCreatedEvent = function() {
   return (
     `
     <li class="list-group-item">
-      <a href="/events/${this.id}" >${this.name}</a>
+      <a href="/events/${this.id}">${this.name}</a>
     </li>
     `
   )
@@ -92,7 +92,7 @@ UserEvent.prototype.listFriendEvent = function() {
     `
     <li class="list-group-item">
       <a href="/events/${this.id}" >${this.name}</a>,
-      by: <a href="/users/${this.adminId}" tasrget="_blank">${this.adminUser}</a>
+      by: <a href="/users/${this.adminId}">${this.adminUser}</a>
     </li>
     `
   )
@@ -182,6 +182,7 @@ function displayAdminnedEventsCard(user) {
   $('#adminned-events-title').append(`Events ${user.username} Created`)
   $('#adminned-events-list').empty()
 
+  // debugger;
   user.adminnedEvents.forEach( event => {
     let newEvent = new UserEvent(event)
     let eventHTML = newEvent.listCreatedEvent()
