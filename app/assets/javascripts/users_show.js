@@ -431,31 +431,3 @@ $(document).on('turbolinks:load',function() {
     })
   }
 });
-
-
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-
-
-////////////////////////
-// TESTING ADD FRIEND //
-////////////////////////
-
-// What do I need to accomplish this?
-// 1. I need a click event listener for the add friend button
-      // When Clicked:
-        // a. [x] make a POST ajax request to friendships
-        // b. [x] provide the current user's id
-        // c. [x] provide the potential friend's id
-        // d. [x] create the friendship
-        // e. [x] remove the 'Add Friend Button'
-        // f. [x] add a success flash message at the top of the page
-        // g. [x] display all of the .friend-elements
-        // h. [x] display the friends list
-        // i. [x] display the unfriend button
-
-
-
-// CURRENT ISSUE:
-// Fix the issue with the redirect in the controller so that it is no longer necessary
-// Have the users index page handles the friendships asynchronously as well
