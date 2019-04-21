@@ -32,7 +32,7 @@ function indexFriendshipListener() {
   })
 }
 
-$(document).on('turbolinks:load',function() {
+$(function() {
   if ($(".users.index").length > 0) {
     indexFriendshipListener()
   }
