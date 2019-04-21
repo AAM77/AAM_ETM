@@ -198,8 +198,8 @@ function displayFriendsEventsCard(user) {
 //////////////////////////////////////////////////////////////
 // DISPLAYS THE LIST OF SOLO TASKS USER IS PARTICIPATING IN //
 //////////////////////////////////////////////////////////////
-function displaySoloTasksCard(data) {
-  const user = new User(data)
+function displaySoloTasksCard(user) {
+  // const user = new User(data)
   $('#solo-tasks-title').append(`Solo-Tasks ${user.username} is Participating In`)
 
   user.soloTasks.forEach( task => {
@@ -410,7 +410,7 @@ function passCurrentPageData(data) {
   displayUserPoints(user)
   displayAdminnedEventsCard(user)
   displayFriendsEventsCard(user)
-  displaySoloTasksCard(data)
+  displaySoloTasksCard(user)
   displayGroupTasksCard(data)
   determineFriendshipDisplayElements(data)
   attachFriendshipListener(data)
