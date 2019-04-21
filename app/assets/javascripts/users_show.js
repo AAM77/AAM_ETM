@@ -132,6 +132,21 @@ class Task {
 ////////////////////////
 ////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////////
+// Flashes a warning at the top of a page when the current user unfriends someone //
+////////////////////////////////////////////////////////////////////////////////////
+function flashWarningMessage(currentPageUsername) {
+  $('#flash-success-danger-message').append(`<div class="alert alert-danger">You are no longer friends with ${currentPageUsername}</div>`)
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+// Flashes a warning at the top of a page when the current user unfriends someone //
+////////////////////////////////////////////////////////////////////////////////////
+function flashSuccessMessage(currentPageUsername) {
+  $('#flash-success-danger-message').append(`<div class="alert alert-success">You are now friends with ${currentPageUsername}</div>`)
+}
+
+
 function currentUserOrFriendsWithCurrentUser(data) {
   const currentPageUser = data
   const currentUserId = data.current_user_id
@@ -300,12 +315,7 @@ function removeFromFriendsList(id) {
   $(`.user-${id}`).remove()
 }
 
-////////////////////////////////////////////////////////////////////////////////////
-// Flashes a warning at the top of a page when the current user unfriends someone //
-////////////////////////////////////////////////////////////////////////////////////
-function flashWarningMessage(currentPageUsername) {
-  $('#flash-success-danger-message').append(`<div class="alert alert-danger">You have unfriended ${currentPageUsername}</div>`)
-}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // Removes the friends list, the unfriend button, the tasks lists, and the friends' events list //
@@ -340,6 +350,7 @@ function addFriendshipListener(data) {
         determineFriendshipDisplayElements(friendshipData.friend)
         attachFriendshipListener(friendshipData.friend)
         $('#friends-list-button').show()
+        flashSuccessMessage(friendshipData.friend.username)
       })
     }
   })
