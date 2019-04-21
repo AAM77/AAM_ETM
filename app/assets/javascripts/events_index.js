@@ -103,7 +103,9 @@ function descendingEventNamesOnClick() {
 
 
 $(document).on('turbolinks:load',function() {
-  displayAllEvents()
-  showAllEventsOnClick()
-  descendingEventNamesOnClick()
+  if ($(".events.index").length > 0) {
+    displayAllEvents()
+    showAllEventsOnClick()
+    descendingEventNamesOnClick()
+  }
 });
