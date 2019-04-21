@@ -149,18 +149,18 @@ function currentUserOrFriendsWithCurrentUser(data) {
 /////////////////////////////
 // DISPLAYS THE PAGE TITLE //
 /////////////////////////////
-function displayPageTitle(userData) {
+function displayPageTitle(user) {
   // debugger;
   //const user = new User(data)
-  $('#user-homepage-header').text(`${userData.username}'s Homepage`)
+  $('#user-homepage-header').text(`${user.username}'s Homepage`)
 }
 
 ////////////////////////////////////
 // DISPLAYS THE POINTS A USER HAS //
 ////////////////////////////////////
-function displayUserPoints(userData) {
+function displayUserPoints(user) {
   // const user = new User(data)
-  $('#users-total-points').text(`${userData.username}'s Points: ${userData.totalPoints}`)
+  $('#users-total-points').text(`${user.username}'s Points: ${user.totalPoints}`)
 }
 
 /////////////////////////////////////////////////
@@ -404,10 +404,10 @@ function attachFriendshipListener(data) {
 ///////////////////////////////////////////////////////////////////
 function passCurrentPageData(data) {
   // debugger;
-  const userData = new User(data)
+  const user = new User(data)
   // debugger;
-  displayPageTitle(userData)
-  displayUserPoints(userData)
+  displayPageTitle(user)
+  displayUserPoints(user)
   displayAdminnedEventsCard(data)
   displayFriendsEventsCard(data)
   displaySoloTasksCard(data)
