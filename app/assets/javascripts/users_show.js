@@ -448,11 +448,11 @@ $(document).on('turbolinks:load',function() {
         // b. [x] provide the current user's id
         // c. [x] provide the potential friend's id
         // d. [x] create the friendship
-        // e. remove the 'Add Friend Button'
-        // f. add a success flash message at the top of the page
-        // g. display all of the .friend-elements
-        // h. display the friends list
-        // i. display the unfriend button
+        // e. [x] remove the 'Add Friend Button'
+        // f. [x] add a success flash message at the top of the page
+        // g. [x] display all of the .friend-elements
+        // h. [x] display the friends list
+        // i. [x] display the unfriend button
 
 
 
