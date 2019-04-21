@@ -53,6 +53,11 @@ function createTask() {
 }
 
 
+/////////////////////
+// SORTING METHODS //
+/////////////////////
+
+
 // DOCUMENT.READY Function
 $(function() {
   if ($('.events.show_admin').length > 0) {
