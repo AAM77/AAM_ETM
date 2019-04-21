@@ -33,5 +33,7 @@ function indexFriendshipListener() {
 }
 
 $(document).on('turbolinks:load',function() {
-  indexFriendshipListener()
+  if ($(".users.index").length > 0) {
+    indexFriendshipListener()
+  }
 })
