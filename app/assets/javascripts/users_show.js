@@ -240,13 +240,11 @@ function displayFriendButton(currentPageUser) {
 // DISPLAYS THE UNFRIEND BUTTON //
 //////////////////////////////////
 function displayUnfriendButton(currentPageUser) {
-  if ((currentPageUser)) {
-    const friendId = currentPageUser.id
-    const friendshipId = currentPageUser.friendshipId
-    const currentUser = currentPageUser.currentUserId
+  const friendId = currentPageUser.id
+  const friendshipId = currentPageUser.friendshipId
+  const currentUser = currentPageUser.currentUserId
 
-    $('#friend-unfriend-button').html(`<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${friendshipId}" data-user-id="${friendId}" data-current-user="${currentUser}">Unfriend</button>`)
-  }
+  $('#friend-unfriend-button').html(`<button class="btn-sm btn-danger unfriend-button" data-friendship-id="${friendshipId}" data-user-id="${friendId}" data-current-user="${currentUser}">Unfriend</button>`)
 }
 
 
