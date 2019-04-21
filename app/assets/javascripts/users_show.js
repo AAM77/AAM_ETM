@@ -229,9 +229,9 @@ function displayGroupTasksCard(user) {
 ////////////////////////////////
 // DISPLAYS THE FRIEND BUTTON //
 ////////////////////////////////
-function displayFriendButton(data) {
-  const user = new User(data)
-  if (user.id !== user.currentUserId) {
+function displayFriendButton(currentPageUser) {
+  // const user = new User(data)
+  if (currentPageUser.id !== currentPageUser.currentUserId) {
     $('#friend-unfriend-button').append(`<button class="btn btn-info" id="add-friend-button">Add Friend</button>`)
   }
 }
@@ -300,7 +300,7 @@ function determineFriendshipDisplayElements(data) {
       displayUnfriendButton(currentPageUser)
     }
   } else {
-    displayFriendButton(data)
+    displayFriendButton(currentPageUser)
   }
 }
 
