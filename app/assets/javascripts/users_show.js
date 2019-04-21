@@ -150,8 +150,6 @@ function currentUserOrFriendsWithCurrentUser(data) {
 // DISPLAYS THE PAGE TITLE //
 /////////////////////////////
 function displayPageTitle(user) {
-  // debugger;
-  //const user = new User(data)
   $('#user-homepage-header').text(`${user.username}'s Homepage`)
 }
 
@@ -159,7 +157,6 @@ function displayPageTitle(user) {
 // DISPLAYS THE POINTS A USER HAS //
 ////////////////////////////////////
 function displayUserPoints(user) {
-  // const user = new User(data)
   $('#users-total-points').text(`${user.username}'s Points: ${user.totalPoints}`)
 }
 
@@ -167,7 +164,6 @@ function displayUserPoints(user) {
 // DISPLAY THE LIST OF EVENTS THE USER CREATED //
 /////////////////////////////////////////////////
 function displayAdminnedEventsCard(user) {
-  // const user = new User(data)
   $('#adminned-events-title').append(`Events ${user.username} Created`)
   $('#adminned-events-list').empty()
 
@@ -182,7 +178,6 @@ function displayAdminnedEventsCard(user) {
 // DISPLAY FRIENDS' EVENTS USER IS PARTICIPATING IN //
 //////////////////////////////////////////////////////
 function displayFriendsEventsCard(user) {
-  // const user = new User(data)
   $('#friend-events-title').append(`Friends' Events ${user.username} is Participating In`)
   $('#friends-events-list').empty()
 
@@ -199,7 +194,6 @@ function displayFriendsEventsCard(user) {
 // DISPLAYS THE LIST OF SOLO TASKS USER IS PARTICIPATING IN //
 //////////////////////////////////////////////////////////////
 function displaySoloTasksCard(user) {
-  // const user = new User(data)
   $('#solo-tasks-title').append(`Solo-Tasks ${user.username} is Participating In`)
 
   user.soloTasks.forEach( task => {
@@ -214,7 +208,6 @@ function displaySoloTasksCard(user) {
 // DISPLAYS THE LIST OF GROUP TASKS USER IS PARTICIPATING IN //
 ///////////////////////////////////////////////////////////////
 function displayGroupTasksCard(user) {
-  // const user = new User(data)
   $('#group-tasks-title').append(`Group-Tasks ${user.username} is Participating In`)
 
   user.groupTasks.forEach( task => {
@@ -230,7 +223,6 @@ function displayGroupTasksCard(user) {
 // DISPLAYS THE FRIEND BUTTON //
 ////////////////////////////////
 function displayFriendButton(currentPageUser) {
-  // const user = new User(data)
   if (currentPageUser.id !== currentPageUser.currentUserId) {
     $('#friend-unfriend-button').append(`<button class="btn btn-info" id="add-friend-button">Add Friend</button>`)
   }
@@ -287,16 +279,15 @@ function displayFriendsList(currentPageUser) {
 // DISPLAYS ELEMENTS DEPENDING ON FRIENDSHIP STATUS WITH THE CURRENT USER //
 ////////////////////////////////////////////////////////////////////////////
 function determineFriendshipDisplayElements(data) {
-  //debugger;
   const currentPageUser = new User(data)
-  //debugger;
+
   if (currentPageUser.id === currentPageUser.currentUserId || currentPageUser.friendsWithCurrentUser) {
-    //debugger;
     displayFriendsList(currentPageUser)
+
     if (currentPageUser.friendsWithCurrentUser) {
-      //debugger;
       displayUnfriendButton(currentPageUser)
     }
+
   } else {
     displayFriendButton(currentPageUser)
   }
@@ -342,12 +333,12 @@ function addFriendshipListener(data) {
           friend_id: potentialFriendId
         }
       })
-      .done(function(postedData) {
-        const currPgUsr = new User(postedData.friend)
+      .done(function(friendshipData) {
+        const currPgUsr = new User(friendshipData.friend)
         $('#add-friend-button').hide()
         $('.friends-only').show()
-        determineFriendshipDisplayElements(postedData.friend)
-        attachFriendshipListener(postedData.friend)
+        determineFriendshipDisplayElements(friendshipData.friend)
+        attachFriendshipListener(friendshipData.friend)
         $('#friends-list-button').show()
       })
     }
@@ -358,10 +349,9 @@ function addFriendshipListener(data) {
 // ENDS / DELETES A FRIENDSHIP WITH THE UNFRIEND BUTTON IS CLICKED //
 /////////////////////////////////////////////////////////////////////
 function endFriendshipListener(currentPageUserData) {
-  //debugger;
   $('.unfriend-button').on('click', function() {
     if (confirm("Are you sure you want to end this friendship?")) {
-      //const currentPageUserData = data;
+
       const friendshipId = parseInt($(this).attr('data-friendship-id'))
       const friendId = $(this).attr('data-user-id')
       const username = $(this).attr('data-friend-name')
@@ -401,9 +391,9 @@ function attachFriendshipListener(data) {
 // Passes the data it receives to the methods it calls inside it //
 ///////////////////////////////////////////////////////////////////
 function passCurrentPageData(data) {
-  // debugger;
+
   const user = new User(data)
-  // debugger;
+
   displayPageTitle(user)
   displayUserPoints(user)
   displayAdminnedEventsCard(user)
