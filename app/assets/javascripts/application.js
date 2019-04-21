@@ -17,7 +17,6 @@
 //= require turbolinks
 //= require activestorage
 //= require cable
-//= require jquery-readyselector
 //= require events_index
 //= require users_show
 //= require users_index
