@@ -17,7 +17,7 @@ Event.prototype.createEventListItem = function() {
     `
     <li>
       <a href="/events/${this.id}">${this.name}</a>, by:
-      <a href="/events/${this.adminUserId}">${this.adminUsername}</a>
+      <a href="/users/${this.adminUserId}">${this.adminUsername}</a>
     </li>
     `
   )
@@ -51,23 +51,6 @@ function displayAllEvents() {
   return false;
 }
 
-// Accepts events as a parameter and sorts them in descending order
-function sortDescending(events) {
-  events.sort(function(event1, event2) {
-    const eventName1 = event1.name.toUpperCase(); // ignore upper and lowercase
-    const eventName2 = event2.name.toUpperCase(); // ignore upper and lowercase
-
-    if (eventName1 < eventName2) {
-      return 1;
-    }
-    if (eventName1 > eventName2) {
-      return -1;
-    }
-    return 0;
-  })
-  addEventsToList(events)
-}
-
 // Accepts events as a parameter and sorts them in ascending order
 function sortAscending(events) {
   events.sort(function(event1, event2) {
@@ -85,27 +68,50 @@ function sortAscending(events) {
   addEventsToList(events)
 }
 
+// Accepts events as a parameter and sorts them in descending order
+function sortDescending(events) {
+  events.sort(function(event1, event2) {
+    const eventName1 = event1.name.toUpperCase(); // ignore case
+    const eventName2 = event2.name.toUpperCase(); // ignore case
+
+    if (eventName1 < eventName2) {
+      return 1;
+    }
+    if (eventName1 > eventName2) {
+      return -1;
+    }
+    return 0;
+  })
+  addEventsToList(events)
+}
+
 // Gets the events, passes them to the sorter,
 // sorts them, and adds them to the events div
-function sortDescendingNames() {
+function sortAscendingEventNames() {
+  getEvents(sortAscending);
+}
+
+// Gets the events, passes them to the sorter,
+// sorts them, and adds them to the events div
+function sortDescendingEventNames() {
   getEvents(sortDescending)
 }
 
 // Displays the events in ascending order when the 'All Events' button is clicked
-function showAllEventsOnClick() {
-  $('#sort-events-ascending').on('click', displayAllEvents);
+function sortAscendingEventNamesOnClick() {
+  $('#sort-events-ascending').on('click', sortAscendingEventNames);
 }
 
 // Displays the events in descending order when the 'Title Descending' button is clicked
-function descendingEventNamesOnClick() {
-  $('#sort-events-descending').on('click', sortDescendingNames)
+function sortDescendingEventNamesOnClick() {
+  $('#sort-events-descending').on('click', sortDescendingEventNames)
 }
 
 
-$(document).on('turbolinks:load',function() {
+$(function() {
   if ($(".events.index").length > 0) {
     displayAllEvents()
-    showAllEventsOnClick()
-    descendingEventNamesOnClick()
+    sortAscendingEventNamesOnClick()
+    sortDescendingEventNamesOnClick()
   }
 });
