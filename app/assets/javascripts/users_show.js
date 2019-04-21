@@ -181,8 +181,8 @@ function displayAdminnedEventsCard(user) {
 //////////////////////////////////////////////////////
 // DISPLAY FRIENDS' EVENTS USER IS PARTICIPATING IN //
 //////////////////////////////////////////////////////
-function displayFriendsEventsCard(data) {
-  const user = new User(data)
+function displayFriendsEventsCard(user) {
+  // const user = new User(data)
   $('#friend-events-title').append(`Friends' Events ${user.username} is Participating In`)
   $('#friends-events-list').empty()
 
@@ -409,7 +409,7 @@ function passCurrentPageData(data) {
   displayPageTitle(user)
   displayUserPoints(user)
   displayAdminnedEventsCard(user)
-  displayFriendsEventsCard(data)
+  displayFriendsEventsCard(user)
   displaySoloTasksCard(data)
   displayGroupTasksCard(data)
   determineFriendshipDisplayElements(data)
