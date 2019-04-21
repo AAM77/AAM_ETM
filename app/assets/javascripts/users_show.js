@@ -213,8 +213,8 @@ function displaySoloTasksCard(user) {
 ///////////////////////////////////////////////////////////////
 // DISPLAYS THE LIST OF GROUP TASKS USER IS PARTICIPATING IN //
 ///////////////////////////////////////////////////////////////
-function displayGroupTasksCard(data) {
-  const user = new User(data)
+function displayGroupTasksCard(user) {
+  // const user = new User(data)
   $('#group-tasks-title').append(`Group-Tasks ${user.username} is Participating In`)
 
   user.groupTasks.forEach( task => {
@@ -411,7 +411,7 @@ function passCurrentPageData(data) {
   displayAdminnedEventsCard(user)
   displayFriendsEventsCard(user)
   displaySoloTasksCard(user)
-  displayGroupTasksCard(data)
+  displayGroupTasksCard(user)
   determineFriendshipDisplayElements(data)
   attachFriendshipListener(data)
   currentUserOrFriendsWithCurrentUser(data)
