@@ -135,7 +135,8 @@ class Task < ApplicationRecord
     self.users.each do |user|
       total_points = user.total_points.to_f + points_distributed_to_each_participant.to_f
       total_points = total_points.round(4)
-      user.update(total_points: total_points)
+      user.total_points = total_points
+      user.save(validate: false)
     end
   end
 
