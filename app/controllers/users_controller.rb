@@ -54,7 +54,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { render :show }
       format.json { render json: @user }
-      #{ user: @user, adminned_events: @adminned_events, friends_events: @friends_events }
     end
   end
 
