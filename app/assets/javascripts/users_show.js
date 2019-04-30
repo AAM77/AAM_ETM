@@ -426,8 +426,15 @@ function passCurrentPageData(data) {
 
 $(function() {
   if ($(".users.show").length > 0) {
-    $.get(`${window.location.href}.json`, function(data) {
-      passCurrentPageData(data)
-    })
+    if (window.location.href.indexOf('#') > 0) {
+        window.location = window.location.href.replace(/#.*/, '');
+        $.get(`${window.location}.json`, function(data) {
+          passCurrentPageData(data)
+        })
+    } else {
+      $.get(`${window.location}.json`, function(data) {
+        passCurrentPageData(data)
+      })
+    }
   }
 });
