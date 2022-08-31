@@ -33,7 +33,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 
 #log in with OmniAuth
-gem 'omniauth', '~> 1.8', '>= 1.8.1'
+gem 'omniauth', '~> 1.9'
 gem 'omniauth-facebook', '~> 4.0'
 gem 'omniauth-github', '~> 1.3'
 gem 'omniauth-google-oauth2', '~> 0.4.1'
